@@ -1,0 +1,4423 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "v2"
+  },
+  "host" : "api.newrelic.com",
+  "basePath" : "/",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/v2/alert_policies.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p><strong>WARNING</strong>: This is legacy alerting.  This endpoint will be deprecated.</p>\n\n<p>This API endpoint returns a paginated list of the alert policies associated with your New Relic account.</p>\n\n<p>Alert policies can be filtered by their name, list of IDs, type (application, key_transaction, or server)\nor whether or not policies are archived (defaults to filtering archived policies).</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[type]",
+          "in" : "query",
+          "description" : "Filter by policy types",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by policy IDs",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[enabled]",
+          "in" : "query",
+          "description" : "Select only enabled/disabled policies (default: both)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alert_policies/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p><strong>WARNING</strong>: This is legacy alerting.  This endpoint will be deprecated.</p>\n\n<p>This API endpoint returns a single alert policy, identified by ID.”</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Alert policy ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No alert policy found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Update",
+        "description" : "<p>This is legacy alerting.  This endpoint will be deprecated.</p>\n\n<p>This API endpoint allows you to update your alert policies.</p>\n\n<p>The input is expected to be in <strong>JSON or XML</strong> format in the body parameters of the PUT request. The exact\nschema is defined below. Any extra parameters passed in the body <strong>will be ignored</strong>.</p>\n\n<p><strong>NOTE:</strong> When updating alertable and notification channel links, the list sent replaces the existing list.\nInvalid values will be ignored but an empty array will result in alertables/channels being reset.</p>\n",
+        "operationId" : "update",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Alert policy ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "alert_policy",
+          "description" : "Alert policy schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AlertPolicy"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No alert policy found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "422" : {
+            "description" : "Validation error occurred when updating the alert policy"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_channels.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint works with new Alerts on alerts.newrelic.com.</p>\n\n<p>It returns a list of the channels associated with your New Relic account.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#channels-list\">listing notification channels</a>.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint works with new Alerts on alerts.newrelic.com.</p>\n\n<p>It creates a channel associated with your New Relic account.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#channels-create\">creating notification channels</a>.</p>\n\n<p>Channel type configuration options:</p>\n\n<ul>\n  <li>\n    <p>Email</p>\n\n    <p>{</p>\n\n    <pre><code>\"recipients\" : \"test@google.com\",\n\"include_json_attachment\" : true\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>HipChat</p>\n\n    <p>{</p>\n\n    <pre><code>\"auth_token\": \"abc123\",\n\"room_id\": \"google.com\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>OpsGenie</p>\n\n    <p>{</p>\n\n    <pre><code>\"api_key\": \"abc123\",\n\"teams\": \"team1\",\n\"tags\": \"tag1\",\n\"recipients\": \"me@me.com\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>Slack</p>\n\n    <p>{</p>\n\n    <pre><code>\"url\": \"http://test.com\",\n\"channel\": \"channel1\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>Campfire</p>\n\n    <p>{</p>\n\n    <pre><code>\"subdomain\": \"mysubdomain\",\n\"token\": \"123abc\",\n\"room\": \"room1\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>Victorops</p>\n\n    <p>{</p>\n\n    <pre><code>\"key\": \"mykey\",\n\"route_key\": \"theroute\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>PagerDuty</p>\n\n    <p>{</p>\n\n    <pre><code>\"service_key\": \"myservicekey\"\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>Webhook (json)</p>\n\n    <p>{</p>\n\n    <pre><code>\"base_url\": \"http://test.com\",\n\"auth_username\": \"username\",\n\"auth_password\": \"password\",\n\"payload_type\": \"application/json\",\n\"payload\": {\"account_id\": 1, \"account_name\": \"account name\" },\n\"headers\": {\"header1\": \"test\", \"header2\": \"test\"}\n</code></pre>\n\n    <p>}</p>\n  </li>\n  <li>\n    <p>Webhook (x-www-form-urlencoded)</p>\n\n    <p>{</p>\n\n    <pre><code>\"base_url\": \"http://test.com\",\n\"auth_username\": \"username\",\n\"auth_password\": \"password\",\n\"payload_type\": \"application/x-www-form-urlencoded\",\n\"payload\": {\"account_id\": 1, \"account_name\": \"account name\" },\n\"headers\": {\"header1\": \"test\", \"header2\": \"test\"}\n</code></pre>\n\n    <p>}</p>\n  </li>\n</ul>\n\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "channel",
+          "description" : "channel schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Channel"
+          }
+        }, {
+          "name" : "policy_ids",
+          "in" : "query",
+          "description" : "Policy IDs to associate with channel",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_channels/{channel_id}.{format}" : {
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes Alerts notification channels.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#channels-delete\">deleting notification channels</a>.</p>\n\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "channel_id",
+          "in" : "path",
+          "description" : "Channel ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_events.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint allows you to list the alert events for your account.</p>\n\n<p>Alerts events can be filter by product, target type, group ID, instance ID, and event type.</p>\n\n<p>The options for products are: <b>APM</b>, <b>BROWSER</b>, <b>MOBILE</b>, <b>SERVERS</b>, <b>PLUGINS</b>, <b>SYNTHETICS</b>, and <b>ALERTS</b>.</p>\n\n<p>The options for entity type are: <b>Application</b>, <b>Server</b>, <b>KeyTransaction</b>, <b>Plugin</b>, <b>MobileApplication</b>, <b>BrowserApplication</b>, and <b>Monitor</b>.</p>\n\n<p>The options for event type are: <b>NOTIFICATION</b>, <b>DEPLOYMENT</b>, <b>VIOLATION_OPEN</b>, <b>VIOLATION_CLOSE</b>, <b>VIOLATION</b>, and <b>INSTRUMENTATION</b>.</p>\n\n<p>The group ID option is normally the same as the entity ID (e.g. an Application group ID and entity ID will be the same), however PLUGINS have a group ID representing the PLUGIN itself, and entity IDs for all instances of that PLUGIN type.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[product]",
+          "in" : "query",
+          "description" : "Filter by New Relic product",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[entity_type]",
+          "in" : "query",
+          "description" : "Filter by entity type",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[entity_group_id]",
+          "in" : "query",
+          "description" : "Filter by entity group ID",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[entity_id]",
+          "in" : "query",
+          "description" : "Filter by entity ID",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[event_type]",
+          "in" : "query",
+          "description" : "Filter by event type",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_incidents.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a list of the Incidents associated with your New Relic account.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#incidents\" target=\"_blank\">listing incidents</a> \nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">output pagination</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_policies.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint works with new Alerts on alerts.newrelic.com.</p>\n\n<p>This API endpoint returns a list of the alert policies associated with your New Relic account.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Name (must be exact match)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint works with new Alerts on alerts.newrelic.com.</p>\n\n<p>This Alerts API endpoint creates a policy associated with your New Relic account.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>Rollup stategy options:</p>\n\n<ul>\n  <li>PER_POLICY</li>\n  <li>PER_CONDITION</li>\n  <li>PER_CONDITION_AND_TARGET</li>\n</ul>\n\n<p>See our documentation for a discussion on using the REST API for\n<a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#policies-create\" target=\"_blank\">creating new policies</a>.</p>\n\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "policy",
+          "description" : "Policy Schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Policy"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_policies/{policy_id}.{format}" : {
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes Alerts policies associated with your New Relic account.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on using the REST API for\n<a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#policies-delete\" target=\"_blank\">deleting policies</a>.</p>\n\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "policy_id",
+          "in" : "path",
+          "description" : "Policy ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_policy_channels.{format}" : {
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Update",
+        "description" : "<p>This API endpoint updates policy/channel associations.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#policy-channels-update\">updating notification channels with policies</a>.</p>\n",
+        "operationId" : "update",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "policy_id",
+          "in" : "query",
+          "description" : "Policy ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "channel_ids",
+          "in" : "query",
+          "description" : "Channel IDs",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes Alerts policy/channel associations.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#policy-channels-delete\">deleting notification channels with policies</a>.</p>\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "policy_id",
+          "in" : "query",
+          "description" : "Policy ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "channel_id",
+          "in" : "query",
+          "description" : "Channel ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_synthetics_conditions.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint allows you to list the Synthetics conditions for your alert policy.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#synthetics-conditions-list\" target=\"_blank\">listing Synthetic conditions</a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "policy_id",
+          "in" : "query",
+          "description" : "Alerts policy ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Alerts policy was found for the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_synthetics_conditions/policies/{policy_id}.{format}" : {
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint allows you to create Synthetics conditions for your alert policies.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#synthetics-conditions-create\" target=\"_blank\">creating Synthetic conditions</a>.</p>\n\n<p>All fields are required except for “runbook_url”, “enabled” (defaults to false).</p>\n\n<p><a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names#name\" target=\"_blank\">name</a>: A title for your condition.</p>\n\n<p><a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names#monitor_id\" target=\"_blank\">monitor_id</a>: The GUID of the Synthetics monitor to alert on.</p>\n\n<p><a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names#runbook_url\" target=\"_blank\">runbook_url</a>: Runbook URL to display in notifications (optional).</p>\n\n<p><a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/alerts-conditions-api-field-names#enabled\" target=\"_blank\">enabled</a>: The status of your condition (optional).</p>\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "policy_id",
+          "in" : "path",
+          "description" : "Alerts policy ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "synthetics_condition",
+          "description" : "Condition schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SyntheticsCondition"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No alert policy was found with the given ID"
+          },
+          "406" : {
+            "description" : "Bad entity type"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "422" : {
+            "description" : "Validation error occurred while trying to create the alert condition"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_synthetics_conditions/{condition_id}.{format}" : {
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint allows you to delete Synthetics conditions associated with your alert policy.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#synthetics-conditions-delete\" target=\"_blank\">deleting Synthetic conditions</a>.</p>\n\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "condition_id",
+          "in" : "path",
+          "description" : "Alerts condition ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Alerts condition was found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_synthetics_conditions/{id}.{format}" : {
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Update",
+        "description" : "<p>This API endpoint allows you to update Synthetics conditions for your alert policies.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/alerts/new-relic-alerts/rest-api-alerts/rest-api-calls-new-relic-alerts#synthetics-conditions-update\" target=\"_blank\">updating Synthetic conditions</a>.</p>\n\n<p>See Alerts Synthetics Conditions &gt; Create for an explanation of the field values used in this command.</p>\n",
+        "operationId" : "update",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Alerts condition ID to update",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "synthetics_condition",
+          "description" : "Condition schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SyntheticsCondition"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Alerts condition was found with the given ID"
+          },
+          "406" : {
+            "description" : "Bad entity type"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "422" : {
+            "description" : "Validation error occurred while trying to update the alert condition"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/alerts_violations.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint works with new Alerts on alerts.newrelic.com.</p>\n\n<p>It returns a list of the violations associated with your New Relic account.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "only_open",
+          "in" : "query",
+          "description" : "Filter by open violations",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a>\nlist of the Applications associated with your New Relic account. The time range for summary data is the last 10 minutes.</p>\n\n<p>Applications can be filtered by their name, hosts, the list of application IDs or the application language as\nreported by the agents.</p>\n\n<p>See our documentation for a discussion and examples of\nusing <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/list-application-specific-server-host-instance-ids\" target=\"_blank\"> filters </a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter by application name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[host]",
+          "in" : "query",
+          "description" : "Filter by application host",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by application ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[language]",
+          "in" : "query",
+          "description" : "Filter by application language",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/deployments.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a paginated list of the deployments associated with a given application.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\">output pagination</a>.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "Requires an Admin User's API key"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint creates a deployment record for a given application.\nDeployment records are created with the following attributes:</p>\n\n<p>Required:<br />\n  - Application ID<br />\n  - Revision, such as a git SHA<br /></p>\n\n<p>Optional:<br />\n  - Changelog <br />\n  - Description <br />\n  - User posting the deployment<br /></p>\n\n<p>Note that the time of your deployment will be recorded as the current time in UTC.</p>\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "deployment",
+          "description" : "Deployment schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Deployment"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "400" : {
+            "description" : "Revision parameter required"
+          },
+          "403" : {
+            "description" : "Requires an Admin User's API key"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/deployments/{id}.{format}" : {
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes the specified deployment record.</p>\n\n<p>Note: <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/rest-api-key\">Admin User’s API Key</a> is required.</p>\n\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Deployment ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Deployment found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "Requires an Admin User's API key"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/hosts.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\npaginated</a> list of hosts associated with the given application. The time range for summary data is the last 10 minutes.</p>\n\n<p>Application hosts can be filtered by hostname, or the list of application host IDs.</p>\n\n<p>See our documentation for a discussion and examples of\nusing <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/list-application-specific-server-host-instance-ids\" target=\"_blank\"> filters </a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "filter[hostname]",
+          "in" : "query",
+          "description" : "Filter by server hostname",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by application host ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/hosts/{host_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "host_id",
+          "in" : "path",
+          "description" : "Application Host ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/hosts/{host_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "host_id",
+          "in" : "path",
+          "description" : "Application Host ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/hosts/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single application host, identified by ID. The time range for summary data is the last 10 minutes.</p>\n\n<p>See our documentation for a discussion of\n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Application host ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No application host found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/instances.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\npaginated</a> list of instances associated with the given application. The time range for summary data is the last 10 minutes.</p>\n\n<p>Application instances can be filtered by hostname, or the list of application instance IDs.</p>\n\n<p>See our documentation for a discussion and examples of\nusing <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/list-application-specific-server-host-instance-ids\" target=\"_blank\"> filters </a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "filter[hostname]",
+          "in" : "query",
+          "description" : "Filter by server hostname",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by application instance ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/instances/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single application instance, identified by ID. The time range for summary data is the last 10 minutes.</p>\n\n<p>See our documentation for a discussion of\n <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Application instance ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No application instance found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/instances/{instance_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "instance_id",
+          "in" : "path",
+          "description" : "Application Instance ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/instances/{instance_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "instance_id",
+          "in" : "path",
+          "description" : "Application Instance ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "metric_names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{application_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "metric_data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "application_id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/applications/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single Application, identified by ID. The time range for summary data is the last 10 minutes.</p>\n\n<p>See our documentation for a discussion of the\n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\"> summary data output</a>.</p>\n\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Update",
+        "description" : "<p>This API endpoint allows you to update certain parameters of your application.</p>\n\n<p>The input is expected to be in <strong>JSON or XML</strong> format in the body parameter of the PUT request. The exact\nschema is defined below. Any extra parameters passed in the body <strong>will be ignored</strong>.</p>\n\n<p>See our documentation for a discussion and simple example of\n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/changing-alias-your-application-v2\" target=\"_blank\"> updating</a>\nan application.</p>\n\n",
+        "operationId" : "update",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "application",
+          "description" : "Application schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "422" : {
+            "description" : "Validation error occurred when updating the application"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes an application and all of its reported data.</p>\n\n<p><strong>WARNING</strong>: Only applications that have stopped reporting can be deleted. This is an irreversible process\nwhich will delete all reported data for this application.</p>\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Application ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "409" : {
+            "description" : "Cannot delete an application that is still reporting data."
+          },
+          "404" : {
+            "description" : "No Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/browser_applications.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a list of the Browser Applications associated with your New Relic account.</p>\n\n<p>Browser Applications can be filtered by their name, or by the application IDs.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter by application name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by application ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint allows you to create a standalone Browser Application.</p>\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "browser_application",
+          "description" : "Browser Application Schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/BrowserApplication"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/components.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a list of the plugin components associated with your New Relic account.\nPlugins can be filtered by their name, the list of component IDs or a plugin ID.\nSee our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/plugin-examples-v2/get-individual-plugin-components-v2\" target=\"_blank\"> listing components</a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter components by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter components by ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[plugin_id]",
+          "in" : "query",
+          "description" : "Filter components by the plugin",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "health_status",
+          "in" : "query",
+          "description" : "Include component health status",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/components/{component_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "component_id",
+          "in" : "path",
+          "description" : "Component ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/components/{component_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "component_id",
+          "in" : "path",
+          "description" : "Component ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/components/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single component, identified by its ID.\nSee our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/plugin-examples-v2/get-individual-plugin-components-v2#list_component_id\" target=\"blank\">listing components by ID</a>.</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Plugin ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Plugin found with given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/key_transactions.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a> \nlist of the key transactions associated with your New Relic account.  The time range for summary data is the last 10 minutes.</p>\n\n<p>Key transactions can be filtered by their name or list of IDs.</p>\n\n<p>See our documentation for a discussion of \n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by policy IDs",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/key_transactions/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This endpoint returns a single key transaction, identified by ID. The time range for summary data is the last 10 minutes.</p>\n\n<p>See our documentation for a discussion of \n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Key transaction ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No key transaction found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/labels.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a> list of the labels available for the account.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Create",
+        "description" : "<p>This API endpoint will create a new label with the provided category and name.</p>\n\n<p>Include the application and server IDs to which the label should be applied in the corresponding arrays.\nYou may omit the “links” or “servers” arrays, if not needed.</p>\n\n<p>See our documentation for a discussion on obtaining \n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/listing-your-app-id-metric-data-v2\" target=\"_blank\">application</a> \nand \n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/server-examples-v2/list-your-server-id-metric-data-v2\" target=\"_blank\">server</a> IDs.</p>\n",
+        "operationId" : "create",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "label",
+          "description" : "Label schema",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Label"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/labels/{key}.{format}" : {
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>When applications are provided, this endpoint will remove those applications from the label.</p>\n\n<p>When no applications are provided, this endpoint will remove the label.</p>\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "key",
+          "in" : "path",
+          "description" : "Label key. Example: 'Language:Java'",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/mobile_applications.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a list of the Mobile Applications associated with your New Relic account.</p>\n\n<p>MobileApplications can be filtered by their name, or by the application IDs.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/mobile_applications/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single Mobile Application, identified by ID. The time range for summary data is the last 30 minutes.</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Mobile Application ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Mobile Application found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/mobile_applications/{mobile_application_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "metric_names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "mobile_application_id",
+          "in" : "path",
+          "description" : "Mobile application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/mobile_applications/{mobile_application_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "metric_data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "mobile_application_id",
+          "in" : "path",
+          "description" : "Mobile application ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/notification_channels.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p><strong>WARNING</strong>: This is legacy alerting.  This endpoint will be deprecated.</p>\n\n<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a> \nlist of the notification channels associated with your New Relic account.</p>\n\n<p>Notification channels can be filtered by their type or a list of IDs.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[type]",
+          "in" : "query",
+          "description" : "Filter by notification channel types",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by notification channel IDs",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/notification_channels/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p><strong>WARNING</strong>: This is legacy alerting.  This endpoint will be deprecated.</p>\n\n<p>This API endpoint returns a single notification channel, identified by ID.”</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Notification Channel ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No notification channel found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/plugins.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a list of the Plugins associated with your New Relic account.</p>\n\n<p>Plugins can be filtered by their guid or the list of plugin IDs.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[guid]",
+          "in" : "query",
+          "description" : "Filter plugin by guid",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter plugin by ids",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "detailed",
+          "in" : "query",
+          "description" : "Include all data about a plugin",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/plugins/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single plugin, identified by its ID.</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Plugin ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "detailed",
+          "in" : "query",
+          "description" : "Include all data about a plugin",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Plugin found with given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/servers.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>This API endpoint returns a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a>\nlist of the Servers associated with your New Relic account. The time range for summary data is the last 10 minutes.</p>\n\n<p>Servers can be filtered by their name, hostname, or the list of server IDs.</p>\n\n<p>See our documentation for a discussion and examples of\nusing <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/list-application-specific-server-host-instance-ids\" target=\"_blank\">filters</a>\nand <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filter by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[host]",
+          "in" : "query",
+          "description" : "Filter by host",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by server IDs",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[labels]",
+          "in" : "query",
+          "description" : "Filter by server labels (beta)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "filter[reported]",
+          "in" : "query",
+          "description" : "Filter by reported in last 10 hours",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/servers/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single Server, identified by ID. The time range for summary data is the last 10 minutes.”</p>\n\n<p>See our documentation for a discussion on\n<a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/application-examples-v2/summary-data-examples-v2\" target=\"_blank\">summary data output</a>.</p>\n\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Server ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Server found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "" ],
+        "summary" : "Update",
+        "description" : "<p>This API endpoint allows you to rename your server.</p>\n\n<p>The input is expected to be in <strong>JSON or XML</strong> format in the body parameter of the PUT request. The exact\nschema is defined below. Any extra parameters passed in the body <strong>will be ignored</strong>.</p>\n",
+        "operationId" : "update",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Server ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "in" : "body",
+          "name" : "server",
+          "description" : "New name of the server",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Server"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No Server found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "422" : {
+            "description" : "Invalid attributes were sent to update"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "" ],
+        "summary" : "Delete",
+        "description" : "<p>This API endpoint deletes a server and all of its reported data.</p>\n\n<p><strong>WARNING</strong>: Only servers that have stopped reporting can be deleted. This is an irreversible process which\nwill delete all reported data for this server.</p>\n",
+        "operationId" : "delete",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Server ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "409" : {
+            "description" : "Cannot delete a Server that is still reporting data."
+          },
+          "404" : {
+            "description" : "No Server found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/servers/{server_id}/metrics.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Names",
+        "description" : "<p>Return a list of known metrics and their value names for the given resource.</p>\n\n<p>See our documentation for a discussion\non <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\"> output pagination</a>\nand for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n",
+        "operationId" : "names",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "server_id",
+          "in" : "path",
+          "description" : "Server ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Filter metrics by name",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Pagination index (will be deprecated)",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "cursor",
+          "in" : "query",
+          "description" : "Cursor for next page (replacing page param)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/servers/{server_id}/metrics/data.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Metric Data",
+        "description" : "<p>This API endpoint returns a list of values for each of the requested metrics. The list of available metrics\ncan be returned using the Metric Name API endpoint.</p>\n\n<p>Metric data can be filtered by a number of parameters, including multiple names and values, and by time range.\nMetric names and values will be matched intelligently in the background.</p>\n\n<p>You can also retrieve a summarized data point across the entire time range selected by using the summarize\nparameter.</p>\n\n<p>See our documentation for a discussion on <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">\noutput pagination</a>, <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/extracting-metric-data\" target=\"_blank\"> time range</a> \nrelated considerations, and for examples of <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/new-relic-rest-api-v2-getting-started#examples\" target=\"_blank\">requesting and using metric values</a>.</p>\n\n",
+        "operationId" : "data",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "server_id",
+          "in" : "path",
+          "description" : "Server ID",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "names",
+          "in" : "query",
+          "description" : "Retrieve specific metrics by name",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "values",
+          "in" : "query",
+          "description" : "Retrieve specific metric values",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "Retrieve metrics after this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "Retrieve metrics before this time",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "Period of timeslices in seconds",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "summarize",
+          "in" : "query",
+          "description" : "Summarize the data",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "raw",
+          "in" : "query",
+          "description" : "Return unformatted raw values",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/usages/{product}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>Show a list of usage for a product in a given time frame.</p>\n\n<p>NOTE: Currently you must request 1 month of data, or less, to retrieve daily usage. Requests for greater than 1 month will currently return only monthly usage.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "product",
+          "in" : "path",
+          "description" : "Available: apm, browser, mobile.",
+          "required" : true,
+          "type" : "ref"
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Format: YYYY-MM-DD",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Format: YYYY-MM-DD",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "include_subaccounts",
+          "in" : "query",
+          "description" : "Include subaccounts usage? (default: false)",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/users.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "List",
+        "description" : "<p>Show a <a href=\"https://docs.newrelic.com/docs/apis/rest-api-v2/requirements/pagination-api-output\" target=\"_blank\">paginated</a> list of all users.</p>\n\n<p>Uers can be filtered by their ids or email.</p>\n",
+        "operationId" : "list",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "filter[ids]",
+          "in" : "query",
+          "description" : "Filter by user IDs",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          },
+          "collectionFormat" : "csv"
+        }, {
+          "name" : "filter[email]",
+          "in" : "query",
+          "description" : "Filter by user email",
+          "required" : false,
+          "type" : "ref"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/users/{id}.{format}" : {
+      "get" : {
+        "tags" : [ "" ],
+        "summary" : "Show",
+        "description" : "<p>This API endpoint returns a single user, identified by ID.</p>\n",
+        "operationId" : "show",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "User ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "No user found with the given ID"
+          },
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    },
+    "/v2/users/{id}/reset_password.{format}" : {
+      "post" : {
+        "tags" : [ "" ],
+        "summary" : "Reset password",
+        "description" : "<p>This API endpoints reset the user password, identified by ID</p>\n",
+        "operationId" : "reset_password",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "User ID",
+          "required" : true,
+          "type" : "ref"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "Invalid request, API key required"
+          },
+          "403" : {
+            "description" : "New Relic API access has not been enabled"
+          },
+          "500" : {
+            "description" : "A server error occurred, please contact <a href=\"http://support.newrelic.com\">New Relic support</a>"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "MetricParserResponseType" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "values" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/string"
+          }
+        }
+      }
+    },
+    "RecentEventResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "event_type" : {
+          "type" : "string"
+        },
+        "product" : {
+          "type" : "string"
+        },
+        "entity_type" : {
+          "type" : "string"
+        },
+        "entity_group_id" : {
+          "type" : "integer"
+        },
+        "entity_id" : {
+          "type" : "integer"
+        },
+        "priority" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer"
+        },
+        "incident_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "AppSummaryDataResponse" : {
+      "properties" : {
+        "response_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "throughput" : {
+          "$ref" : "#/definitions/float"
+        },
+        "error_rate" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_score" : {
+          "$ref" : "#/definitions/float"
+        },
+        "instance_count" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Channel" : {
+      "properties" : {
+        "channel" : {
+          "$ref" : "#/definitions/ChannelBody"
+        }
+      }
+    },
+    "IncidentResponse" : {
+      "properties" : {
+        "incident" : {
+          "$ref" : "#/definitions/IncidentResponseType"
+        }
+      }
+    },
+    "SummaryMetricThresholdResponse" : {
+      "properties" : {
+        "caution" : {
+          "$ref" : "#/definitions/float"
+        },
+        "critical" : {
+          "$ref" : "#/definitions/float"
+        }
+      }
+    },
+    "ViolationEntityResponse" : {
+      "properties" : {
+        "product" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "group_id" : {
+          "type" : "integer"
+        },
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "BrowserApplication" : {
+      "properties" : {
+        "browser_application" : {
+          "$ref" : "#/definitions/BrowserApplicationBody"
+        }
+      }
+    },
+    "PluginDetailsResponse" : {
+      "properties" : {
+        "description" : {
+          "type" : "integer"
+        },
+        "is_public" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "updated_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "last_published_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "has_unpublished_changes" : {
+          "type" : "boolean"
+        },
+        "branding_image_url" : {
+          "type" : "string"
+        },
+        "upgraded_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "short_name" : {
+          "type" : "string"
+        },
+        "publisher_about_url" : {
+          "type" : "string"
+        },
+        "publisher_support_url" : {
+          "type" : "string"
+        },
+        "download_url" : {
+          "type" : "string"
+        },
+        "first_edited_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "last_edited_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "first_published_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "published_version" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AlertPolicyBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "conditions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AlertConditionBody"
+          }
+        },
+        "links" : {
+          "$ref" : "#/definitions/AlertPolicyLinksBody"
+        }
+      }
+    },
+    "SyntheticsCondition" : {
+      "properties" : {
+        "synthetics_condition" : {
+          "$ref" : "#/definitions/SyntheticsConditionBody"
+        }
+      }
+    },
+    "SyntheticsConditionBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "monitor_id" : {
+          "type" : "string"
+        },
+        "runbook_url" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ApplicationLinksResponse" : {
+      "properties" : {
+        "servers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "application_hosts" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "application_instances" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "alert_policy" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "MetricDataResponseType" : {
+      "properties" : {
+        "from" : {
+          "$ref" : "#/definitions/time"
+        },
+        "to" : {
+          "$ref" : "#/definitions/time"
+        },
+        "metrics_not_found" : {
+          "type" : "string"
+        },
+        "metrics_found" : {
+          "type" : "string"
+        },
+        "metrics" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MetricResponse"
+          }
+        }
+      }
+    },
+    "Deployment" : {
+      "properties" : {
+        "deployment" : {
+          "$ref" : "#/definitions/DeploymentBody"
+        }
+      }
+    },
+    "PluginResponse" : {
+      "properties" : {
+        "plugin" : {
+          "$ref" : "#/definitions/PluginResponseType"
+        }
+      }
+    },
+    "Server" : {
+      "properties" : {
+        "server" : {
+          "$ref" : "#/definitions/ServerBody"
+        }
+      }
+    },
+    "PolicyResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "incident_preference" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "type" : "integer"
+        },
+        "updated_at" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "NotificationChannelResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "downtime_only" : {
+          "type" : "boolean"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "subdomain" : {
+          "type" : "string"
+        },
+        "service" : {
+          "type" : "string"
+        },
+        "mobile_alerts" : {
+          "type" : "boolean"
+        },
+        "email_alerts" : {
+          "type" : "boolean"
+        },
+        "room" : {
+          "type" : "string"
+        },
+        "links" : {
+          "$ref" : "#/definitions/NotificationChannelLinksResponse"
+        }
+      }
+    },
+    "LabelOriginsResponse" : {
+      "properties" : {
+        "apm" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "synthetics" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "agents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "MetricParserResponse" : {
+      "properties" : {
+        "metric" : {
+          "$ref" : "#/definitions/MetricParserResponseType"
+        }
+      }
+    },
+    "Policy" : {
+      "properties" : {
+        "policy" : {
+          "$ref" : "#/definitions/PolicyBody"
+        }
+      }
+    },
+    "BrowserApplicationBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "MobileApplicationResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "reporting" : {
+          "type" : "boolean"
+        },
+        "mobile_summary" : {
+          "$ref" : "#/definitions/MobileSummaryDataResponse"
+        },
+        "crash_summary" : {
+          "$ref" : "#/definitions/CrashSummaryResponse"
+        }
+      }
+    },
+    "ApplicationResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "language" : {
+          "type" : "string"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "reporting" : {
+          "type" : "boolean"
+        },
+        "last_reported_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "application_summary" : {
+          "$ref" : "#/definitions/AppSummaryResponse"
+        },
+        "end_user_summary" : {
+          "$ref" : "#/definitions/EndUserSummaryResponse"
+        },
+        "settings" : {
+          "$ref" : "#/definitions/AppSettingsResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ApplicationLinksResponse"
+        }
+      }
+    },
+    "TimesliceResponse" : {
+      "properties" : {
+        "from" : {
+          "$ref" : "#/definitions/time"
+        },
+        "to" : {
+          "$ref" : "#/definitions/time"
+        },
+        "values" : {
+          "$ref" : "#/definitions/hash"
+        }
+      }
+    },
+    "AppSummaryResponse" : {
+      "properties" : {
+        "response_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "throughput" : {
+          "$ref" : "#/definitions/float"
+        },
+        "error_rate" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_target" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_score" : {
+          "$ref" : "#/definitions/float"
+        },
+        "host_count" : {
+          "type" : "integer"
+        },
+        "instance_count" : {
+          "type" : "integer"
+        },
+        "concurrent_instance_count" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "PolicyBody" : {
+      "properties" : {
+        "incident_preference" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplicationResponse" : {
+      "properties" : {
+        "application" : {
+          "$ref" : "#/definitions/ApplicationResponseType"
+        }
+      }
+    },
+    "KeyTransactionLinksResponse" : {
+      "properties" : {
+        "application" : {
+          "type" : "integer",
+          "description" : "Application from which this key transaction originated"
+        }
+      }
+    },
+    "DeploymentResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "revision" : {
+          "type" : "string"
+        },
+        "changelog" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "links" : {
+          "$ref" : "#/definitions/DeploymentLinksResponse"
+        }
+      }
+    },
+    "SyntheticsConditionResponse" : {
+      "properties" : {
+        "synthetics_condition" : {
+          "$ref" : "#/definitions/SyntheticsConditionResponseType"
+        }
+      }
+    },
+    "ViolationResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "integer"
+        },
+        "policy_name" : {
+          "type" : "string"
+        },
+        "condition_name" : {
+          "type" : "string"
+        },
+        "priority" : {
+          "type" : "string"
+        },
+        "opened_at" : {
+          "type" : "integer"
+        },
+        "closed_at" : {
+          "type" : "integer"
+        },
+        "entity" : {
+          "$ref" : "#/definitions/ViolationEntityResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ViolationLinksResponse"
+        }
+      }
+    },
+    "ChannelResponse" : {
+      "properties" : {
+        "channel" : {
+          "$ref" : "#/definitions/ChannelResponseType"
+        }
+      }
+    },
+    "LabelResponse" : {
+      "properties" : {
+        "label" : {
+          "$ref" : "#/definitions/LabelResponseType"
+        }
+      }
+    },
+    "PluginResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "guid" : {
+          "type" : "string"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "component_agent_count" : {
+          "type" : "integer"
+        },
+        "details" : {
+          "$ref" : "#/definitions/PluginDetailsResponse"
+        },
+        "summary_metrics" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SummaryMetricResponse"
+          }
+        }
+      }
+    },
+    "EventResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "level" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "closed_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "payload" : {
+          "$ref" : "#/definitions/hash"
+        },
+        "links" : {
+          "$ref" : "#/definitions/EventLinksResponse"
+        }
+      }
+    },
+    "ApplicationInstanceResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "application_name" : {
+          "type" : "string"
+        },
+        "host" : {
+          "type" : "string"
+        },
+        "port" : {
+          "type" : "integer"
+        },
+        "language" : {
+          "type" : "integer"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "application_summary" : {
+          "$ref" : "#/definitions/AppSummaryDataResponse"
+        },
+        "end_user_summary" : {
+          "$ref" : "#/definitions/EndUserSummaryDataResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ApplicationInstanceLinksResponse"
+        }
+      }
+    },
+    "KeyTransactionResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "transaction_name" : {
+          "type" : "string"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "reporting" : {
+          "type" : "boolean"
+        },
+        "last_reported_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "application_summary" : {
+          "$ref" : "#/definitions/AppSummaryResponse"
+        },
+        "end_user_summary" : {
+          "$ref" : "#/definitions/EndUserSummaryResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/KeyTransactionLinksResponse"
+        }
+      }
+    },
+    "KeyTransactionResponse" : {
+      "properties" : {
+        "key_transaction" : {
+          "$ref" : "#/definitions/KeyTransactionResponseType"
+        }
+      }
+    },
+    "DeploymentBody" : {
+      "properties" : {
+        "revision" : {
+          "type" : "string"
+        },
+        "changelog" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "user" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EventResponse" : {
+      "properties" : {
+        "event" : {
+          "$ref" : "#/definitions/EventResponseType"
+        }
+      }
+    },
+    "UsageDataResponse" : {
+      "properties" : {
+        "usage_data" : {
+          "$ref" : "#/definitions/UsageDataResponseType"
+        }
+      }
+    },
+    "ServerLinksResponse" : {
+      "properties" : {
+        "alert_policy" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "EventLinksResponse" : {
+      "properties" : {
+        "incidents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "downtime" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Label" : {
+      "properties" : {
+        "label" : {
+          "$ref" : "#/definitions/LabelBody"
+        }
+      }
+    },
+    "MobileSummaryDataResponse" : {
+      "properties" : {
+        "active_users" : {
+          "type" : "integer"
+        },
+        "launch_count" : {
+          "type" : "integer"
+        },
+        "throughput" : {
+          "$ref" : "#/definitions/float"
+        },
+        "response_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "calls_per_session" : {
+          "$ref" : "#/definitions/float"
+        },
+        "interaction_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "failed_call_rate" : {
+          "$ref" : "#/definitions/float"
+        },
+        "remote_error_rate" : {
+          "$ref" : "#/definitions/float"
+        }
+      }
+    },
+    "DeploymentResponse" : {
+      "properties" : {
+        "deployment" : {
+          "$ref" : "#/definitions/DeploymentResponseType"
+        }
+      }
+    },
+    "AlertConditionResponse" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "severity" : {
+          "type" : "string"
+        },
+        "threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "trigger_minutes" : {
+          "type" : "integer"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ServerSummaryResponse" : {
+      "properties" : {
+        "cpu" : {
+          "$ref" : "#/definitions/float"
+        },
+        "cpu_stolen" : {
+          "$ref" : "#/definitions/float"
+        },
+        "disk_io" : {
+          "$ref" : "#/definitions/float"
+        },
+        "memory" : {
+          "$ref" : "#/definitions/float"
+        },
+        "memory_used" : {
+          "type" : "integer"
+        },
+        "memory_total" : {
+          "type" : "integer"
+        },
+        "fullest_disk" : {
+          "$ref" : "#/definitions/float"
+        },
+        "fullest_disk_free" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "NotificationChannelResponse" : {
+      "properties" : {
+        "notification_channel" : {
+          "$ref" : "#/definitions/NotificationChannelResponseType"
+        }
+      }
+    },
+    "PolicyResponse" : {
+      "properties" : {
+        "policy" : {
+          "$ref" : "#/definitions/PolicyResponseType"
+        }
+      }
+    },
+    "ApplicationHostLinksResponse" : {
+      "properties" : {
+        "application" : {
+          "type" : "integer"
+        },
+        "application_instances" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "server" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "ChannelBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "configuration" : {
+          "$ref" : "#/definitions/hash"
+        }
+      }
+    },
+    "PolicyChannelsResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "channel_ids" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "ComponentResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "summary_metrics" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SummaryMetricResponse"
+          }
+        }
+      }
+    },
+    "PolicyChannelsResponse" : {
+      "properties" : {
+        "policy" : {
+          "$ref" : "#/definitions/PolicyChannelsResponseType"
+        }
+      }
+    },
+    "LabelResponseType" : {
+      "properties" : {
+        "key" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "origins" : {
+          "$ref" : "#/definitions/LabelOriginsResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/LabelLinksResponse"
+        }
+      }
+    },
+    "ViolationResponse" : {
+      "properties" : {
+        "violation" : {
+          "$ref" : "#/definitions/ViolationResponseType"
+        }
+      }
+    },
+    "IncidentResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "opened_at" : {
+          "type" : "integer"
+        },
+        "closed_at" : {
+          "type" : "integer"
+        },
+        "incident_preference" : {
+          "type" : "integer"
+        },
+        "links" : {
+          "$ref" : "#/definitions/IncidentLinksResponse"
+        }
+      }
+    },
+    "BrowserApplicationResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "browser_monitoring_key" : {
+          "type" : "string"
+        },
+        "loader_script" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplicationInstanceResponse" : {
+      "properties" : {
+        "application_instance" : {
+          "$ref" : "#/definitions/ApplicationInstanceResponseType"
+        }
+      }
+    },
+    "AppSettingsResponse" : {
+      "properties" : {
+        "app_apdex_threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "end_user_apdex_threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "enable_real_user_monitoring" : {
+          "type" : "boolean"
+        },
+        "use_server_side_config" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "IncidentLinksResponse" : {
+      "properties" : {
+        "violations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "policy_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "AlertPolicyResponse" : {
+      "properties" : {
+        "alert_policy" : {
+          "$ref" : "#/definitions/AlertPolicyResponseType"
+        }
+      }
+    },
+    "PolicyChannels" : {
+      "properties" : {
+        "policy" : {
+          "$ref" : "#/definitions/PolicyChannelsBody"
+        }
+      }
+    },
+    "AppSettingsBody" : {
+      "properties" : {
+        "app_apdex_threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "end_user_apdex_threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "enable_real_user_monitoring" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "AlertConditionBody" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "threshold" : {
+          "$ref" : "#/definitions/float"
+        },
+        "trigger_minutes" : {
+          "type" : "integer"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MobileApplicationResponse" : {
+      "properties" : {
+        "application" : {
+          "$ref" : "#/definitions/MobileApplicationResponseType"
+        }
+      }
+    },
+    "SummaryMetricValuesResponse" : {
+      "properties" : {
+        "raw" : {
+          "$ref" : "#/definitions/float"
+        },
+        "formatted" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Event" : {
+      "properties" : {
+        "event" : {
+          "$ref" : "#/definitions/EventBody"
+        }
+      }
+    },
+    "SummaryMetricResponse" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "metric" : {
+          "type" : "string"
+        },
+        "value_function" : {
+          "type" : "string"
+        },
+        "thresholds" : {
+          "$ref" : "#/definitions/SummaryMetricThresholdResponse"
+        },
+        "values" : {
+          "$ref" : "#/definitions/SummaryMetricValuesResponse"
+        }
+      }
+    },
+    "ApplicationHostResponse" : {
+      "properties" : {
+        "application_host" : {
+          "$ref" : "#/definitions/ApplicationHostResponseType"
+        }
+      }
+    },
+    "ViolationBody" : {
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "opened_at" : {
+          "type" : "integer"
+        },
+        "closed_at" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "MetricDataResponse" : {
+      "properties" : {
+        "metric_data" : {
+          "$ref" : "#/definitions/MetricDataResponseType"
+        }
+      }
+    },
+    "ServerResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "account_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "host" : {
+          "type" : "string"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "reporting" : {
+          "type" : "boolean"
+        },
+        "last_reported_at" : {
+          "$ref" : "#/definitions/time"
+        },
+        "summary" : {
+          "$ref" : "#/definitions/ServerSummaryResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ServerLinksResponse"
+        }
+      }
+    },
+    "TargetDowntimeEventResponse" : {
+      "properties" : {
+        "downtime" : {
+          "$ref" : "#/definitions/TargetDowntimeEventResponseType"
+        }
+      }
+    },
+    "NotificationChannelLinksResponse" : {
+      "properties" : {
+        "notification_channels" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "user" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "LabelLinksBody" : {
+      "properties" : {
+        "applications" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "servers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "BrowserApplicationResponse" : {
+      "properties" : {
+        "browser_application" : {
+          "$ref" : "#/definitions/BrowserApplicationResponseType"
+        }
+      }
+    },
+    "Application" : {
+      "properties" : {
+        "application" : {
+          "$ref" : "#/definitions/ApplicationBody"
+        }
+      }
+    },
+    "RecentEventResponse" : {
+      "properties" : {
+        "recent_event" : {
+          "$ref" : "#/definitions/RecentEventResponseType"
+        }
+      }
+    },
+    "MetricResponse" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "timeslices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TimesliceResponse"
+          }
+        }
+      }
+    },
+    "SyntheticsConditionResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "monitor_id" : {
+          "type" : "string"
+        },
+        "runbook_url" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ViolationLinksResponse" : {
+      "properties" : {
+        "policy_id" : {
+          "type" : "integer"
+        },
+        "condition_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "AlertPolicyResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "conditions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AlertConditionResponse"
+          }
+        },
+        "links" : {
+          "$ref" : "#/definitions/AlertPolicyLinksResponse"
+        }
+      }
+    },
+    "LabelLinksResponse" : {
+      "properties" : {
+        "applications" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "servers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "UserResponse" : {
+      "properties" : {
+        "internal_account" : {
+          "$ref" : "#/definitions/UserResponseType"
+        }
+      }
+    },
+    "EndUserSummaryResponse" : {
+      "properties" : {
+        "response_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "throughput" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_target" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_score" : {
+          "$ref" : "#/definitions/float"
+        }
+      }
+    },
+    "ApplicationBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "settings" : {
+          "$ref" : "#/definitions/AppSettingsBody"
+        }
+      }
+    },
+    "EndUserSummaryDataResponse" : {
+      "properties" : {
+        "response_time" : {
+          "$ref" : "#/definitions/float"
+        },
+        "throughput" : {
+          "$ref" : "#/definitions/float"
+        },
+        "apdex_score" : {
+          "$ref" : "#/definitions/float"
+        }
+      }
+    },
+    "UsageDataResponseType" : {
+      "properties" : {
+        "product" : {
+          "type" : "string"
+        },
+        "from" : {
+          "type" : "string"
+        },
+        "to" : {
+          "type" : "string"
+        },
+        "unit" : {
+          "type" : "string"
+        },
+        "usages" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "UserResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "first_name" : {
+          "type" : "string"
+        },
+        "last_name" : {
+          "type" : "string"
+        },
+        "state" : {
+          "type" : "string"
+        },
+        "activation_code" : {
+          "type" : "string"
+        },
+        "activated_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "is_newrelic_admin" : {
+          "type" : "boolean"
+        },
+        "time_zone" : {
+          "type" : "string"
+        },
+        "salesforce_id" : {
+          "type" : "string"
+        },
+        "default_account_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "ChannelLinksResponse" : {
+      "properties" : {
+        "policy_ids" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "Violation" : {
+      "properties" : {
+        "violation" : {
+          "$ref" : "#/definitions/ViolationBody"
+        }
+      }
+    },
+    "AlertPolicyLinksBody" : {
+      "properties" : {
+        "notification_channels" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "applications" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "key_transactions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "servers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "PolicyChannelsBody" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "channel_ids" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "EventBody" : {
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "level" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "created_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "closed_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "payload" : {
+          "$ref" : "#/definitions/hash"
+        }
+      }
+    },
+    "AlertPolicy" : {
+      "properties" : {
+        "alert_policy" : {
+          "$ref" : "#/definitions/AlertPolicyBody"
+        }
+      }
+    },
+    "AlertPolicyLinksResponse" : {
+      "properties" : {
+        "notification_channels" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "applications" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "key_transactions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        },
+        "servers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/integer"
+          }
+        }
+      }
+    },
+    "LabelBody" : {
+      "properties" : {
+        "category" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "links" : {
+          "$ref" : "#/definitions/LabelLinksBody"
+        }
+      }
+    },
+    "ServerResponse" : {
+      "properties" : {
+        "server" : {
+          "$ref" : "#/definitions/ServerResponseType"
+        }
+      }
+    },
+    "ApplicationInstanceLinksResponse" : {
+      "properties" : {
+        "application" : {
+          "type" : "integer"
+        },
+        "application_host" : {
+          "type" : "integer"
+        },
+        "server" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "CrashSummaryResponse" : {
+      "properties" : {
+        "supports_crash_data" : {
+          "type" : "boolean"
+        },
+        "unresolved_crash_count" : {
+          "type" : "integer"
+        },
+        "crash_count" : {
+          "type" : "integer"
+        },
+        "crash_rate" : {
+          "$ref" : "#/definitions/float"
+        }
+      }
+    },
+    "ServerBody" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ComponentResponse" : {
+      "properties" : {
+        "component" : {
+          "$ref" : "#/definitions/ComponentResponseType"
+        }
+      }
+    },
+    "DeploymentLinksResponse" : {
+      "properties" : {
+        "application" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "ApplicationHostResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "application_name" : {
+          "type" : "string"
+        },
+        "host" : {
+          "type" : "string"
+        },
+        "language" : {
+          "type" : "integer"
+        },
+        "health_status" : {
+          "type" : "string"
+        },
+        "application_summary" : {
+          "$ref" : "#/definitions/AppSummaryDataResponse"
+        },
+        "end_user_summary" : {
+          "$ref" : "#/definitions/EndUserSummaryDataResponse"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ApplicationHostLinksResponse"
+        }
+      }
+    },
+    "ChannelResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "configuration" : {
+          "$ref" : "#/definitions/hash"
+        },
+        "links" : {
+          "$ref" : "#/definitions/ChannelLinksResponse"
+        }
+      }
+    },
+    "TargetDowntimeEventResponseType" : {
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "opened_at" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "last_failure" : {
+          "$ref" : "#/definitions/datetime"
+        },
+        "duration" : {
+          "type" : "integer"
+        },
+        "number_of_failures" : {
+          "type" : "integer"
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "ip_address" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
