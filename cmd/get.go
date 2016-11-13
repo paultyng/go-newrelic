@@ -16,13 +16,13 @@ package cmd
 
 import (
 	"fmt"
+	"reflect"
 
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
-// getCmd represents the get command
-var getCmd = &cobra.Command{
+var GetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -31,24 +31,64 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		var apiKey = viper.GetString("api-key")
-
-		fmt.Println(apiKey)
-	},
 }
 
 func init() {
-	RootCmd.AddCommand(getCmd)
+	RootCmd.AddCommand(GetCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+func outputTable(cmd *cobra.Command, resources interface{}) error {
+	fmt.Fprint(cmd.OutOrStdout(), "\n")
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
+	table := tablewriter.NewWriter(cmd.OutOrStdout())
+	table.SetBorder(false)
+	table.SetHeaderLine(false)
+	table.SetColumnSeparator("")
+	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	fieldNames, err := extractFieldNames(resources)
+	if err != nil {
+		return err
+	}
+	table.SetHeader(fieldNames)
 
+	data, err := formatTableData(resources, fieldNames)
+	if err != nil {
+		return err
+	}
+	table.AppendBulk(data)
+
+	table.Render()
+
+	fmt.Fprintf(cmd.OutOrStdout(), "\n%d records returned\n", len(data))
+
+	return nil
+}
+
+func extractFieldNames(resource interface{}) ([]string, error) {
+	itemType := reflect.TypeOf(resource).Elem()
+	fieldNames := make([]string, itemType.NumField())
+
+	for i := 0; i < itemType.NumField(); i++ {
+		fieldNames[i] = itemType.Field(i).Name
+	}
+
+	return fieldNames, nil
+}
+
+func formatTableData(resource interface{}, fieldNames []string) ([][]string, error) {
+	values := reflect.ValueOf(resource)
+	data := make([][]string, values.Len())
+
+	for i := 0; i < values.Len(); i++ {
+		data[i] = make([]string, len(fieldNames))
+		value := values.Index(i)
+		for j, fieldName := range fieldNames {
+			rawFieldValue := value.FieldByName(fieldName).Interface()
+			data[i][j] = fmt.Sprint(rawFieldValue)
+		}
+	}
+
+	return data, nil
 }

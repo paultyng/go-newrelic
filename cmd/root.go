@@ -18,11 +18,13 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/paultyng/go-newrelic/api"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var cfgFile string
+var debug bool
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -56,6 +58,7 @@ func init() {
 	// will be global for your application.
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.newrelic.yaml)")
+	RootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Run in debug mode")
 	RootCmd.PersistentFlags().String("api-key", "", "New Relic API key")
 	viper.BindPFlag("api-key", RootCmd.PersistentFlags().Lookup("api-key"))
 }
@@ -74,4 +77,13 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+func newApiClient(cmd *cobra.Command) (api.Client, error) {
+	apiKey := viper.GetString("api-key")
+	client := api.New(apiKey)
+	if debug {
+		client.Debug()
+	}
+	return client, nil
 }
