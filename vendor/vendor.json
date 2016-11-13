@@ -1,0 +1,15 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "spf13/cobra",
+			"revision": ""
+		},
+		{
+			"path": "spf13/viper",
+			"revision": ""
+		}
+	],
+	"rootPath": "github.com/paultyng/go-newrelic"
+}
