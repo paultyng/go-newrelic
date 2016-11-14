@@ -53,7 +53,7 @@ var createAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 			return err
 		}
 
-		err = client.CreateAlertPolicy(api.AlertPolicy{
+		_, err = client.CreateAlertPolicy(api.AlertPolicy{
 			Name:               name,
 			IncidentPreference: incidentPreference,
 		})
