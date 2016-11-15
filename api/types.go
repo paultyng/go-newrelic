@@ -1,5 +1,16 @@
 package api
 
+type NotFoundError struct {
+}
+
+func newNotFoundError() *NotFoundError {
+	return &NotFoundError{}
+}
+
+func (e *NotFoundError) Error() string {
+	return "Resource Not Found"
+}
+
 // LabelLinks represents external references on the Label.
 type LabelLinks struct {
 	Applications []int `json:"applications"`
@@ -40,6 +51,8 @@ type AlertConditionTerm struct {
 
 // AlertCondition represents a New Relic alert condition.
 type AlertCondition struct {
+	PolicyID    int                       `json:"-"`
+	ID          int                       `json:"id,omitempty"`
 	Type        string                    `json:"type,omitempty"`
 	Name        string                    `json:"name,omitempty"`
 	Enabled     bool                      `json:"enabled,omitempty"`

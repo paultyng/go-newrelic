@@ -37,7 +37,7 @@ func (c *Client) GetAlertPolicy(id int) (*AlertPolicy, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("No matching alert policy found.")
+	return nil, newNotFoundError()
 }
 
 // ListAlertPolicies returns all alert policies for the account.

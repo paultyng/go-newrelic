@@ -5,8 +5,7 @@ import (
 	"net/url"
 )
 
-// ListLabels returns the labels for the account.
-func (c *Client) ListLabels() ([]Label, error) {
+func (c *Client) queryLabels() ([]Label, error) {
 	resp := struct {
 		Labels []Label `json:"labels,omitempty"`
 	}{}
@@ -17,6 +16,26 @@ func (c *Client) ListLabels() ([]Label, error) {
 	}
 
 	return resp.Labels, nil
+}
+
+func (c *Client) GetLabel(key string) (*Label, error) {
+	labels, err := c.queryLabels()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, label := range labels {
+		if label.Key == key {
+			return &label, nil
+		}
+	}
+
+	return nil, newNotFoundError()
+}
+
+// ListLabels returns the labels for the account.
+func (c *Client) ListLabels() ([]Label, error) {
+	return c.queryLabels()
 }
 
 // CreateLabel creates a new label for the account.
