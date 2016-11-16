@@ -71,6 +71,31 @@ func (c *Client) CreateAlertCondition(condition AlertCondition) (*AlertCondition
 	return &resp.Condition, nil
 }
 
+func (c *Client) UpdateAlertCondition(condition AlertCondition) (*AlertCondition, error) {
+	policyID := condition.PolicyID
+	id := condition.ID
+
+	req := struct {
+		Condition AlertCondition `json:"condition"`
+	}{
+		Condition: condition,
+	}
+
+	resp := struct {
+		Condition AlertCondition `json:"condition,omitempty"`
+	}{}
+
+	u := &url.URL{Path: fmt.Sprintf("/alerts_conditions/%v.json", id)}
+	err := c.Do("PUT", u.String(), nil, req, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Condition.PolicyID = policyID
+
+	return &resp.Condition, nil
+}
+
 func (c *Client) DeleteAlertCondition(policyID int, id int) error {
 	u := &url.URL{Path: fmt.Sprintf("/alerts_conditions/%v.json", id)}
 	return c.Do("DELETE", u.String(), nil, nil, nil)
