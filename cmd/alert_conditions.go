@@ -8,7 +8,7 @@ import (
 func makeConditionsCmd(dst cobra.Command) *cobra.Command {
 	src := cobra.Command{
 		Use:     "conditions",
-		Aliases: []string{"condition", "c"},
+		Aliases: []string{"condition", "cond"},
 	}
 
 	if err := mergo.Merge(&dst, src); err != nil {

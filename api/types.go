@@ -62,3 +62,17 @@ type AlertCondition struct {
 	Terms       []AlertConditionTerm      `json:"terms,omitempty"`
 	UserDefined AlertConditionUserDefined `json:"uder_defined,omitempty"`
 }
+
+// AlertChannelLinks represent the links between policies and alert channels
+type AlertChannelLinks struct {
+	PolicyIDs []int `json:"policy_ids,omitempty"`
+}
+
+// AlertChannel represents a New Relic alert notification channel
+type AlertChannel struct {
+	ID            int               `json:"id,omitempty"`
+	Name          string            `json:"name,omitempty"`
+	Type          string            `json:"type,omitempty"`
+	Configuration map[string]string `json:"configuration,omitempty"`
+	Links         AlertChannelLinks `json:"links,omitempty"`
+}
