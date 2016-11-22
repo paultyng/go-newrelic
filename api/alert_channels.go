@@ -56,7 +56,7 @@ func (c *Client) CreateAlertChannel(channel AlertChannel) (*AlertChannel, error)
 	}
 
 	resp := struct {
-		Channel AlertChannel `json:"channel,omitempty"`
+		Channels []AlertChannel `json:"channels,omitempty"`
 	}{}
 
 	err := c.Do("POST", "/alerts_channels.json", nil, req, &resp)
@@ -64,7 +64,7 @@ func (c *Client) CreateAlertChannel(channel AlertChannel) (*AlertChannel, error)
 		return nil, err
 	}
 
-	return &resp.Channel, nil
+	return &resp.Channels[0], nil
 }
 
 func (c *Client) DeleteAlertChannel(id int) error {
