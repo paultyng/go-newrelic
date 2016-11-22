@@ -20,7 +20,7 @@ func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error
 	return c.Do("PUT", "/alerts_policy_channels.json", qs, nil, nil)
 }
 
-func (c *Client) DeleteAlertPolicyChannels(policyID int, channelID int) error {
+func (c *Client) DeleteAlertPolicyChannel(policyID int, channelID int) error {
 	qs := map[string]string{
 		"policy_id":  strconv.Itoa(policyID),
 		"channel_id": strconv.Itoa(channelID),
