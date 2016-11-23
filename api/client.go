@@ -11,12 +11,16 @@ type Client struct {
 	RestyClient *resty.Client
 }
 
-type errorResponse struct {
-	Error errorDetail
+type ErrorResponse struct {
+	Detail ErrorDetail `json:"error"`
 }
 
-type errorDetail struct {
-	Title string
+func (e *ErrorResponse) Error() string {
+	return e.Detail.Title
+}
+
+type ErrorDetail struct {
+	Title string `json:"title"`
 }
 
 // Config contains all the configuration data for the API Client
@@ -52,7 +56,7 @@ func New(config Config) Client {
 // Do exectes an API request with the specified parameters.
 func (c *Client) Do(method string, path string, qs map[string]string, body interface{}, response interface{}) error {
 	r := c.RestyClient.R().
-		SetError(errorResponse{})
+		SetError(ErrorResponse{})
 
 	if qs != nil {
 		r = r.SetQueryParams(qs)
@@ -80,8 +84,8 @@ func (c *Client) Do(method string, path string, qs map[string]string, body inter
 
 	rawError := apiResponse.Error()
 
-	if apiError, ok := rawError.(*errorResponse); ok {
-		return fmt.Errorf("Error returned from the API: %v", apiError.Error.Title)
+	if apiError, ok := rawError.(*ErrorResponse); ok {
+		return apiError
 	}
 
 	if rawError != nil {
