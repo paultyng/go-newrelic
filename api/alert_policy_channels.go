@@ -1,6 +1,7 @@
 package api
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -26,5 +27,21 @@ func (c *Client) DeleteAlertPolicyChannel(policyID int, channelID int) error {
 		"channel_id": strconv.Itoa(channelID),
 	}
 
-	return c.Do("DELETE", "/alerts_policy_channels.json", qs, nil, nil)
+	err := c.Do("DELETE", "/alerts_policy_channels.json", qs, nil, nil)
+	if err != nil {
+		if apiErr, ok := err.(*ErrorResponse); ok {
+			matched, err := regexp.MatchString("Alerts policy with ID: \\d+ is not valid.", apiErr.Detail.Title)
+			if err != nil {
+				return err
+			}
+
+			if matched {
+				return ErrNotFound
+			}
+		}
+
+		return err
+	}
+
+	return nil
 }
