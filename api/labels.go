@@ -6,16 +6,29 @@ import (
 )
 
 func (c *Client) queryLabels() ([]Label, error) {
-	resp := struct {
-		Labels []Label `json:"labels,omitempty"`
-	}{}
+	labels := []Label{}
 
-	err := c.Do("GET", "/labels.json", nil, nil, &resp)
+	reqURL, err := url.Parse("/labels.json")
 	if err != nil {
 		return nil, err
 	}
 
-	return resp.Labels, nil
+	nextPath := reqURL.String()
+
+	for nextPath != "" {
+		resp := struct {
+			Labels []Label `json:"labels,omitempty"`
+		}{}
+
+		nextPath, err = c.Do("GET", nextPath, nil, &resp)
+		if err != nil {
+			return nil, err
+		}
+
+		labels = append(labels, resp.Labels...)
+	}
+
+	return labels, nil
 }
 
 func (c *Client) GetLabel(key string) (*Label, error) {
@@ -54,11 +67,13 @@ func (c *Client) CreateLabel(label Label) error {
 		Label: label,
 	}
 
-	return c.Do("PUT", "/labels.json", nil, req, nil)
+	_, err := c.Do("PUT", "/labels.json", req, nil)
+	return err
 }
 
 // DeleteLabel deletes a label on the account specified by key.
 func (c *Client) DeleteLabel(key string) error {
 	u := &url.URL{Path: fmt.Sprintf("/labels/%v.json", key)}
-	return c.Do("DELETE", u.String(), nil, nil, nil)
+	_, err := c.Do("DELETE", u.String(), nil, nil)
+	return err
 }

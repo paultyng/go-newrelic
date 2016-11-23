@@ -7,24 +7,38 @@ import (
 )
 
 func (c *Client) queryAlertConditions(policyID int) ([]AlertCondition, error) {
-	qs := map[string]string{
-		"policy_id": strconv.Itoa(policyID),
-	}
+	conditions := []AlertCondition{}
 
-	resp := struct {
-		Conditions []AlertCondition `json:"conditions,omitempty"`
-	}{}
-
-	err := c.Do("GET", "/alerts_conditions.json", qs, nil, &resp)
+	reqURL, err := url.Parse("/alerts_conditions.json")
 	if err != nil {
 		return nil, err
 	}
 
-	for _, c := range resp.Conditions {
-		c.PolicyID = policyID
+	qs := reqURL.Query()
+	qs.Add("policy_id", strconv.Itoa(policyID))
+
+	reqURL.RawQuery = qs.Encode()
+
+	nextPath := reqURL.String()
+
+	for nextPath != "" {
+		resp := struct {
+			Conditions []AlertCondition `json:"conditions,omitempty"`
+		}{}
+
+		nextPath, err = c.Do("GET", nextPath, nil, &resp)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, c := range resp.Conditions {
+			c.PolicyID = policyID
+		}
+
+		conditions = append(conditions, resp.Conditions...)
 	}
 
-	return resp.Conditions, nil
+	return conditions, nil
 }
 
 func (c *Client) GetAlertCondition(policyID int, id int) (*AlertCondition, error) {
@@ -61,7 +75,7 @@ func (c *Client) CreateAlertCondition(condition AlertCondition) (*AlertCondition
 	}{}
 
 	u := &url.URL{Path: fmt.Sprintf("/alerts_conditions/policies/%v.json", policyID)}
-	err := c.Do("POST", u.String(), nil, req, &resp)
+	_, err := c.Do("POST", u.String(), req, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +100,7 @@ func (c *Client) UpdateAlertCondition(condition AlertCondition) (*AlertCondition
 	}{}
 
 	u := &url.URL{Path: fmt.Sprintf("/alerts_conditions/%v.json", id)}
-	err := c.Do("PUT", u.String(), nil, req, &resp)
+	_, err := c.Do("PUT", u.String(), req, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -98,5 +112,6 @@ func (c *Client) UpdateAlertCondition(condition AlertCondition) (*AlertCondition
 
 func (c *Client) DeleteAlertCondition(policyID int, id int) error {
 	u := &url.URL{Path: fmt.Sprintf("/alerts_conditions/%v.json", id)}
-	return c.Do("DELETE", u.String(), nil, nil, nil)
+	_, err := c.Do("DELETE", u.String(), nil, nil)
+	return err
 }

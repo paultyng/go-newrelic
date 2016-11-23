@@ -1,6 +1,7 @@
 package api
 
 import (
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -13,21 +14,30 @@ func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error
 		channelIDStrings[i] = strconv.Itoa(channelID)
 	}
 
-	qs := map[string]string{
-		"policy_id":   strconv.Itoa(policyID),
-		"channel_ids": strings.Join(channelIDStrings, ","),
+	reqURL, err := url.Parse("/alerts_policy_channels.json")
+	if err != nil {
+		return err
 	}
 
-	return c.Do("PUT", "/alerts_policy_channels.json", qs, nil, nil)
+	qs := url.Values{
+		"policy_id":   []string{strconv.Itoa(policyID)},
+		"channel_ids": []string{strings.Join(channelIDStrings, ",")},
+	}
+	reqURL.RawQuery = qs.Encode()
+
+	nextPath := reqURL.String()
+
+	_, err = c.Do("PUT", nextPath, nil, nil)
+	return err
 }
 
 func (c *Client) DeleteAlertPolicyChannel(policyID int, channelID int) error {
-	qs := map[string]string{
-		"policy_id":  strconv.Itoa(policyID),
-		"channel_id": strconv.Itoa(channelID),
-	}
+	// qs := map[string]string{
+	// 	"policy_id":  strconv.Itoa(policyID),
+	// 	"channel_id": strconv.Itoa(channelID),
+	// }
 
-	err := c.Do("DELETE", "/alerts_policy_channels.json", qs, nil, nil)
+	_, err := c.Do("DELETE", "/alerts_policy_channels.json", nil, nil)
 	if err != nil {
 		if apiErr, ok := err.(*ErrorResponse); ok {
 			matched, err := regexp.MatchString("Alerts policy with ID: \\d+ is not valid.", apiErr.Detail.Title)

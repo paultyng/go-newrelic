@@ -6,22 +6,35 @@ import (
 )
 
 func (c *Client) queryAlertPolicies(name *string) ([]AlertPolicy, error) {
-	qs := map[string]string{}
+	policies := []AlertPolicy{}
 
-	if name != nil {
-		qs["filter[name]"] = *name
-	}
-
-	resp := struct {
-		Policies []AlertPolicy `json:"policies,omitempty"`
-	}{}
-
-	err := c.Do("GET", "/alerts_policies.json", qs, nil, &resp)
+	reqURL, err := url.Parse("/alerts_policies.json")
 	if err != nil {
 		return nil, err
 	}
 
-	return resp.Policies, nil
+	qs := reqURL.Query()
+	if name != nil {
+		qs.Add("filter[name]", *name)
+	}
+	reqURL.RawQuery = qs.Encode()
+
+	nextPath := reqURL.String()
+
+	for nextPath != "" {
+		resp := struct {
+			Policies []AlertPolicy `json:"policies,omitempty"`
+		}{}
+
+		nextPath, err = c.Do("GET", nextPath, nil, &resp)
+		if err != nil {
+			return nil, err
+		}
+
+		policies = append(policies, resp.Policies...)
+	}
+
+	return policies, nil
 }
 
 // GetAlertPolicy returns a specific alert policy by ID
@@ -57,7 +70,7 @@ func (c *Client) CreateAlertPolicy(policy AlertPolicy) (*AlertPolicy, error) {
 		Policy AlertPolicy `json:"policy,omitempty"`
 	}{}
 
-	err := c.Do("POST", "/alerts_policies.json", nil, req, &resp)
+	_, err := c.Do("POST", "/alerts_policies.json", req, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -68,5 +81,6 @@ func (c *Client) CreateAlertPolicy(policy AlertPolicy) (*AlertPolicy, error) {
 // DeleteAlertPolicy deletes an existing alert policy from the account.
 func (c *Client) DeleteAlertPolicy(id int) error {
 	u := &url.URL{Path: fmt.Sprintf("/alerts_policies/%v.json", id)}
-	return c.Do("DELETE", u.String(), nil, nil, nil)
+	_, err := c.Do("DELETE", u.String(), nil, nil)
+	return err
 }

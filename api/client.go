@@ -3,6 +3,8 @@ package api
 import (
 	"fmt"
 
+	"github.com/tomnomnom/linkheader"
+
 	resty "gopkg.in/resty.v0"
 )
 
@@ -54,13 +56,9 @@ func New(config Config) Client {
 }
 
 // Do exectes an API request with the specified parameters.
-func (c *Client) Do(method string, path string, qs map[string]string, body interface{}, response interface{}) error {
+func (c *Client) Do(method string, path string, body interface{}, response interface{}) (string, error) {
 	r := c.RestyClient.R().
 		SetError(ErrorResponse{})
-
-	if qs != nil {
-		r = r.SetQueryParams(qs)
-	}
 
 	if body != nil {
 		r = r.SetBody(body)
@@ -73,24 +71,36 @@ func (c *Client) Do(method string, path string, qs map[string]string, body inter
 	apiResponse, err := r.Execute(method, path)
 
 	if err != nil {
-		return err
+		return "", err
+	}
+
+	nextPath := ""
+	header := apiResponse.Header().Get("Link")
+	if header != "" {
+		links := linkheader.Parse(header)
+
+		for _, link := range links.FilterByRel("next") {
+			fmt.Println("Link", link.URL, link)
+			nextPath = link.URL
+			break
+		}
 	}
 
 	statusClass := apiResponse.StatusCode() / 100 % 10
 
 	if statusClass == 2 {
-		return nil
+		return nextPath, nil
 	}
 
 	rawError := apiResponse.Error()
 
 	if apiError, ok := rawError.(*ErrorResponse); ok {
-		return apiError
+		return "", apiError
 	}
 
 	if rawError != nil {
-		return fmt.Errorf("Unexpected error: %v", rawError)
+		return "", fmt.Errorf("Unexpected error: %v", rawError)
 	}
 
-	return fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
+	return "", fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
 }

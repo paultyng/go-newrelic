@@ -6,16 +6,29 @@ import (
 )
 
 func (c *Client) queryAlertChannels() ([]AlertChannel, error) {
-	resp := struct {
-		Channels []AlertChannel `json:"channels,omitempty"`
-	}{}
+	channels := []AlertChannel{}
 
-	err := c.Do("GET", "/alerts_channels.json", nil, nil, &resp)
+	reqURL, err := url.Parse("/alerts_channels.json")
 	if err != nil {
 		return nil, err
 	}
 
-	return resp.Channels, nil
+	nextPath := reqURL.String()
+
+	for nextPath != "" {
+		resp := struct {
+			Channels []AlertChannel `json:"channels,omitempty"`
+		}{}
+
+		nextPath, err = c.Do("GET", nextPath, nil, &resp)
+		if err != nil {
+			return nil, err
+		}
+
+		channels = append(channels, resp.Channels...)
+	}
+
+	return channels, nil
 }
 
 // GetAlertChannel returns a specific alert channel by ID
@@ -59,7 +72,7 @@ func (c *Client) CreateAlertChannel(channel AlertChannel) (*AlertChannel, error)
 		Channels []AlertChannel `json:"channels,omitempty"`
 	}{}
 
-	err := c.Do("POST", "/alerts_channels.json", nil, req, &resp)
+	_, err := c.Do("POST", "/alerts_channels.json", req, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -69,5 +82,6 @@ func (c *Client) CreateAlertChannel(channel AlertChannel) (*AlertChannel, error)
 
 func (c *Client) DeleteAlertChannel(id int) error {
 	u := &url.URL{Path: fmt.Sprintf("/alerts_channels/%v.json", id)}
-	return c.Do("DELETE", u.String(), nil, nil, nil)
+	_, err := c.Do("DELETE", u.String(), nil, nil)
+	return err
 }
