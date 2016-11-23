@@ -19,23 +19,34 @@ type errorDetail struct {
 	Title string
 }
 
+// Config contains all the configuration data for the API Client
+type Config struct {
+	APIKey  string
+	BaseURL string
+	Debug   bool
+}
+
 // New returns a new Client for the specified apiKey.
-func New(apiKey string) Client {
+func New(config Config) Client {
 	r := resty.New()
 
-	r.SetHeader("X-Api-Key", apiKey)
-	r.SetHostURL("https://api.newrelic.com/v2")
+	baseURL := config.BaseURL
+	if baseURL == "" {
+		baseURL = "https://api.newrelic.com/v2"
+	}
+
+	r.SetHeader("X-Api-Key", config.APIKey)
+	r.SetHostURL(baseURL)
+
+	if config.Debug {
+		r.SetDebug(true)
+	}
 
 	c := Client{
 		RestyClient: r,
 	}
 
 	return c
-}
-
-// Debug sets the Client in to debug mode which outputs details about the HTTP traffic.
-func (c *Client) Debug() {
-	c.RestyClient.SetDebug(true)
 }
 
 // Do exectes an API request with the specified parameters.

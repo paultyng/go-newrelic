@@ -62,6 +62,8 @@ func init() {
 	RootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Run in debug mode")
 	RootCmd.PersistentFlags().String("api-key", "", "New Relic API key")
 	viper.BindPFlag("api-key", RootCmd.PersistentFlags().Lookup("api-key"))
+	RootCmd.PersistentFlags().String("api-url", "", "Base URL for the New Relic API")
+	viper.BindPFlag("api-url", RootCmd.PersistentFlags().Lookup("api-url"))
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -86,9 +88,15 @@ func initConfig() {
 
 func newApiClient(cmd *cobra.Command) (api.Client, error) {
 	apiKey := viper.GetString("api-key")
-	client := api.New(apiKey)
-	if debug {
-		client.Debug()
+	baseURL := viper.GetString("api-url")
+
+	config := api.Config{
+		APIKey:  apiKey,
+		BaseURL: baseURL,
+		Debug:   debug,
 	}
+
+	client := api.New(config)
+
 	return client, nil
 }
