@@ -4,7 +4,6 @@ import (
 	"net/url"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error {
@@ -21,7 +20,7 @@ func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error
 
 	qs := url.Values{
 		"policy_id":   []string{strconv.Itoa(policyID)},
-		"channel_ids": []string{strings.Join(channelIDStrings, ",")},
+		"channel_ids": channelIDStrings,
 	}
 	reqURL.RawQuery = qs.Encode()
 
@@ -32,12 +31,20 @@ func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error
 }
 
 func (c *Client) DeleteAlertPolicyChannel(policyID int, channelID int) error {
-	// qs := map[string]string{
-	// 	"policy_id":  strconv.Itoa(policyID),
-	// 	"channel_id": strconv.Itoa(channelID),
-	// }
+	reqURL, err := url.Parse("/alerts_policy_channels.json")
+	if err != nil {
+		return err
+	}
 
-	_, err := c.Do("DELETE", "/alerts_policy_channels.json", nil, nil)
+	qs := url.Values{
+		"policy_id":  []string{strconv.Itoa(policyID)},
+		"channel_id": []string{strconv.Itoa(channelID)},
+	}
+	reqURL.RawQuery = qs.Encode()
+
+	nextPath := reqURL.String()
+
+	_, err = c.Do("DELETE", nextPath, nil, nil)
 	if err != nil {
 		if apiErr, ok := err.(*ErrorResponse); ok {
 			matched, err := regexp.MatchString("Alerts policy with ID: \\d+ is not valid.", apiErr.Detail.Title)
