@@ -80,7 +80,6 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 		links := linkheader.Parse(header)
 
 		for _, link := range links.FilterByRel("next") {
-			fmt.Println("Link", link.URL, link)
 			nextPath = link.URL
 			break
 		}
