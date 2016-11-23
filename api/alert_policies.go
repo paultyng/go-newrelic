@@ -15,7 +15,7 @@ func (c *Client) queryAlertPolicies(name *string) ([]AlertPolicy, error) {
 
 	qs := reqURL.Query()
 	if name != nil {
-		qs.Add("filter[name]", *name)
+		qs.Set("filter[name]", *name)
 	}
 	reqURL.RawQuery = qs.Encode()
 

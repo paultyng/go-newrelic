@@ -15,7 +15,7 @@ func (c *Client) queryAlertConditions(policyID int) ([]AlertCondition, error) {
 	}
 
 	qs := reqURL.Query()
-	qs.Add("policy_id", strconv.Itoa(policyID))
+	qs.Set("policy_id", strconv.Itoa(policyID))
 
 	reqURL.RawQuery = qs.Encode()
 
