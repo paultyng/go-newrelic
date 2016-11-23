@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/imdario/mergo"
+	"github.com/paultyng/go-newrelic/api"
 	"github.com/spf13/cobra"
 )
 
@@ -24,9 +25,26 @@ var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 		if err != nil {
 			return err
 		}
-		resources, err := client.ListAlertChannels()
+
+		id, err := cmd.Flags().GetInt("id")
 		if err != nil {
 			return err
+		}
+
+		var resources []api.AlertChannel
+
+		if id != 0 {
+			resource, err := client.GetAlertChannel(id)
+			if err != nil {
+				return err
+			}
+
+			resources = []api.AlertChannel{*resource}
+		} else {
+			resources, err = client.ListAlertChannels()
+			if err != nil {
+				return err
+			}
 		}
 
 		return outputTable(cmd, resources)
@@ -35,4 +53,5 @@ var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 
 func init() {
 	GetCmd.AddCommand(getAlertChannelsCmd)
+	getAlertChannelsCmd.Flags().Int("id", 0, "ID of the alert channel to get")
 }
