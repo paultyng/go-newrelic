@@ -1,15 +1,10 @@
 package api
 
-type NotFoundError struct {
-}
+import "errors"
 
-func newNotFoundError() *NotFoundError {
-	return &NotFoundError{}
-}
-
-func (e *NotFoundError) Error() string {
-	return "Resource Not Found"
-}
+var (
+	ErrNotFound = errors.New("newrelic: Resource not found")
+)
 
 // LabelLinks represents external references on the Label.
 type LabelLinks struct {

@@ -31,7 +31,7 @@ func (c *Client) GetAlertChannel(id int) (*AlertChannel, error) {
 		}
 	}
 
-	return nil, newNotFoundError()
+	return nil, ErrNotFound
 }
 
 // ListAlertChannels returns all alert policies for the account.

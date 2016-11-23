@@ -30,7 +30,7 @@ func (c *Client) GetLabel(key string) (*Label, error) {
 		}
 	}
 
-	return nil, newNotFoundError()
+	return nil, ErrNotFound
 }
 
 // ListLabels returns the labels for the account.

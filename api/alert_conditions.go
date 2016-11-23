@@ -39,7 +39,7 @@ func (c *Client) GetAlertCondition(policyID int, id int) (*AlertCondition, error
 		}
 	}
 
-	return nil, newNotFoundError()
+	return nil, ErrNotFound
 }
 
 // ListAlertConditions returns alert conditions for the specified policy.
