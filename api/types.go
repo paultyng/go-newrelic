@@ -98,10 +98,10 @@ type ApplicationSettings struct {
 }
 
 type ApplicationLinks struct {
-	Servers              []int `json:"servers,omitempty"`
-	ApplicationHosts     []int `json:"application_hosts,omitempty"`
-	ApplicationInstances []int `json:"application_instances,omitempty"`
-	AlertPolicyID        int   `json:"alert_policy"`
+	ServerIDs     []int `json:"servers,omitempty"`
+	HostIDs       []int `json:"application_hosts,omitempty"`
+	InstanceIDs   []int `json:"application_instances,omitempty"`
+	AlertPolicyID int   `json:"alert_policy"`
 }
 
 type Application struct {
