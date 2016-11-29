@@ -15,7 +15,9 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"reflect"
 
 	"github.com/olekukonko/tablewriter"
@@ -35,12 +37,42 @@ to quickly create a Cobra application.`,
 
 func init() {
 	RootCmd.AddCommand(GetCmd)
+
+	RootCmd.PersistentFlags().String("format", "table", "Output format for data (defaults to table)")
 }
 
-func outputTable(cmd *cobra.Command, resources interface{}) error {
-	fmt.Fprint(cmd.OutOrStdout(), "\n")
+func outputList(cmd *cobra.Command, resources interface{}) error {
+	dataFormat, err := cmd.Flags().GetString("format")
+	if err != nil {
+		return err
+	}
 
-	table := tablewriter.NewWriter(cmd.OutOrStdout())
+	switch dataFormat {
+	case "table":
+		return outputTable(false, cmd.OutOrStdout(), resources)
+	case "json":
+		return outputJSON(cmd.OutOrStdout(), resources)
+	}
+
+	return fmt.Errorf("Unknown data format %v", dataFormat)
+}
+
+func outputJSON(out io.Writer, resources interface{}) error {
+	j, err := json.Marshal(resources)
+	if err != nil {
+		return err
+	}
+
+	_, err = out.Write(j)
+	return err
+}
+
+func outputTable(dataOnly bool, out io.Writer, resources interface{}) error {
+	if !dataOnly {
+		fmt.Fprint(out, "\n")
+	}
+
+	table := tablewriter.NewWriter(out)
 	table.SetBorder(false)
 	table.SetHeaderLine(false)
 	table.SetColumnSeparator("")
@@ -51,7 +83,10 @@ func outputTable(cmd *cobra.Command, resources interface{}) error {
 	if err != nil {
 		return err
 	}
-	table.SetHeader(fieldNames)
+
+	if !dataOnly {
+		table.SetHeader(fieldNames)
+	}
 
 	data, err := formatTableData(resources, fieldNames)
 	if err != nil {
@@ -61,7 +96,9 @@ func outputTable(cmd *cobra.Command, resources interface{}) error {
 
 	table.Render()
 
-	fmt.Fprintf(cmd.OutOrStdout(), "\n%d records returned\n", len(data))
+	if !dataOnly {
+		fmt.Fprintf(out, "\n%d records returned\n", len(data))
+	}
 
 	return nil
 }
@@ -86,7 +123,7 @@ func formatTableData(resource interface{}, fieldNames []string) ([][]string, err
 		value := values.Index(i)
 		for j, fieldName := range fieldNames {
 			rawFieldValue := value.FieldByName(fieldName).Interface()
-			data[i][j] = fmt.Sprint(rawFieldValue)
+			data[i][j] = fmt.Sprintf("%+v", rawFieldValue)
 		}
 	}
 

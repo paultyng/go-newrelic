@@ -29,7 +29,7 @@ var getApplicationsCmd = makeApplicationsCmd(cobra.Command{
 			return err
 		}
 
-		return outputTable(cmd, resources)
+		return outputList(cmd, resources)
 	},
 })
 

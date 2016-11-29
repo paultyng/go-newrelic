@@ -47,7 +47,7 @@ var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 			}
 		}
 
-		return outputTable(cmd, resources)
+		return outputList(cmd, resources)
 	},
 })
 
