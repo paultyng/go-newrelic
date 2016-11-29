@@ -46,6 +46,7 @@ type AlertConditionTerm struct {
 
 // AlertCondition represents a New Relic alert condition.
 // TODO: custom unmarshal entities to ints?
+// TODO: handle unmarshaling .75 for float (not just 0.75)
 type AlertCondition struct {
 	PolicyID    int                       `json:"-"`
 	ID          int                       `json:"id,omitempty"`
