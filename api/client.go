@@ -14,15 +14,18 @@ type Client struct {
 }
 
 type ErrorResponse struct {
-	Detail ErrorDetail `json:"error"`
+	Detail *ErrorDetail `json:"error,omitempty"`
 }
 
 func (e *ErrorResponse) Error() string {
-	return e.Detail.Title
+	if e != nil && e.Detail != nil {
+		return e.Detail.Title
+	}
+	return "Unknown error"
 }
 
 type ErrorDetail struct {
-	Title string `json:"title"`
+	Title string `json:"title,omitempty"`
 }
 
 // Config contains all the configuration data for the API Client
@@ -58,7 +61,7 @@ func New(config Config) Client {
 // Do exectes an API request with the specified parameters.
 func (c *Client) Do(method string, path string, body interface{}, response interface{}) (string, error) {
 	r := c.RestyClient.R().
-		SetError(ErrorResponse{})
+		SetError(&ErrorResponse{})
 
 	if body != nil {
 		r = r.SetBody(body)
@@ -93,12 +96,12 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 
 	rawError := apiResponse.Error()
 
-	if apiError, ok := rawError.(*ErrorResponse); ok {
-		return "", apiError
-	}
-
 	if rawError != nil {
-		return "", fmt.Errorf("Unexpected error: %v", rawError)
+		apiError := rawError.(*ErrorResponse)
+
+		if apiError.Detail != nil {
+			return "", apiError
+		}
 	}
 
 	return "", fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
