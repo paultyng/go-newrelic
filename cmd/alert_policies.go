@@ -11,7 +11,7 @@ import (
 func makePoliciesCmd(dst cobra.Command) *cobra.Command {
 	src := cobra.Command{
 		Use:     "policies",
-		Aliases: []string{"policy", "p"},
+		Aliases: []string{"policy", "pol"},
 	}
 
 	if err := mergo.Merge(&dst, src); err != nil {
