@@ -118,3 +118,74 @@ type Application struct {
 	Settings       ApplicationSettings       `json:"settings,omitempty"`
 	Links          ApplicationLinks          `json:"links,omitempty"`
 }
+
+type PluginDetails struct {
+	Description           int    `json:"description"`
+	IsPublic              string `json:"is_public"`
+	CreatedAt             string `json:"created_at,omitempty"`
+	UpdatedAt             string `json:"updated_at,omitempty"`
+	LastPublishedAt       string `json:"last_published_at,omitempty"`
+	HasUnpublishedChanges bool   `json:"has_unpublished_changes"`
+	BrandingImageURL      string `json:"branding_image_url"`
+	UpgradedAt            string `json:"upgraded_at,omitempty"`
+	ShortName             string `json:"short_name"`
+	PublisherAboutURL     string `json:"publisher_about_url"`
+	PublisherSupportURL   string `json:"publisher_support_url"`
+	DownloadURL           string `json:"download_url"`
+	FirstEditedAt         string `json:"first_edited_at,omitempty"`
+	LastEditedAt          string `json:"last_edited_at,omitempty"`
+	FirstPublishedAt      string `json:"first_published_at,omitempty"`
+	PublishedVersion      string `json:"published_version"`
+}
+
+type MetricThreshold struct {
+	Caution  float64 `json:"caution"`
+	Critical float64 `json:"critical"`
+}
+
+type MetricValue struct {
+	Raw       float64 `json:"raw"`
+	Formatted string  `json:"formatted"`
+}
+
+type MetricTimeslice struct {
+	From   string                 `json:"from,omitempty"`
+	To     string                 `json:"to,omitempty"`
+	Values map[string]interface{} `json:"values,omitempty"`
+}
+
+type Metric struct {
+	Name       string            `json:"name"`
+	Timeslices []MetricTimeslice `json:"timeslices"`
+}
+
+type SummaryMetric struct {
+	ID            int             `json:"id"`
+	Name          string          `json:"name"`
+	Metric        string          `json:"metric"`
+	ValueFunction string          `json:"value_function"`
+	Thresholds    MetricThreshold `json:"thresholds"`
+	Values        MetricValue     `json:"values"`
+}
+
+type Plugin struct {
+	ID                  int             `json:"id"`
+	Name                string          `json:"name,omitempty"`
+	GUID                string          `json:"guid,omitempty"`
+	Publisher           string          `json:"publisher,omitempty"`
+	ComponentAgentCount int             `json:"component_agent_count"`
+	Details             PluginDetails   `json:"details"`
+	SummaryMetrics      []SummaryMetric `json:"summary_metrics"`
+}
+
+type Component struct {
+	ID             int             `json:"id"`
+	Name           string          `json:"name,omitempty"`
+	HealthStatus   string          `json:"health_status,omitempty"`
+	SummaryMetrics []SummaryMetric `json:"summary_metrics"`
+}
+
+type ComponentMetric struct {
+	Name   string   `json:"name,omitempty"`
+	Values []string `json:"values"`
+}
