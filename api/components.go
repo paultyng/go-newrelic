@@ -43,6 +43,7 @@ func (c *Client) queryComponents(filters componentsFilters) ([]Component, error)
 	return components, nil
 }
 
+// ListComponents lists all the components for the specified plugin ID.
 func (c *Client) ListComponents(pluginID int) ([]Component, error) {
 	return c.queryComponents(componentsFilters{
 		PluginID: pluginID,

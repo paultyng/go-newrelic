@@ -20,7 +20,7 @@ func makeConditionsCmd(dst cobra.Command) *cobra.Command {
 
 var getAlertConditionsCmd = makeConditionsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -38,6 +38,6 @@ var getAlertConditionsCmd = makeConditionsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getAlertConditionsCmd)
+	getCmd.AddCommand(getAlertConditionsCmd)
 	getAlertConditionsCmd.Flags().IntP("policy-id", "p", 0, "ID of policy for which to get conditions")
 }

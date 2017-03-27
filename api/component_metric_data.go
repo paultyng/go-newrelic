@@ -39,6 +39,7 @@ func (c *Client) queryComponentMetricData(componentID int, names []string) ([]Me
 	return data, nil
 }
 
+// ListComponentMetricData lists all the metric data for the specified component ID and metric names.
 func (c *Client) ListComponentMetricData(componentID int, names []string) ([]Metric, error) {
 	return c.queryComponentMetricData(componentID, names)
 }

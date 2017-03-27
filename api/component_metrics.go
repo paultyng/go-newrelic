@@ -34,6 +34,7 @@ func (c *Client) queryComponentMetrics(componentID int) ([]ComponentMetric, erro
 	return metrics, nil
 }
 
+// ListComponentMetrics lists all the component metrics for the specificed component ID.
 func (c *Client) ListComponentMetrics(componentID int) ([]ComponentMetric, error) {
 	return c.queryComponentMetrics(componentID)
 }

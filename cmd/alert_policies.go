@@ -23,7 +23,7 @@ func makePoliciesCmd(dst cobra.Command) *cobra.Command {
 
 var getAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -38,7 +38,7 @@ var getAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 
 var createAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -69,7 +69,7 @@ var createAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 
 var deleteAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -91,12 +91,12 @@ var deleteAlertPoliciesCmd = makePoliciesCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getAlertPoliciesCmd)
+	getCmd.AddCommand(getAlertPoliciesCmd)
 
-	CreateCmd.AddCommand(createAlertPoliciesCmd)
+	createCmd.AddCommand(createAlertPoliciesCmd)
 	createAlertPoliciesCmd.Flags().String("name", "", "Name of the alert policy")
 	createAlertPoliciesCmd.Flags().String("incident-preference", "PER_POLICY", "Incident preference of the policy")
 
-	DeleteCmd.AddCommand(deleteAlertPoliciesCmd)
+	deleteCmd.AddCommand(deleteAlertPoliciesCmd)
 	deleteAlertPoliciesCmd.Flags().Int("id", 0, "ID of the alert policy to delete")
 }

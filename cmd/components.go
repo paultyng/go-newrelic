@@ -20,7 +20,7 @@ func makeComponentsCmd(dst cobra.Command) *cobra.Command {
 
 var getComponentsCmd = makeComponentsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -38,6 +38,6 @@ var getComponentsCmd = makeComponentsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getComponentsCmd)
+	getCmd.AddCommand(getComponentsCmd)
 	getComponentsCmd.Flags().IntP("plugin-id", "p", 0, "ID of policy for which to get conditions")
 }

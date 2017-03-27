@@ -21,7 +21,7 @@ func makeChannelsCmd(dst cobra.Command) *cobra.Command {
 
 var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -52,6 +52,6 @@ var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getAlertChannelsCmd)
+	getCmd.AddCommand(getAlertChannelsCmd)
 	getAlertChannelsCmd.Flags().Int("id", 0, "ID of the alert channel to get")
 }

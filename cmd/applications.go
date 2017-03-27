@@ -20,7 +20,7 @@ func makeApplicationsCmd(dst cobra.Command) *cobra.Command {
 
 var getApplicationsCmd = makeApplicationsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -34,5 +34,5 @@ var getApplicationsCmd = makeApplicationsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getApplicationsCmd)
+	getCmd.AddCommand(getApplicationsCmd)
 }

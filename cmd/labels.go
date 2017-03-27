@@ -23,7 +23,7 @@ func makeLabelsCmd(dst cobra.Command) *cobra.Command {
 
 var getLabelsCmd = makeLabelsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -38,7 +38,7 @@ var getLabelsCmd = makeLabelsCmd(cobra.Command{
 
 var createLabelsCmd = makeLabelsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -68,8 +68,8 @@ var createLabelsCmd = makeLabelsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getLabelsCmd)
-	CreateCmd.AddCommand(createLabelsCmd)
+	getCmd.AddCommand(getLabelsCmd)
+	createCmd.AddCommand(createLabelsCmd)
 
 	createLabelsCmd.Flags().String("name", "", "Name of the label")
 	createLabelsCmd.Flags().String("category", "", "Category of the label")

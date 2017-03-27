@@ -20,7 +20,7 @@ func makePluginsCmd(dst cobra.Command) *cobra.Command {
 
 var getPluginsCmd = makePluginsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -34,5 +34,5 @@ var getPluginsCmd = makePluginsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getPluginsCmd)
+	getCmd.AddCommand(getPluginsCmd)
 }

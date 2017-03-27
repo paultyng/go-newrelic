@@ -20,7 +20,7 @@ func makeComponentMetricsCmd(dst cobra.Command) *cobra.Command {
 
 var getComponentMetricsCmd = makeComponentMetricsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
-		client, err := newApiClient(cmd)
+		client, err := newAPIClient(cmd)
 		if err != nil {
 			return err
 		}
@@ -38,6 +38,6 @@ var getComponentMetricsCmd = makeComponentMetricsCmd(cobra.Command{
 })
 
 func init() {
-	GetCmd.AddCommand(getComponentMetricsCmd)
+	getCmd.AddCommand(getComponentMetricsCmd)
 	getComponentMetricsCmd.Flags().IntP("component-id", "c", 0, "ID of component")
 }

@@ -45,6 +45,7 @@ func (c *Client) queryPlugins(filters pluginsFilters) ([]Plugin, error) {
 	return plugins, nil
 }
 
+// ListPlugins lists all the plugins you have access to.
 func (c *Client) ListPlugins() ([]Plugin, error) {
 	return c.queryPlugins(pluginsFilters{})
 }
