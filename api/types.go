@@ -58,7 +58,8 @@ type AlertCondition struct {
 	Metric      string                    `json:"metric,omitempty"`
 	RunbookURL  string                    `json:"runbook_url,omitempty"`
 	Terms       []AlertConditionTerm      `json:"terms,omitempty"`
-	UserDefined AlertConditionUserDefined `json:"uder_defined,omitempty"`
+	UserDefined AlertConditionUserDefined `json:"user_defined,omitempty"`
+	Scope       string                    `json:"condition_scope,omitempty"`
 }
 
 // AlertChannelLinks represent the links between policies and alert channels
