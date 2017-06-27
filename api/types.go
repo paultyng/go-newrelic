@@ -60,6 +60,9 @@ type AlertCondition struct {
 	Terms       []AlertConditionTerm      `json:"terms,omitempty"`
 	UserDefined AlertConditionUserDefined `json:"user_defined,omitempty"`
 	Scope       string                    `json:"condition_scope,omitempty"`
+	Query       string                    `json:"query,omitempty"`
+	WaitTime    int                       `json:"wait_time,omitempty"`
+	EvalContent string                    `json:"evaluate_content,omitempty"`
 }
 
 // AlertChannelLinks represent the links between policies and alert channels
