@@ -45,24 +45,29 @@ type AlertConditionTerm struct {
 	TimeFunction string  `json:"time_function,omitempty"`
 }
 
+// AlertConditionTerm represents the NRQL specified properties of a New Relic alert condition.
+type AlertConditionNRQL struct {
+	Query        string  `json:"query,omitempty"`
+	SinceValue   int     `json:"since_value,omitempty"`
+}
+
 // AlertCondition represents a New Relic alert condition.
 // TODO: custom unmarshal entities to ints?
 // TODO: handle unmarshaling .75 for float (not just 0.75)
 type AlertCondition struct {
-	PolicyID    int                       `json:"-"`
-	ID          int                       `json:"id,omitempty"`
-	Type        string                    `json:"type,omitempty"`
-	Name        string                    `json:"name,omitempty"`
-	Enabled     bool                      `json:"enabled,omitempty"`
-	Entities    []string                  `json:"entities,omitempty"`
-	Metric      string                    `json:"metric,omitempty"`
-	RunbookURL  string                    `json:"runbook_url,omitempty"`
-	Terms       []AlertConditionTerm      `json:"terms,omitempty"`
-	UserDefined AlertConditionUserDefined `json:"user_defined,omitempty"`
-	Scope       string                    `json:"condition_scope,omitempty"`
-	Query       string                    `json:"query,omitempty"`
-	WaitTime    int                       `json:"wait_time,omitempty"`
-	EvalContent string                    `json:"evaluate_content,omitempty"`
+	PolicyID      int                       `json:"-"`
+	ID            int                       `json:"id,omitempty"`
+	Type          string                    `json:"type,omitempty"`
+	Name          string                    `json:"name,omitempty"`
+	Enabled       bool                      `json:"enabled,omitempty"`
+	Entities      []string                  `json:"entities,omitempty"`
+	Metric        string                    `json:"metric,omitempty"`
+	RunbookURL    string                    `json:"runbook_url,omitempty"`
+	Terms         []AlertConditionTerm      `json:"terms,omitempty"`
+	UserDefined   AlertConditionUserDefined `json:"user_defined,omitempty"`
+	Scope         string                    `json:"condition_scope,omitempty"`
+	ValueFunction string                    `json:"value_function,omitempty"`
+	NRQL          []AlertConditionNRQL      `json:"nrql,omitempty"`
 }
 
 // AlertChannelLinks represent the links between policies and alert channels
