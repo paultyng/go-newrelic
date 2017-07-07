@@ -45,12 +45,6 @@ type AlertConditionTerm struct {
 	TimeFunction string  `json:"time_function,omitempty"`
 }
 
-// AlertConditionTerm represents the NRQL specified properties of a New Relic alert condition.
-type AlertConditionNRQL struct {
-	Query        string  `json:"query,omitempty"`
-	SinceValue   int     `json:"since_value,omitempty"`
-}
-
 // AlertCondition represents a New Relic alert condition.
 // TODO: custom unmarshal entities to ints?
 // TODO: handle unmarshaling .75 for float (not just 0.75)
@@ -67,7 +61,7 @@ type AlertCondition struct {
 	UserDefined   AlertConditionUserDefined `json:"user_defined,omitempty"`
 	Scope         string                    `json:"condition_scope,omitempty"`
 	ValueFunction string                    `json:"value_function,omitempty"`
-	NRQL          AlertConditionNRQL      `json:"nrql,omitempty"`
+	NRQL          map[string]interface{}    `json:"nrql,omitempty"`
 }
 
 // AlertChannelLinks represent the links between policies and alert channels
