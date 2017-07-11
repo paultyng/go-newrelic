@@ -23,6 +23,6 @@ install:
 
 script:
   - go install
-  - go test -v $(glide novendor)
+  - go test -v -cover $(glide novendor)
 
 sudo: false
