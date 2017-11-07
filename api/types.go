@@ -246,3 +246,91 @@ type KeyTransaction struct {
 	EndUserSummary  ApplicationEndUserSummary `json:"end_user_summary,omitempty"`
 	Links           ApplicationLinks          `json:"links,omitempty"`
 }
+
+// ListDashboardResp represents information about a New Relic dashboard.
+type ListDashboardResp struct {
+	Dashboards []ListDashboardSummary `json:"dashboards"`
+}
+
+// ListDashboardSummary represents information about a New Relic dashboard.
+type ListDashboardSummary struct {
+	ID         int    `json:"id"`
+	Title      string `json:"title"`
+	Icon       string `json:"icon"`
+	CreatedAt  string `json:"created_at"`
+	UpdatedAt  string `json:"updated_at"`
+	Visibility string `json:"visibility"`
+	Editable   string `json:"editable"`
+	UIUrl      string `json:"ui_url"`
+	APIUrl     string `json:"api_url"`
+	OwnerEmail string `json:"owner_email"`
+	Filter     Filter `json:"filter"`
+}
+
+// GetDashboardResp represents information about a New Relic dashboard.
+type GetDashboardResp struct {
+	Dashboard GetDashboardDetail `json:"dashboard,omitempty"`
+}
+
+// GetDashboardDetail represents information about a New Relic dashboard.
+type GetDashboardDetail struct {
+	ID         int               `json:"id,omitempty"`
+	Title      string            `json:"title,omitempty"`
+	Icon       string            `json:"icon,omitempty"`
+	CreatedAt  string            `json:"created_at,omitempty"`
+	UpdatedAt  string            `json:"updated_at,omitempty"`
+	Visibility string            `json:"visibility,omitempty"`
+	Editable   string            `json:"editable,omitempty"`
+	UIUrl      string            `json:"ui_url,omitempty"`
+	APIUrl     string            `json:"api_url,omitempty"`
+	OwnerEmail string            `json:"owner_email,omitempty"`
+	Filter     Filter            `json:"filter,omitempty"`
+	Metadata   DashboardMetadata `json:"metadata,omitempty"`
+	Widgets    []DashboardWidget `json:"widgets,omitempty"`
+}
+
+// Filter represents information about a New Relic dashboard.
+type Filter struct {
+	EventTypes []string `json:"event_types,omitempty"`
+	Attributes []string `json:"attributes,omitempty"`
+}
+
+// DashboardMetadata represents information about a New Relic dashboard.
+type DashboardMetadata struct {
+	Version int `json:"version,omitempty"`
+}
+
+// DashboardWidget represents information about a New Relic dashboard.
+type DashboardWidget struct {
+	Visualization string             `json:"visualization,omitempty"`
+	AcountID      int                `json:"account_id,omitempty"`
+	Data          []WidgetData       `json:"data,omitempty"`
+	Presentation  WidgetPresentation `json:"presentation,omitempty"`
+	Layout        WidgetLayout       `json:"layout,omitempty"`
+}
+
+// WidgetData represents information about a New Relic dashboard.
+type WidgetData struct {
+	Nrql string `json:"nrql,omitempty"`
+}
+
+// WidgetPresentation represents information about a New Relic dashboard.
+type WidgetPresentation struct {
+	Title     string          `json:"title,omitempty"`
+	Notes     string          `json:"notes,omitempty"`
+	Threshold WidgetThreshold `json:"threshold,omitempty"`
+}
+
+// WidgetLayout represents information about a New Relic dashboard.
+type WidgetLayout struct {
+	Width  int `json:"width,omitempty"`
+	Height int `json:"height,omitempty"`
+	Row    int `json:"row,omitempty"`
+	Column int `json:"column,omitempty"`
+}
+
+// WidgetThreshold represents information about a New Relic dashboard.
+type WidgetThreshold struct {
+	Red    int `json:"red,omitempty"`
+	Yellow int `json:"yellow,omitempty"`
+}
