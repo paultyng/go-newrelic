@@ -89,7 +89,7 @@ func (c *Client) UpdateDashboard(dashboard Dashboard) (*Dashboard, error) {
 		Dashboard Dashboard `json:"dashboard,omitempty"`
 	}{}
 
-	u := &url.URL{Path: fmt.Sprintf("/dashboard/%v.json", id)}
+	u := &url.URL{Path: fmt.Sprintf("/dashboards/%v.json", id)}
 	_, err := c.Do("PUT", u.String(), req, &resp)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (c *Client) UpdateDashboard(dashboard Dashboard) (*Dashboard, error) {
 
 // DeleteDashboard deletes an existing dashboard given the passed configuration
 func (c *Client) DeleteDashboard(id int) error {
-	u := &url.URL{Path: fmt.Sprintf("/dashboard/%v.json", id)}
+	u := &url.URL{Path: fmt.Sprintf("/dashboards/%v.json", id)}
 	_, err := c.Do("DELETE", u.String(), nil, nil)
 	return err
 }
