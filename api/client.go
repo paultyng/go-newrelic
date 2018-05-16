@@ -82,7 +82,8 @@ func New(config Config) Client {
 // Do exectes an API request with the specified parameters.
 func (c *Client) Do(method string, path string, body interface{}, response interface{}) (string, error) {
 	r := c.RestyClient.R().
-		SetError(&ErrorResponse{})
+		SetError(&ErrorResponse{}).
+		SetHeader("Content-Type", "application/json")
 
 	if body != nil {
 		r = r.SetBody(body)
