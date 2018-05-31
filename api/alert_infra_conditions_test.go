@@ -158,7 +158,7 @@ func TestCreateAlertInfraCondition(t *testing.T) {
 			`))
 	}))
 
-	infraAlertConditionWarning := AlertInfraThreshold{
+	infraAlertConditionWarning := &AlertInfraThreshold{
 		Value:    30,
 		Duration: 100,
 		Function: "any",
@@ -213,7 +213,7 @@ func TestUpdateAlertInfraCondition(t *testing.T) {
 			`))
 	}))
 
-	infraAlertConditionWarning := AlertInfraThreshold{
+	infraAlertConditionWarning := &AlertInfraThreshold{
 		Value:    30,
 		Duration: 100,
 		Function: "any",
