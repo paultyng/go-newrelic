@@ -243,6 +243,66 @@ func TestUpdateAlertInfraCondition(t *testing.T) {
 	}
 }
 
+func TestCreateAlertInfraConditionWithIntegrationProvider(t *testing.T) {
+	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+            {
+                "data":{
+                   "type":"infra_metric",
+                   "name":"ELB Healthy Host Count",
+                   "enabled":true,
+                   "policy_id":123,
+                   "id":12346,
+                   "event_type":"LoadBalancerSample",
+                   "select_value":"provider.healthyHostCount.Average",
+                   "comparison":"below",
+                   "warning_threshold":{
+                      "value":1,
+                      "duration_minutes":5,
+                      "time_function":"any"
+                   },
+                   "integration_provider": "Elb"
+                }
+             }
+            `))
+	}))
+
+	infraAlertConditionWarning := &AlertInfraThreshold{
+		Value:    1,
+		Duration: 5,
+		Function: "any",
+	}
+
+	infraAlertCondition := AlertInfraCondition{
+		PolicyID:            123,
+		Name:                "ELB Healthy Host Count",
+		Enabled:             true,
+		Warning:             infraAlertConditionWarning,
+		Comparison:          "below",
+		Event:               "LoadBalancerSample",
+		Select:              "provider.healthyHostCount.Average",
+		IntegrationProvider: "Elb",
+	}
+
+	infraAlertConditionResp, err := c.CreateAlertInfraCondition(infraAlertCondition)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp == nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp.ID != 12346 {
+		t.Fatal("Condition ID was not parsed correctly")
+	}
+	if infraAlertConditionResp.IntegrationProvider != "Elb" {
+		t.Fatal("Condition IntegrationProvider was not parsed correctly")
+	}
+}
+
 func TestDeleteAlertInfraCondition(t *testing.T) {
 	policyID := 123
 	conditionID := 12345
