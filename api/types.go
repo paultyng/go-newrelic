@@ -301,8 +301,8 @@ type DashboardWidgetLayout struct {
 
 // DashboardFilter represents the filter in a dashboard.
 type DashboardFilter struct {
-	EventTypes []string `json:"event_types"`
-	Attributes []string `json:"attributes"`
+	EventTypes []string `json:"event_types,omitempty"`
+	Attributes []string `json:"attributes,omitempty"`
 }
 
 // AlertInfraThreshold represents an Infra alerting condition
