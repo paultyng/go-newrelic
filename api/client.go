@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/tomnomnom/linkheader"
-
-	resty "gopkg.in/resty.v0"
+	resty "gopkg.in/resty.v1"
 )
 
 // Client represents the client state for the API.

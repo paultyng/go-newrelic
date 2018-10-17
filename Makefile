@@ -1,15 +1,13 @@
-NOVENDOR = $(shell glide novendor)
-
 all: fix vet lint test
 
 fix:
-	go fix $(NOVENDOR)
+	go fix ./...
 
 vet:
-	go vet $(NOVENDOR)
+	go vet ./...
 
 test:
-	go test -v -cover $(NOVENDOR)
+	go test -v -cover ./...
 
 lint:
 	printf "%s\n" "$(NOVENDOR)" | xargs -I {} sh -c 'golint -set_exit_status {}'
