@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/paultyng/go-newrelic/v3/cmd"
+	"github.com/paultyng/go-newrelic/v4/cmd"
 )
 
 func main() {

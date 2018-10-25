@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/paultyng/go-newrelic/v3/api"
+	"github.com/paultyng/go-newrelic/v4/api"
 )
 
 var cfgFile string

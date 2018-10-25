@@ -4,7 +4,7 @@ import (
 	"github.com/imdario/mergo"
 	"github.com/spf13/cobra"
 
-	"github.com/paultyng/go-newrelic/v3/api"
+	"github.com/paultyng/go-newrelic/v4/api"
 )
 
 func makeKeyTransactionsCmd(dst cobra.Command) *cobra.Command {

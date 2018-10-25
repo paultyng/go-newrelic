@@ -1,4 +1,4 @@
-module github.com/paultyng/go-newrelic/v3
+module github.com/paultyng/go-newrelic/v4
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
