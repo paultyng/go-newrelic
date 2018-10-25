@@ -14,7 +14,9 @@
 
 package main
 
-import "github.com/paultyng/go-newrelic/cmd"
+import (
+	"github.com/paultyng/go-newrelic/v3/cmd"
+)
 
 func main() {
 	cmd.Execute()

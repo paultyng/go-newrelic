@@ -5,9 +5,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/paultyng/go-newrelic/api"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/paultyng/go-newrelic/v3/api"
 )
 
 var cfgFile string

@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"github.com/imdario/mergo"
-	"github.com/paultyng/go-newrelic/api"
 	"github.com/spf13/cobra"
+
+	"github.com/paultyng/go-newrelic/v3/api"
 )
 
 func makeKeyTransactionsCmd(dst cobra.Command) *cobra.Command {

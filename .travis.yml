@@ -2,7 +2,8 @@ go_import_path: github.com/paultyng/go-newrelic
 
 language: go
 go:
-  - 1.8.1
+  - 1.11.1
+  - 1.11.x
   - tip
 
 os:
@@ -15,14 +16,15 @@ matrix:
     - os: osx
   fast_finish: true
 
-before_install:
-  - go get -v github.com/Masterminds/glide
+env:
+  GO111MODULE: 'on'
 
 install:
-  - glide install
+  - go mod download
+  - go mod verify
 
 script:
   - go install
-  - go test -v -cover $(glide novendor)
+  - go test -v -cover ./...
 
 sudo: false
