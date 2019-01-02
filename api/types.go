@@ -305,6 +305,16 @@ type DashboardFilter struct {
 	Attributes []string `json:"attributes,omitempty"`
 }
 
+// Deployment represents information about a New Relic application deployment.
+type Deployment struct {
+	ID          int    `json:"id,omitempty"`
+	Revision    string `json:"revision"`
+	Changelog   string `json:"changelog,omitempty"`
+	Description string `json:"description,omitempty"`
+	User        string `json:"user,omitempty"`
+	Timestamp   string `json:"timestamp,omitempty"`
+}
+
 // AlertInfraThreshold represents an Infra alerting condition
 type AlertInfraThreshold struct {
 	Value    int    `json:"value,omitempty"`
