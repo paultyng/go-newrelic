@@ -18,6 +18,6 @@ require (
 	golang.org/x/net v0.0.0-20190214143845-3a22650c66bd // indirect
 	golang.org/x/sys v0.0.0-20190211153450-3b5209105503 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
-	gopkg.in/resty.v0 v0.4.1 // indirect
+	gopkg.in/resty.v1 v1.11.0 // indirect
 	gopkg.in/resty.v1 v1.9.1
 )
