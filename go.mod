@@ -19,5 +19,5 @@ require (
 	golang.org/x/sys v0.0.0-20190211153450-3b5209105503 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/resty.v1 v1.11.0 // indirect
-	gopkg.in/resty.v1 v1.9.1
+	gopkg.in/resty.v1 v1.11.0
 )
