@@ -2,7 +2,7 @@ module github.com/paultyng/go-newrelic/v4
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
-	github.com/imdario/mergo v0.3.6
+	github.com/imdario/mergo v0.3.7
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-runewidth v0.0.3 // indirect
