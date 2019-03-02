@@ -2,5 +2,8 @@
   "extends": [
     "config:base"
   ],
-  "gomodTidy": true
+  "gomodTidy": true,
+  "ignoreDeps": [
+    "golang.org/x/net"
+  ]
 }
