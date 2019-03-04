@@ -4,6 +4,7 @@
   ],
   "gomodTidy": true,
   "ignoreDeps": [
-    "golang.org/x/net"
+    "golang.org/x/net",
+    "golang.org/x/sys"
   ]
 }
