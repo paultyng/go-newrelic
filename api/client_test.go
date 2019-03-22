@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
 func newTestAPIClient(handler http.Handler) *Client {
@@ -44,4 +45,35 @@ func newTestAPIClientTLSConfig(handler http.Handler) *Client {
 	})
 
 	return &c
+}
+
+func TestLockResources(t *testing.T) {
+	c := New(Config{})
+	ids := []int{123, 456}
+	c.LockResources("resource", ids)
+
+	for _, id := range ids {
+		if _, ok := c.m.Load(resourceID("resource", id)); !ok {
+			t.Log("Failed to lock resources")
+			t.Fail()
+		}
+	}
+}
+
+func TestUnLockResources(t *testing.T) {
+	c := New(Config{})
+	ids := []int{123, 456}
+
+	for _, id := range ids {
+		c.m.Store(resourceID("resource", id), struct{}{})
+	}
+
+	c.UnlockResources("resource", ids)
+
+	for _, id := range ids {
+		if _, ok := c.m.Load(resourceID("resource", id)); ok {
+			t.Log("Failed to unlock resources")
+			t.Fail()
+		}
+	}
 }

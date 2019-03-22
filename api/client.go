@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/tls"
 	"fmt"
+	"sync"
 
 	"github.com/tomnomnom/linkheader"
 	resty "gopkg.in/resty.v1"
@@ -11,6 +12,11 @@ import (
 // Client represents the client state for the API.
 type Client struct {
 	RestyClient *resty.Client
+
+	// For locking resources to prevent concurrent mutations
+	m *sync.Map
+	// Indicates whether or not to sequentialize policy_channel updates
+	seqPolicyChannelUpdates bool
 }
 
 // InfraClient represents the client state for the Infrastructure API
@@ -44,13 +50,19 @@ type ErrorDetail struct {
 	Title string `json:"title,omitempty"`
 }
 
-// Config contains all the configuration data for the API Client
+// Config contains all the configuration data for the API Client plus
+// a SequentializePolicyChannelUpdates option. When set to true, this will
+// force the client to sequentialize policy_channel updates that include some
+// overlapping subset of channel_ids.
 type Config struct {
 	APIKey    string
 	BaseURL   string
 	ProxyURL  string
 	Debug     bool
 	TLSConfig *tls.Config
+
+	// Indicates whether to force sequential execution of policy_channel updates
+	SequentializePolicyChannelUpdates bool
 }
 
 // New returns a new Client for the specified apiKey.
@@ -79,12 +91,15 @@ func New(config Config) Client {
 
 	c := Client{
 		RestyClient: r,
+
+		seqPolicyChannelUpdates: config.SequentializePolicyChannelUpdates,
+		m:                       &sync.Map{},
 	}
 
 	return c
 }
 
-// Do exectes an API request with the specified parameters.
+// Do executes an API request with the specified parameters.
 func (c *Client) Do(method string, path string, body interface{}, response interface{}) (string, error) {
 	r := c.RestyClient.R().
 		SetError(&ErrorResponse{}).
@@ -132,4 +147,20 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 	}
 
 	return "", fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
+}
+
+func (c *Client) LockResources(resourceType string, ids []int) {
+	for _, id := range ids {
+		c.m.Store(resourceID(resourceType, id), struct{}{})
+	}
+}
+
+func (c *Client) UnlockResources(resourceType string, ids []int) {
+	for _, id := range ids {
+		c.m.Delete(resourceID(resourceType, id))
+	}
+}
+
+func resourceID(resourceType string, id int) string {
+	return fmt.Sprintf("%s-%d", resourceType, id)
 }

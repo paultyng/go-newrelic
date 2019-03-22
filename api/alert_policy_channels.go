@@ -8,6 +8,16 @@ import (
 
 // UpdateAlertPolicyChannels updates a policy by adding the specified notification channels.
 func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error {
+	if c.seqPolicyChannelUpdates {
+		/** Locks and unlocks the set of channels so that only one
+		*   update will be performed on the resource at a time.
+		*   This is to prevent a known issue with parallel requests
+		*   for updates involving the same channel.
+		**/
+		c.LockResources("channel", channelIDs)
+		defer c.UnlockResources("channel", channelIDs)
+	}
+
 	channelIDStrings := make([]string, len(channelIDs))
 
 	for i, channelID := range channelIDs {
