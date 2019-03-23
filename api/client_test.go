@@ -53,7 +53,7 @@ func TestLockResources(t *testing.T) {
 	c.LockResources("resource", ids)
 
 	for _, id := range ids {
-		if _, ok := c.m.Load(resourceID("resource", id)); !ok {
+		if _, ok := c.resourceMap.Load(resourceID("resource", id)); !ok {
 			t.Log("Failed to lock resources")
 			t.Fail()
 		}
@@ -65,13 +65,13 @@ func TestUnLockResources(t *testing.T) {
 	ids := []int{123, 456}
 
 	for _, id := range ids {
-		c.m.Store(resourceID("resource", id), struct{}{})
+		c.resourceMap.Store(resourceID("resource", id), struct{}{})
 	}
 
 	c.UnlockResources("resource", ids)
 
 	for _, id := range ids {
-		if _, ok := c.m.Load(resourceID("resource", id)); ok {
+		if _, ok := c.resourceMap.Load(resourceID("resource", id)); ok {
 			t.Log("Failed to unlock resources")
 			t.Fail()
 		}

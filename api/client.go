@@ -14,7 +14,7 @@ type Client struct {
 	RestyClient *resty.Client
 
 	// For locking resources to prevent concurrent mutations
-	m *sync.Map
+	resourceMap *sync.Map
 	// Indicates whether or not to sequentialize policy_channel updates
 	seqPolicyChannelUpdates bool
 }
@@ -93,7 +93,7 @@ func New(config Config) Client {
 		RestyClient: r,
 
 		seqPolicyChannelUpdates: config.SequentializePolicyChannelUpdates,
-		m:                       &sync.Map{},
+		resourceMap:             &sync.Map{},
 	}
 
 	return c
@@ -149,18 +149,24 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 	return "", fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
 }
 
+// LockResources "locks" a set of resources from being modified by
+// storing them in the client's resource map
 func (c *Client) LockResources(resourceType string, ids []int) {
 	for _, id := range ids {
-		c.m.Store(resourceID(resourceType, id), struct{}{})
+		c.resourceMap.Store(resourceID(resourceType, id), struct{}{})
 	}
 }
 
+// UnlockResources "unlocks" a set of resources, opening them up for
+// modification, by deleting them from the client's resource map
 func (c *Client) UnlockResources(resourceType string, ids []int) {
 	for _, id := range ids {
-		c.m.Delete(resourceID(resourceType, id))
+		c.resourceMap.Delete(resourceID(resourceType, id))
 	}
 }
 
+// resourceID generates unique identifier for storing and accessing
+// the resource in the resource map
 func resourceID(resourceType string, id int) string {
 	return fmt.Sprintf("%s-%d", resourceType, id)
 }
