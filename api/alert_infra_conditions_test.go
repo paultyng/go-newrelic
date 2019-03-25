@@ -303,6 +303,63 @@ func TestCreateAlertInfraConditionWithIntegrationProvider(t *testing.T) {
 	}
 }
 
+func TestCreateAlertInfraConditionWithRunbookURL(t *testing.T) {
+	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+			{
+				"data":{
+				   "type":"infra_metric",
+				   "name":"Disk Space Condition",
+				   "runbook_url": "https://example.com/runbook.md",
+				   "enabled":true,
+				   "policy_id":123,
+				   "id":12345,
+				   "event_type":"StorageSample",
+				   "select_value":"diskFreePercent",
+				   "comparison":"below",
+				   "warning_threshold":{
+					  "value":30,
+					  "duration_minutes":2,
+					  "time_function":"any"
+				   }
+				}
+			 }
+			`))
+	}))
+
+	infraAlertConditionWarning := &AlertInfraThreshold{
+		Value:    30,
+		Duration: 100,
+		Function: "any",
+	}
+
+	infraAlertCondition := AlertInfraCondition{
+		PolicyID:   123,
+		Name:       "Disk Space Condition",
+		RunbookURL: "https://example.com/runbook.md",
+		Enabled:    true,
+		Warning:    infraAlertConditionWarning,
+		Comparison: "below",
+		Event:      "StorageSample",
+		Select:     "diskFreePercent",
+	}
+
+	infraAlertConditionResp, err := c.CreateAlertInfraCondition(infraAlertCondition)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraConditionWithRunbookURL error")
+	}
+	if infraAlertConditionResp == nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraConditionWihtRunbookURL error")
+	}
+	if infraAlertConditionResp.RunbookURL != "https://example.com/runbook.md" {
+		t.Fatal("Runbook URL was not parsed correctly")
+	}
+}
+
 func TestDeleteAlertInfraCondition(t *testing.T) {
 	policyID := 123
 	conditionID := 12345

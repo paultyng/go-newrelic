@@ -327,6 +327,7 @@ type AlertInfraCondition struct {
 	PolicyID            int                  `json:"policy_id,omitempty"`
 	ID                  int                  `json:"id,omitempty"`
 	Name                string               `json:"name,omitempty"`
+	RunbookURL          string               `json:"runbook_url,omitempty"`
 	Type                string               `json:"type,omitempty"`
 	Comparison          string               `json:"comparison,omitempty"`
 	CreatedAt           int                  `json:"created_at_epoch_millis,omitempty"`
