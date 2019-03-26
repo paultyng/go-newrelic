@@ -3,7 +3,6 @@ package api
 import (
 	"crypto/tls"
 	"fmt"
-	"sync"
 
 	"github.com/tomnomnom/linkheader"
 	resty "gopkg.in/resty.v1"
@@ -14,7 +13,7 @@ type Client struct {
 	RestyClient *resty.Client
 
 	// For locking resources to prevent concurrent mutations
-	resourceMap *sync.Map
+	resourceMap map[string](chan struct{})
 	// Indicates whether or not to sequentialize policy_channel updates
 	seqPolicyChannelUpdates bool
 }
@@ -93,7 +92,7 @@ func New(config Config) Client {
 		RestyClient: r,
 
 		seqPolicyChannelUpdates: config.SequentializePolicyChannelUpdates,
-		resourceMap:             &sync.Map{},
+		resourceMap:             make(map[string]chan struct{}),
 	}
 
 	return c
@@ -150,18 +149,30 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 }
 
 // LockResources "locks" a set of resources from being modified by
-// storing them in the client's resource map
+// blocking further operations until the matching channels send struct.
+// If the resourceID has not been seen before, the map value is initialized
+// to a struct channel of buffer 1.
 func (c *Client) LockResources(resourceType string, ids []int) {
 	for _, id := range ids {
-		c.resourceMap.Store(resourceID(resourceType, id), struct{}{})
+		resID := resourceID(resourceType, id)
+		if _, ok := c.resourceMap[resID]; ok {
+			_ = <-c.resourceMap[resID]
+		} else {
+			c.resourceMap[resID] = make(chan struct{}, 1)
+		}
 	}
 }
 
 // UnlockResources "unlocks" a set of resources, opening them up for
-// modification, by deleting them from the client's resource map
+// modification, by sending a struct on the matching channels.
+// This will unblock any processes waiting for the signals. If the resource
+// has not been previously locked, no operation is performed.
 func (c *Client) UnlockResources(resourceType string, ids []int) {
 	for _, id := range ids {
-		c.resourceMap.Delete(resourceID(resourceType, id))
+		resID := resourceID(resourceType, id)
+		if _, ok := c.resourceMap[resID]; ok {
+			c.resourceMap[resID] <- struct{}{}
+		}
 	}
 }
 
