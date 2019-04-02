@@ -27,6 +27,12 @@ func (c *Client) UpdateAlertPolicyChannels(policyID int, channelIDs []int) error
 
 	nextPath := reqURL.String()
 
+	if c.seqPolicyChannelUpdates {
+		// If client is configured to prevent concurrent policy_channel
+		// updates, lock this process and defer an unlocking.
+		c.mutex.Lock()
+		defer c.mutex.Unlock()
+	}
 	_, err = c.Do("PUT", nextPath, nil, nil)
 	return err
 }

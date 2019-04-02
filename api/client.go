@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/tls"
 	"fmt"
+	"sync"
 
 	"github.com/tomnomnom/linkheader"
 	resty "gopkg.in/resty.v1"
@@ -11,6 +12,11 @@ import (
 // Client represents the client state for the API.
 type Client struct {
 	RestyClient *resty.Client
+
+	// For preventing concurrent policy_channel updates
+	mutex *sync.Mutex
+	// Indicates whether or not to sequentialize policy_channel updates
+	seqPolicyChannelUpdates bool
 }
 
 // InfraClient represents the client state for the Infrastructure API
@@ -51,6 +57,9 @@ type Config struct {
 	ProxyURL  string
 	Debug     bool
 	TLSConfig *tls.Config
+
+	// Indicates whether to force sequential execution of policy_channel updates
+	SequentializePolicyChannelUpdates bool
 }
 
 // New returns a new Client for the specified apiKey.
@@ -78,7 +87,9 @@ func New(config Config) Client {
 	}
 
 	c := Client{
-		RestyClient: r,
+		RestyClient:             r,
+		seqPolicyChannelUpdates: config.SequentializePolicyChannelUpdates,
+		mutex:                   &sync.Mutex{},
 	}
 
 	return c
