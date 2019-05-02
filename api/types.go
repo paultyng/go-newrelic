@@ -82,6 +82,27 @@ type AlertNrqlCondition struct {
 	Nrql          AlertNrqlQuery       `json:"nrql,omitempty"`
 }
 
+// AlertPlugin represents a plugin to use with a Plugin alert condition.
+type AlertPlugin struct {
+	ID   string `json:"id,omitempty"`
+	GUID string `json:"guid,omitempty"`
+}
+
+// AlertPluginsCondition represents a New Relic Plugin Alert condition.
+type AlertPluginsCondition struct {
+	PolicyID          int                  `json:"-"`
+	ID                int                  `json:"id,omitempty"`
+	Name              string               `json:"name,omitempty"`
+	Enabled           bool                 `json:"enabled"`
+	Entities          []string             `json:"entities,omitempty"`
+	Metric            string               `json:"metric,omitempty"`
+	MetricDescription string               `json:"metric_description,omitempty"`
+	RunbookURL        string               `json:"runbook_url,omitempty"`
+	Terms             []AlertConditionTerm `json:"terms,omitempty"`
+	ValueFunction     string               `json:"value_function,omitempty"`
+	Plugin            AlertPlugin          `json:"plugin,omitempty"`
+}
+
 // AlertSyntheticsCondition represents a New Relic NRQL Alert condition.
 type AlertSyntheticsCondition struct {
 	PolicyID   int    `json:"-"`
