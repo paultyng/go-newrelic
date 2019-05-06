@@ -117,15 +117,17 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 		}
 	}
 
-	infraResponse := InfraResponse{}
+	if nextPath == "" {
+		linksResponse := LinksResponse{}
 
-	err = json.Unmarshal(apiResponse.Body(), &infraResponse)
-	if err != nil {
-		return "", err
-	}
+		err = json.Unmarshal(apiResponse.Body(), &linksResponse)
+		if err != nil {
+			return "", err
+		}
 
-	if infraResponse.Links.Next != "" {
-		nextPath = infraResponse.Links.Next
+		if linksResponse.Links.Next != "" {
+			nextPath = linksResponse.Links.Next
+		}
 	}
 
 	statusClass := apiResponse.StatusCode() / 100 % 10
