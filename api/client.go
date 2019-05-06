@@ -119,7 +119,7 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 
 	apiResponseBody := apiResponse.Body()
 
-	if nextPath == "" && apiResponseBody != nil && len(apiResponseBody) > 0  {
+	if nextPath == "" && apiResponseBody != nil && len(apiResponseBody) > 0 {
 		linksResponse := LinksResponse{}
 
 		err = json.Unmarshal(apiResponseBody, &linksResponse)
