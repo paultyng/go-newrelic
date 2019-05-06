@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/tls"
 	"fmt"
+	"encoding/json"
 
 	"github.com/tomnomnom/linkheader"
 	resty "gopkg.in/resty.v1"
@@ -106,6 +107,7 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 
 	nextPath := ""
 	header := apiResponse.Header().Get("Link")
+
 	if header != "" {
 		links := linkheader.Parse(header)
 
@@ -113,6 +115,17 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 			nextPath = link.URL
 			break
 		}
+	}
+
+	infraResponse := InfraResponse{}
+
+	err = json.Unmarshal(apiResponse.Body(), &infraResponse)
+	if err != nil {
+		return "", err
+	}
+
+	if infraResponse.Links.Next != "" {
+		nextPath = infraResponse.Links.Next
 	}
 
 	statusClass := apiResponse.StatusCode() / 100 % 10
