@@ -362,3 +362,11 @@ type AlertInfraCondition struct {
 	Warning             *AlertInfraThreshold `json:"warning_threshold,omitempty"`
 	Critical            *AlertInfraThreshold `json:"critical_threshold,omitempty"`
 }
+
+type InfraResponse struct {
+	Links Links `json:"links"`
+}
+
+type Links struct {
+	Next string `json:"next"`
+}
