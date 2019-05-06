@@ -3,7 +3,6 @@ package cmd
 import (
 	"github.com/imdario/mergo"
 	"github.com/spf13/cobra"
-	"fmt"
 )
 
 func makeAlertInfraConditionsCmd(dst cobra.Command) *cobra.Command {
@@ -38,8 +37,6 @@ var getAlertInfraConditionsCmd = makeAlertInfraConditionsCmd(cobra.Command{
 		if err != nil {
 			return err
 		}
-
-		fmt.Printf("Condition: %s", condition)
 
 		return outputJSON(cmd.OutOrStdout(), condition)
 	},
