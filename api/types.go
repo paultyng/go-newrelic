@@ -127,8 +127,33 @@ type AlertChannel struct {
 	ID            int                    `json:"id,omitempty"`
 	Name          string                 `json:"name,omitempty"`
 	Type          string                 `json:"type,omitempty"`
-	Configuration map[string]interface{} `json:"configuration,omitempty"`
+	Configuration AlertChannelConfiguration `json:"configuration,omitempty"`
 	Links         AlertChannelLinks      `json:"links,omitempty"`
+}
+
+// AlertChannelConfiguration represents a Configuration type within AlertChannels
+type AlertChannelConfiguration struct {
+	Recipients string`json:"recipients,omitempty"`
+	IncludeJSONAttachment string `json:"include_json_attachment,omitempty"`
+	AuthToken string`json:"auth_token,omitempty"`
+	RoomID string`json:"room_id,omitempty"`
+	ApiKey string`json:"api_key,omitempty"`
+	Teams string`json:"teams,omitempty"`
+	Tags string`json:"tags,omitempty"`
+	Url string`json:"url,omitempty"`
+	Channel string`json:"channel,omitempty"`
+	Subdomain string`json:"subdomain,omitempty"`
+	Token string`json:"token,omitempty"`
+	Room string`json:"room,omitempty"`
+	Key string`json:"key,omitempty"`
+	RouteKey string`json:"route_key,omitempty"`
+	ServiceKey string`json:"service_key,omitempty"`
+	BaseUrl string`json:"base_url,omitempty"`
+	AuthUsername string`json:"auth_username,omitempty"`
+	AuthPassword string`json:"auth_password,omitempty"`
+	PayloadType string`json:"payload_type,omitempty"`
+	Payload map[string]interface{} `json:"payload,omitempty"`
+	Headers map[string]interface{} `json:"headers,omitempty"`
 }
 
 // ApplicationSummary represents performance information about a New Relic application.
