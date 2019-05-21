@@ -187,7 +187,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 		Icon:     "bar_chart",
 		Widgets:  dashboardWidgets,
 		Metadata: dashboardMetadata,
-		Filter: dashboardFilter,
+		Filter:   dashboardFilter,
 	}
 
 	dashboardResp, err := c.CreateDashboard(dashboard)
@@ -306,7 +306,7 @@ func TestCreateDashboardWithFilter(t *testing.T) {
 		Icon:     "bar_chart",
 		Widgets:  dashboardWidgets,
 		Metadata: dashboardMetadata,
-		Filter: dashboardFilter,
+		Filter:   dashboardFilter,
 	}
 
 	dashboardResp, err := c.CreateDashboard(dashboard)
