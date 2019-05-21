@@ -359,6 +359,7 @@ type AlertInfraCondition struct {
 	Where               string               `json:"where_clause,omitempty"`
 	ProcessWhere        string               `json:"process_where_clause,omitempty"`
 	IntegrationProvider string               `json:"integration_provider,omitempty"`
+	ViolationCloseTimer *int                 `json:"violation_close_timer,omitempty"`
 	Warning             *AlertInfraThreshold `json:"warning_threshold,omitempty"`
 	Critical            *AlertInfraThreshold `json:"critical_threshold,omitempty"`
 }
