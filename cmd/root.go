@@ -85,3 +85,18 @@ func newAPIClient(cmd *cobra.Command) (api.Client, error) {
 
 	return client, nil
 }
+
+func newInfraClient(cmd *cobra.Command) (api.InfraClient, error) {
+	apiKey := viper.GetString("api-key")
+	baseURL := viper.GetString("api-url")
+
+	config := api.Config{
+		APIKey:  apiKey,
+		BaseURL: baseURL,
+		Debug:   debug,
+	}
+
+	client := api.NewInfraClient(config)
+
+	return client, nil
+}

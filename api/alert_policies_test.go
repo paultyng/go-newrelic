@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-    "testing"
+	"testing"
 )
 
 func TestUpdateAlertPolicy(t *testing.T) {
@@ -23,9 +23,9 @@ func TestUpdateAlertPolicy(t *testing.T) {
 	}))
 
 	policy := AlertPolicy{
-		ID:			   123,
+		ID:                 123,
 		IncidentPreference: "PER_CONDITION",
-		Name:          "Old Name",
+		Name:               "Old Name",
 	}
 
 	policyResp, err := c.UpdateAlertPolicy(policy)
@@ -43,6 +43,5 @@ func TestUpdateAlertPolicy(t *testing.T) {
 	if policyResp.IncidentPreference != "PER_POLICY" {
 		t.Fatal("Failed to change incident preference")
 	}
-	
-	
+
 }
