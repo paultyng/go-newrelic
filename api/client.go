@@ -2,8 +2,8 @@ package api
 
 import (
 	"crypto/tls"
-	"fmt"
 	"encoding/json"
+	"fmt"
 
 	"github.com/tomnomnom/linkheader"
 	resty "gopkg.in/resty.v1"
@@ -118,7 +118,11 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 
 	apiResponseBody := apiResponse.Body()
 	if nextPath == "" && apiResponseBody != nil && len(apiResponseBody) > 0 {
-		linksResponse := LinksResponse{}
+		linksResponse := struct {
+			Links struct {
+				Next string `json:"next"`
+			} `json:"links"`
+		}{}
 
 		err = json.Unmarshal(apiResponseBody, &linksResponse)
 		if err != nil {

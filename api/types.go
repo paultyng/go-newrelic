@@ -362,13 +362,3 @@ type AlertInfraCondition struct {
 	Warning             *AlertInfraThreshold `json:"warning_threshold,omitempty"`
 	Critical            *AlertInfraThreshold `json:"critical_threshold,omitempty"`
 }
-
-// LinksResponse represents a response that contains links in the json
-type LinksResponse struct {
-	Links Links `json:"links"`
-}
-
-// Links represents a response that has next within the links value of the json
-type Links struct {
-	Next string `json:"next"`
-}
