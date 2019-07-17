@@ -9,5 +9,5 @@ require (
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	golang.org/x/sys v0.0.0-20190302045720-b6889370fb10 // indirect
-	gopkg.in/resty.v1 v1.12.0
+	gopkg.in/resty.v2 v2.0.0
 )
