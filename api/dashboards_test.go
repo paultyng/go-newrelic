@@ -122,45 +122,45 @@ func TestGetDashboard_WithMetricsWidget(t *testing.T) {
 				  },
 				  "filter": null,
 				  "widgets": [
-					{
-					  "visualization": "metrics_line_chart",
-					  "account_id": 1,
-					  "data": [
-							{
-								"duration": 1800000,
-								"end_time": null,
-								"entity_ids": [
-									234699717
-								],
-								"compare_with": null,
-								"metrics": [
-									{
-										"name": "metric_name",
-										"units": null,
-										"scope": "",
-										"values": [
-											"average_value"
-										]
-									}
-								],
-								"raw_metric_name": "raw_metric_name",
-								"facet": null,
-								"order_by": "average_value",
-								"limit": 10	
-							}
-					  ],
-					  "presentation": {
-						"title": "95th Percentile Load Time (ms)",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 2,
-						"height": 1,
-						"row": 1,
-						"column": 1
-					  }
-					}
+          {
+            "visualization": "metrics_line_chart",
+            "account_id": 1,
+            "data": [
+                {
+                  "duration": 1800000,
+                  "end_time": null,
+                  "entity_ids": [
+                      234699717
+                  ],
+                  "compare_with": null,
+                  "metrics": [
+                      {
+                          "name": "metric_name",
+                          "units": null,
+                          "scope": "",
+                          "values": [
+                              "average_value"
+                          ]
+                      }
+                  ],
+                  "raw_metric_name": "raw_metric_name",
+                  "facet": null,
+                  "order_by": "average_value",
+                  "limit": 10
+                }
+            ],
+            "presentation": {
+                "title": "95th Percentile Load Time (ms)",
+                "notes": null,
+                "drilldown_dashboard_id": null
+            },
+            "layout": {
+                "width": 2,
+                "height": 1,
+                "row": 1,
+                "column": 1
+            }
+          }
 				  ]
 				}
 			}
@@ -200,45 +200,45 @@ func TestCreateDashboardCondition_WithMetricsWidget(t *testing.T) {
 				  },
 				  "filter": null,
 				  "widgets": [
-					{
-					  "visualization": "metrics_line_chart",
-					  "account_id": 1,
-					  "data": [
-							{
-								"duration": 1800000,
-								"end_time": null,
-								"entity_ids": [
-									234699717
-								],
-								"compare_with": null,
-								"metrics": [
-									{
-										"name": "metric_name",
-										"units": null,
-										"scope": "",
-										"values": [
-											"average_value"
-										]
-									}
-								],
-								"raw_metric_name": "raw_metric_name",
-								"facet": null,
-								"order_by": "average_value",
-								"limit": 10	
-							}
-					  ],
-					  "presentation": {
-						"title": "95th Percentile Load Time (ms)",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 2,
-						"height": 1,
-						"row": 1,
-						"column": 1
-					  }
-					}
+          {
+            "visualization": "metrics_line_chart",
+            "account_id": 1,
+            "data": [
+                {
+                    "duration": 1800000,
+                    "end_time": null,
+                    "entity_ids": [
+                        234699717
+                    ],
+                    "compare_with": null,
+                    "metrics": [
+                        {
+                            "name": "metric_name",
+                            "units": null,
+                            "scope": "",
+                            "values": [
+                                "average_value"
+                            ]
+                        }
+                    ],
+                    "raw_metric_name": "raw_metric_name",
+                    "facet": null,
+                    "order_by": "average_value",
+                    "limit": 10
+                }
+            ],
+            "presentation": {
+                "title": "95th Percentile Load Time (ms)",
+                "notes": null,
+                "drilldown_dashboard_id": null
+            },
+            "layout": {
+                "width": 2,
+                "height": 1,
+                "row": 1,
+                "column": 1
+            }
+          }
 				  ]
 				}
 			}
@@ -258,20 +258,20 @@ func TestCreateDashboardCondition_WithMetricsWidget(t *testing.T) {
 	}
 
 	dashboardWidgetDataMetrics := []DashboardWidgetDataMetric{
-		{
-			Name:		"metric_name",
-			Values: []string{"average_value"},
-		},
+	  {
+		  Name:   "metric_name",
+		  Values: []string{"average_value"},
+	  },
 	}
 
 	dashboardWidgetData := []DashboardWidgetData{
-		{
-			Duration:	 			1800000,
-			EntityIds: 			[]int{234699717},
-			Metrics:  			dashboardWidgetDataMetrics,
-			RawMetricName: 	"raw_metric_name",
-			OrderBy: 				"average_value",
-			Limit:					10,
+	  {
+			Duration:      1800000,
+			EntityIds:     []int{234699717},
+			Metrics:       dashboardWidgetDataMetrics,
+			RawMetricName: "raw_metric_name",
+			OrderBy:       "average_value",
+			Limit:         10,
 		},
 	}
 
