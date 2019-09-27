@@ -46,46 +46,46 @@ func TestGetDashboard(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`
-			{
-				"dashboard": {
-				  "id": 1234,
-				  "title": "Test",
-				  "icon": "bar-chart",
-				  "created_at": "2016-02-20T01:57:58Z",
-				  "updated_at": "2016-09-27T22:59:21Z",
-				  "visibility": "all",
-				  "editable": "editable_by_all",
-				  "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
-				  "api_url": "https://api.newrelic.com/v2/dashboards/129507",
-				  "owner_email": "foo@bar.com",
-				  "metadata": {
-					"version": 1
-				  },
-				  "filter": null,
-				  "widgets": [
-					{
-					  "visualization": "facet_bar_chart",
-					  "account_id": 1,
-					  "data": [
-						{
-						  "nrql": "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
-						}
-					  ],
-					  "presentation": {
-						"title": "95th Percentile Load Time (ms)",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 2,
-						"height": 1,
-						"row": 1,
-						"column": 1
-					  }
-					}
-				  ]
-				}
-			}
+    {
+      "dashboard": {
+          "id": 1234,
+          "title": "Test",
+          "icon": "bar-chart",
+          "created_at": "2016-02-20T01:57:58Z",
+          "updated_at": "2016-09-27T22:59:21Z",
+          "visibility": "all",
+          "editable": "editable_by_all",
+          "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
+          "api_url": "https://api.newrelic.com/v2/dashboards/129507",
+          "owner_email": "foo@bar.com",
+          "metadata": {
+              "version": 1
+          },
+          "filter": null,
+          "widgets": [
+              {
+                  "visualization": "facet_bar_chart",
+                  "account_id": 1,
+                  "data": [
+                      {
+                          "nrql": "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
+                      }
+                  ],
+                  "presentation": {
+                      "title": "95th Percentile Load Time (ms)",
+                      "notes": null,
+                      "drilldown_dashboard_id": null
+                  },
+                  "layout": {
+                      "width": 2,
+                      "height": 1,
+                      "row": 1,
+                      "column": 1
+                  }
+              }
+            ]
+          }
+        }
     `))
 	}))
 
@@ -183,65 +183,65 @@ func TestCreateDashboardCondition_WithMetricsWidget(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`
-			{
-				"dashboard": {
-				  "id": 1234,
-				  "title": "Test",
-				  "icon": "bar-chart",
-				  "created_at": "2016-02-20T01:57:58Z",
-				  "updated_at": "2016-09-27T22:59:21Z",
-				  "visibility": "all",
-				  "editable": "editable_by_all",
-				  "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
-				  "api_url": "https://api.newrelic.com/v2/dashboards/129507",
-				  "owner_email": "foo@bar.com",
-				  "metadata": {
-					"version": 1
-				  },
-				  "filter": null,
-				  "widgets": [
-          {
-            "visualization": "metrics_line_chart",
-            "account_id": 1,
-            "data": [
-                {
-                    "duration": 1800000,
-                    "end_time": null,
-                    "entity_ids": [
-                        234699717
-                    ],
-                    "compare_with": null,
-                    "metrics": [
-                        {
-                            "name": "metric_name",
-                            "units": null,
-                            "scope": "",
-                            "values": [
-                                "average_value"
-                            ]
-                        }
-                    ],
-                    "raw_metric_name": "raw_metric_name",
-                    "facet": null,
-                    "order_by": "average_value",
-                    "limit": 10
+    {
+      "dashboard": {
+          "id": 1234,
+          "title": "Test",
+          "icon": "bar-chart",
+          "created_at": "2016-02-20T01:57:58Z",
+          "updated_at": "2016-09-27T22:59:21Z",
+          "visibility": "all",
+          "editable": "editable_by_all",
+          "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
+          "api_url": "https://api.newrelic.com/v2/dashboards/129507",
+          "owner_email": "foo@bar.com",
+          "metadata": {
+              "version": 1
+          },
+          "filter": null,
+          "widgets": [
+              {
+                  "visualization": "metrics_line_chart",
+                  "account_id": 1,
+                  "data": [
+                      {
+                          "duration": 1800000,
+                          "end_time": null,
+                          "entity_ids": [
+                              234699717
+                          ],
+                          "compare_with": null,
+                          "metrics": [
+                              {
+                                  "name": "metric_name",
+                                  "units": null,
+                                  "scope": "",
+                                  "values": [
+                                      "average_value"
+                                  ]
+                              }
+                          ],
+                          "raw_metric_name": "raw_metric_name",
+                          "facet": null,
+                          "order_by": "average_value",
+                          "limit": 10
+                      }
+                  ],
+                  "presentation": {
+                      "title": "95th Percentile Load Time (ms)",
+                      "notes": null,
+                      "drilldown_dashboard_id": null
+                  },
+                  "layout": {
+                      "width": 2,
+                      "height": 1,
+                      "row": 1,
+                      "column": 1
+                  }
                 }
-            ],
-            "presentation": {
-                "title": "95th Percentile Load Time (ms)",
-                "notes": null,
-                "drilldown_dashboard_id": null
-            },
-            "layout": {
-                "width": 2,
-                "height": 1,
-                "row": 1,
-                "column": 1
+              ]
             }
-          }
-				  ]
-				}
-			}
+        }
 		`))
 	}))
 
@@ -276,13 +276,13 @@ func TestCreateDashboardCondition_WithMetricsWidget(t *testing.T) {
 	}
 
 	dashboardWidgets := []DashboardWidget{
-		{
-			Visualization: "metrics_line_chart",
-			AccountID:     1,
-			Data:          dashboardWidgetData,
-			Presentation:  dashboardWidgetPresentation,
-			Layout:        dashboardWidgetLayout,
-		},
+    {
+      Visualization: "metrics_line_chart",
+      AccountID:     1,
+      Data:          dashboardWidgetData,
+      Presentation:  dashboardWidgetPresentation,
+      Layout:        dashboardWidgetLayout,
+    },
 	}
 
 	dashboardMetadata := DashboardMetadata{
