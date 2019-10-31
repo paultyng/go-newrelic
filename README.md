@@ -58,6 +58,6 @@ go test -v ./...
 ```
 
 ## License
-[Apache-2.0](https://github.com/paultyng/go-newrelic/blob/master/LICENSE)
+[Apache-2.0](LICENSE)
 
 [![GoDoc](https://godoc.org/github.com/paultyng/go-newrelic?status.svg)](https://godoc.org/github.com/paultyng/go-newrelic)
