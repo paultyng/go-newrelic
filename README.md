@@ -1,4 +1,9 @@
-# go-newrelic [![Build Status](https://travis-ci.org/paultyng/go-newrelic.png?branch=master)](https://travis-ci.org/paultyng/go-newrelic)
+# go-newrelic
+
+[![Build Status](https://travis-ci.org/paultyng/go-newrelic.png?branch=master)](https://travis-ci.org/paultyng/go-newrelic)
+[![Go Report Card](https://goreportcard.com/badge/github.com/paultyng/go-newrelic?style=flat-square)](https://goreportcard.com/report/github.com/paultyng/go-newrelic)
+[![GoDoc](https://godoc.org/github.com/paultyng/go-newrelic?status.svg)](https://godoc.org/github.com/paultyng/go-newrelic)
+[![Release](https://img.shields.io/github/release/paultyng/go-newrelic.svg?style=flat-square)](https://github.com/paultyng/go-newrelic/releases/latest)
 
 go-newrelic is a Go SDK for communicating with New Relic APIs.
 
@@ -47,17 +52,22 @@ The GoDoc link below details the available client options and the full list of a
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated.
 
 1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
-3. Commit your Changes (git commit -m 'Add some AmazingFeature')
-4. Push to the Branch (git push origin feature/AmazingFeature)
-5. Open a Pull Request
+1. Create your Feature Branch (git checkout -b feature/AmazingFeature)
+1. Commit your Changes (git commit -m 'Add some AmazingFeature')
+1. Validate all linting / tests pass.
+1. Push to the Branch (git push origin feature/AmazingFeature)
+1. Open a Pull Request
 
 ### Running tests
+
 ```bash
-go test -v ./...
+# Use make to run all validations / tests
+make
+
+# Just run tests
+make test
 ```
 
 ## License
 [Apache-2.0](LICENSE)
 
-[![GoDoc](https://godoc.org/github.com/paultyng/go-newrelic?status.svg)](https://godoc.org/github.com/paultyng/go-newrelic)
