@@ -8,6 +8,29 @@ import (
 	"testing"
 )
 
+const testAPIKey string = "12345"
+const testUserAgentHeader string = "go-newrelic/test"
+
+func TestClientHeaders(t *testing.T) {
+	cli := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("x-api-key") != testAPIKey {
+			t.Fatal("x-api-key was not correctly set")
+		}
+		if r.Header.Get("user-agent") != testUserAgentHeader {
+			t.Fatal("user-agent was not correctly set")
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+	}))
+
+	_, err := cli.Do("GET", "/path", nil, nil)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestClientDoPaging(t *testing.T) {
 	for i, c := range []struct {
 		expectedNext string
@@ -51,9 +74,10 @@ func newTestAPIClient(handler http.Handler) *Client {
 	ts := httptest.NewServer(handler)
 
 	c := New(Config{
-		APIKey:  "123456",
-		BaseURL: ts.URL,
-		Debug:   false,
+		APIKey:    testAPIKey,
+		BaseURL:   ts.URL,
+		Debug:     false,
+		UserAgent: testUserAgentHeader,
 	})
 
 	return &c
