@@ -89,6 +89,34 @@ var createDeploymentCmd = makeDeploymentsCmd(cobra.Command{
 	},
 })
 
+var deleteDeploymentCmd = makeDeploymentsCmd(cobra.Command{
+	RunE: func(cmd *cobra.Command, args []string) error {
+		client, err := newAPIClient(cmd)
+		if err != nil {
+			return err
+		}
+
+		appId, err := cmd.Flags().GetInt("application-id")
+		if err != nil {
+			return err
+		}
+
+		depId, err := cmd.Flags().GetInt("deployment-id")
+		if err != nil {
+			return err
+		}
+
+		err = client.DeleteDeployment(appId, depId)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("Application deployment '%v' deleted.\n", depId)
+
+		return nil
+	},
+})
+
 func init() {
 	getCmd.AddCommand(getDeploymentsCmd)
 	getDeploymentsCmd.Flags().IntP("application-id", "a", 0, "application ID of the deployments to get")
@@ -102,4 +130,10 @@ func init() {
 	createDeploymentCmd.Flags().StringP("description", "d", "", "Description of the deployment")
 	createDeploymentCmd.MarkFlagRequired("application-id")
 	createDeploymentCmd.MarkFlagRequired("revision")
+
+	deleteCmd.AddCommand(deleteDeploymentCmd)
+	deleteDeploymentCmd.Flags().IntP("application-id", "a", 0, "application ID of the deployment to delete")
+	deleteDeploymentCmd.Flags().IntP("deployment-id", "d", 0, "deployment ID of the deployment to delete")
+	deleteDeploymentCmd.MarkFlagRequired("application-id")
+	deleteDeploymentCmd.MarkFlagRequired("deployment-id")
 }

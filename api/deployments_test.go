@@ -80,3 +80,37 @@ func TestCreateDeployment(t *testing.T) {
 		t.Fatal("Revision was not parsed correctly")
 	}
 }
+
+func TestDeleteDeployment(t *testing.T) {
+	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+		{
+			"deployment": {
+				"id": 456,
+				"revision": "master",
+				"changelog": "Foo Bar",
+				"description": "12345678-1234-1234-1234-1234567890ab",
+				"user": "foo",
+				"timestamp": "2019-10-31T15:25:38-07:00",
+				"links": {
+					"application": 123
+				}
+			},
+			"links": {
+				"deployment.agent": "/v2/applications/{application_id}"
+			}
+		}
+      `))
+	}))
+
+	appID := 123
+	depID := 456
+
+	err := c.DeleteDeployment(appID, depID)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("CreateDeployment error")
+	}
+}
