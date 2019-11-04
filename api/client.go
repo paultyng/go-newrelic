@@ -10,9 +10,6 @@ import (
 	resty "github.com/go-resty/resty/v2"
 )
 
-// Version of this library
-const Version string = "4.5.0"
-
 // Client represents the client state for the API.
 type Client struct {
 	RestyClient *resty.Client

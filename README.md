@@ -70,7 +70,7 @@ make test
 
 ### Releasing
 
-When cutting a new release, remember to update the `Version` in [api/client.go](api/client.go) to match the new tag.
+When cutting a new release, remember to update the `Version` in [api/version.go](api/version.go) to match the new tag.
 
 ## License
 [Apache-2.0](LICENSE)
