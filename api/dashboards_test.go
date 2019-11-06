@@ -166,7 +166,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 	dashboardWidgetPresentation := DashboardWidgetPresentation{
 		Title: "95th Percentile Load Time (ms)",
 		Notes: "",
-		Threshold: DashboardWidgetThreshold{
+		Threshold: &DashboardWidgetThreshold{
 			Red:    100,
 			Yellow: 50,
 		},

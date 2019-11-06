@@ -311,9 +311,9 @@ type DashboardWidgetData struct {
 
 // DashboardWidgetPresentation represents the visual presentation of a dashboard widget.
 type DashboardWidgetPresentation struct {
-	Title     string                   `json:"title,omitempty"`
-	Notes     string                   `json:"notes,omitempty"`
-	Threshold DashboardWidgetThreshold `json:"threshold,omitempty"`
+	Title     string                    `json:"title,omitempty"`
+	Notes     string                    `json:"notes,omitempty"`
+	Threshold *DashboardWidgetThreshold `json:"threshold,omitempty"`
 }
 
 // DashboardWidgetThreshold represents the threshold configuration of a dashboard widget.
