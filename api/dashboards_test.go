@@ -66,7 +66,7 @@ func TestGetDashboard(t *testing.T) {
 				  "filter": null,
 				  "widgets": [
 					{
-					  "visualization": "facet_bar_chart",
+					  "visualization": "billboard",
 					  "account_id": 1,
 					  "data": [
 						{
@@ -149,7 +149,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 				  "filter": null,
 				  "widgets": [
 					{
-					  "visualization": "facet_bar_chart",
+					  "visualization": "billboard",
 					  "account_id": 1,
 					  "data": [
 						{
@@ -159,17 +159,17 @@ func TestCreateDashboardCondition(t *testing.T) {
 					  "presentation": {
 						"title": "95th Percentile Load Time (ms)",
 						"notes": null,
-						"drilldown_dashboard_id": null
+						"drilldown_dashboard_id": null,
+						"threshold": {
+							"red": 100,
+							"yellow": 50
+						}
 					  },
 					  "layout": {
 						"width": 2,
 						"height": 1,
 						"row": 1,
 						"column": 1
-					  },
-					  "threshold": {
-						"red": 100,
-						"yellow": 50
 					  }
 					},
 					{
@@ -240,7 +240,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 
 	dashboardWidgets := []DashboardWidget{
 		{
-			Visualization: "facet_bar_chart",
+			Visualization: "billboard",
 			AccountID:     1,
 			Data:          dashboardWidget1Data,
 			Presentation:  dashboardWidget1Presentation,
