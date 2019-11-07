@@ -67,7 +67,18 @@ func TestClientDoPaging(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestErrNotFound(t *testing.T) {
+	cli := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
+	}))
+
+	_, err := cli.Do("GET", "/path", nil, nil)
+
+	if err != ErrNotFound {
+		t.Fatal(err)
+	}
 }
 
 func newTestAPIClient(handler http.Handler) *Client {
