@@ -309,10 +309,17 @@ type DashboardWidgetData struct {
 	NRQL string `json:"nrql,omitempty"`
 }
 
-// DashboardWidgetPresentation representations the visual presentation of a dashboard widget
+// DashboardWidgetPresentation represents the visual presentation of a dashboard widget.
 type DashboardWidgetPresentation struct {
-	Title string `json:"title,omitempty"`
-	Notes string `json:"notes,omitempty"`
+	Title     string                    `json:"title,omitempty"`
+	Notes     string                    `json:"notes,omitempty"`
+	Threshold *DashboardWidgetThreshold `json:"threshold,omitempty"`
+}
+
+// DashboardWidgetThreshold represents the threshold configuration of a dashboard widget.
+type DashboardWidgetThreshold struct {
+	Red    float64 `json:"red,omitempty"`
+	Yellow float64 `json:"yellow,omitempty"`
 }
 
 // DashboardWidgetLayout represents the layout of a widget in a dashboard.

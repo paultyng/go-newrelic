@@ -81,6 +81,10 @@ func TestGetDashboard(t *testing.T) {
 						"height": 1,
 						"row": 1,
 						"column": 1
+					  },
+					  "threshold": {
+						"red": 100,
+						"yellow": 50
 					  }
 					}
 				  ]
@@ -140,6 +144,10 @@ func TestCreateDashboardCondition(t *testing.T) {
 						"height": 1,
 						"row": 1,
 						"column": 1
+					  },
+					  "threshold": {
+						"red": 100,
+						"yellow": 50
 					  }
 					}
 				  ]
@@ -158,6 +166,10 @@ func TestCreateDashboardCondition(t *testing.T) {
 	dashboardWidgetPresentation := DashboardWidgetPresentation{
 		Title: "95th Percentile Load Time (ms)",
 		Notes: "",
+		Threshold: &DashboardWidgetThreshold{
+			Red:    100,
+			Yellow: 50,
+		},
 	}
 
 	dashboardWidgetData := []DashboardWidgetData{
@@ -256,6 +268,10 @@ func TestCreateDashboardWithFilter(t *testing.T) {
 						"height": 1,
 						"row": 1,
 						"column": 1
+					  },
+					  "threshold": {
+						"red": 100,
+						"yellow": 50
 					  }
 					}
 				  ]
