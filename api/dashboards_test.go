@@ -115,11 +115,26 @@ func TestGetDashboard(t *testing.T) {
 						"data":[
 							{
 								"duration":1800000,
-								"end_time":null,
+								"end_time":1800000000000,
 								"entity_ids":[
 									1234
 								],
-								"compare_with":null,
+								"compare_with":[
+									{
+										"offset_duration": "P7D",
+										"presentation": {
+											"name": "Last week",
+											"color": "#b1b6ba"
+										}
+									},
+									{
+										"offset_duration": "P1D",
+										"presentation": {
+											"name": "Yesterday",
+											"color": "#77add4"
+										}
+									}
+								  ],
 								"metrics":[
 									{
 										"name":"CPU/System/Utilization",
@@ -236,11 +251,26 @@ func TestCreateDashboardCondition(t *testing.T) {
 						"data":[
 							{
 								"duration":1800000,
-								"end_time":null,
+								"end_time":1800000000000,
 								"entity_ids":[
 									1234
 								],
-								"compare_with":null,
+								"compare_with":[
+									{
+										"offset_duration": "P7D",
+										"presentation": {
+											"name": "Last week",
+											"color": "#b1b6ba"
+										}
+									},
+									{
+										"offset_duration": "P1D",
+										"presentation": {
+											"name": "Yesterday",
+											"color": "#77add4"
+										}
+									}
+								  ],
 								"metrics":[
 									{
 										"name":"CPU/System/Utilization",
@@ -329,11 +359,26 @@ func TestCreateDashboardCondition(t *testing.T) {
 	metricsWidgetData := []DashboardWidgetData{
 		{
 			Duration: 1800000,
-			EndTime:  0,
+			EndTime:  1800000000000,
 			EntityIds: []int{
 				1234,
 			},
-			CompareWith: "",
+			CompareWith: &[]DashboardWidgetDataCompareWith{
+				DashboardWidgetDataCompareWith{
+					OffsetDuration: "P7D",
+					Presentation: DashboardWidgetDataCompareWithPresentation{
+						Name:  "Last week",
+						Color: "#b1b6ba",
+					},
+				},
+				DashboardWidgetDataCompareWith{
+					OffsetDuration: "P1D",
+					Presentation: DashboardWidgetDataCompareWithPresentation{
+						Name:  "Yesterday",
+						Color: "#77add4",
+					},
+				},
+			},
 			Metrics: &[]DashboardWidgetDataMetric{
 				DashboardWidgetDataMetric{
 					Name:  "CPU/System/Utilization",

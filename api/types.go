@@ -307,20 +307,32 @@ type DashboardWidget struct {
 
 // DashboardWidgetData represents the data backing a dashboard widget.
 type DashboardWidgetData struct {
-	NRQL          string                       `json:"nrql,omitempty"`
-	Source        string                       `json:"source,omitempty"`
-	Duration      int                          `json:"duration,omitempty"`
-	EndTime       int                          `json:"end_time,omitempty"`
-	EntityIds     []int                        `json:"entity_ids,omitempty"`
-	CompareWith   string                       `json:"compare_with,omitempty"`
-	Metrics       *[]DashboardWidgetDataMetric `json:"metrics,omitempty"`
-	RawMetricName string                       `json:"raw_metric_name,omitempty"`
-	Facet         string                       `json:"facet,omitempty"`
-	OrderBy       string                       `json:"order_by,omitempty"`
-	Limit         int                          `json:"limit,omitempty"`
+	NRQL          string                            `json:"nrql,omitempty"`
+	Source        string                            `json:"source,omitempty"`
+	Duration      int                               `json:"duration,omitempty"`
+	EndTime       int                               `json:"end_time,omitempty"`
+	EntityIds     []int                             `json:"entity_ids,omitempty"`
+	CompareWith   *[]DashboardWidgetDataCompareWith `json:"compare_with,omitempty"`
+	Metrics       *[]DashboardWidgetDataMetric      `json:"metrics,omitempty"`
+	RawMetricName string                            `json:"raw_metric_name,omitempty"`
+	Facet         string                            `json:"facet,omitempty"`
+	OrderBy       string                            `json:"order_by,omitempty"`
+	Limit         int                               `json:"limit,omitempty"`
 }
 
-//DashboardWidgetDataMetric the metrics data of the widget
+// DashboardWidgetDataCompareWith represents the compare with configuration of the widget.
+type DashboardWidgetDataCompareWith struct {
+	OffsetDuration string                                     `json:"offset_duration,omitempty"`
+	Presentation   DashboardWidgetDataCompareWithPresentation `json:"presentation,omitempty"`
+}
+
+// DashboardWidgetDataCompareWithPresentation represents the compare with presentation configuration of the widget.
+type DashboardWidgetDataCompareWithPresentation struct {
+	Name  string `json:"name,omitempty"`
+	Color string `json:"color,omitempty"`
+}
+
+// DashboardWidgetDataMetric represents the metrics data of the widget.
 type DashboardWidgetDataMetric struct {
 	Name   string   `json:"name,omitempty"`
 	Units  string   `json:"units,omitempty"`
