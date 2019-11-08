@@ -306,7 +306,8 @@ type DashboardWidget struct {
 
 // DashboardWidgetData represents the data backing a dashboard widget.
 type DashboardWidgetData struct {
-	NRQL string `json:"nrql,omitempty"`
+	NRQL   string `json:"nrql,omitempty"`
+	Source string `json:"source,omitempty"`
 }
 
 // DashboardWidgetPresentation represents the visual presentation of a dashboard widget.

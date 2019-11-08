@@ -3,6 +3,8 @@ package api
 import (
 	"net/http"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestDashboards_Basic(t *testing.T) {
@@ -64,7 +66,7 @@ func TestGetDashboard(t *testing.T) {
 				  "filter": null,
 				  "widgets": [
 					{
-					  "visualization": "facet_bar_chart",
+					  "visualization": "billboard",
 					  "account_id": 1,
 					  "data": [
 						{
@@ -86,6 +88,26 @@ func TestGetDashboard(t *testing.T) {
 						"red": 100,
 						"yellow": 50
 					  }
+					},
+					{
+					  "visualization": "markdown",
+					  "account_id": 1,
+					  "data": [
+						{
+						  "source": "[test link](https://test.com)"
+						}
+					  ],
+					  "presentation": {
+						"title": "Links",
+						"notes": null,
+						"drilldown_dashboard_id": null
+					  },
+					  "layout": {
+						"width": 1,
+						"height": 1,
+						"row": 1,
+						"column": 2
+					  }
 					}
 				  ]
 				}
@@ -100,7 +122,7 @@ func TestGetDashboard(t *testing.T) {
 	}
 
 	if len(dashboard.Widgets) == 0 {
-		t.Fatal("Dashboard widgets found")
+		t.Fatal("Dashboard widgets not found")
 	}
 }
 
@@ -127,7 +149,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 				  "filter": null,
 				  "widgets": [
 					{
-					  "visualization": "facet_bar_chart",
+					  "visualization": "billboard",
 					  "account_id": 1,
 					  "data": [
 						{
@@ -137,17 +159,37 @@ func TestCreateDashboardCondition(t *testing.T) {
 					  "presentation": {
 						"title": "95th Percentile Load Time (ms)",
 						"notes": null,
-						"drilldown_dashboard_id": null
+						"drilldown_dashboard_id": null,
+						"threshold": {
+							"red": 100,
+							"yellow": 50
+						}
 					  },
 					  "layout": {
 						"width": 2,
 						"height": 1,
 						"row": 1,
 						"column": 1
+					  }
+					},
+					{
+					  "visualization": "markdown",
+					  "account_id": 1,
+					  "data": [
+						{
+						  "source": "[test link](https://test.com)"
+						}
+					  ],
+					  "presentation": {
+						"title": "Links",
+						"notes": null,
+						"drilldown_dashboard_id": null
 					  },
-					  "threshold": {
-						"red": 100,
-						"yellow": 50
+					  "layout": {
+						"width": 1,
+						"height": 1,
+						"row": 1,
+						"column": 2
 					  }
 					}
 				  ]
@@ -156,14 +198,14 @@ func TestCreateDashboardCondition(t *testing.T) {
 		`))
 	}))
 
-	dashboardWidgetLayout := DashboardWidgetLayout{
+	dashboardWidget1Layout := DashboardWidgetLayout{
 		Width:  2,
 		Height: 1,
 		Row:    1,
 		Column: 1,
 	}
 
-	dashboardWidgetPresentation := DashboardWidgetPresentation{
+	dashboardWidget1Presentation := DashboardWidgetPresentation{
 		Title: "95th Percentile Load Time (ms)",
 		Notes: "",
 		Threshold: &DashboardWidgetThreshold{
@@ -172,19 +214,44 @@ func TestCreateDashboardCondition(t *testing.T) {
 		},
 	}
 
-	dashboardWidgetData := []DashboardWidgetData{
+	dashboardWidget1Data := []DashboardWidgetData{
 		{
 			NRQL: "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago",
 		},
 	}
 
+	dashboardWidget2Layout := DashboardWidgetLayout{
+		Width:  1,
+		Height: 1,
+		Row:    1,
+		Column: 2,
+	}
+
+	dashboardWidget2Presentation := DashboardWidgetPresentation{
+		Title: "Links",
+		Notes: "",
+	}
+
+	dashboardWidget2Data := []DashboardWidgetData{
+		{
+			Source: "[test link](https://test.com)",
+		},
+	}
+
 	dashboardWidgets := []DashboardWidget{
 		{
-			Visualization: "facet_bar_chart",
+			Visualization: "billboard",
 			AccountID:     1,
-			Data:          dashboardWidgetData,
-			Presentation:  dashboardWidgetPresentation,
-			Layout:        dashboardWidgetLayout,
+			Data:          dashboardWidget1Data,
+			Presentation:  dashboardWidget1Presentation,
+			Layout:        dashboardWidget1Layout,
+		},
+		{
+			Visualization: "markdown",
+			AccountID:     1,
+			Data:          dashboardWidget2Data,
+			Presentation:  dashboardWidget2Presentation,
+			Layout:        dashboardWidget2Layout,
 		},
 	}
 
@@ -212,11 +279,14 @@ func TestCreateDashboardCondition(t *testing.T) {
 		t.Log(err)
 		t.Fatal("CreateDashboard error")
 	}
-	if dashboard.Metadata.Version != 1 {
+	if dashboardResp.Metadata.Version != 1 {
 		t.Fatal("CreateDashboard metadata version incorrect")
 	}
 	if dashboardResp.ID != 1234 {
 		t.Fatal("CreateDashboard ID was not parsed correctly")
+	}
+	if diff := cmp.Diff(dashboardResp.Widgets, dashboard.Widgets); diff != "" {
+		t.Fatalf("Widgets not parsed correctly: %s", diff)
 	}
 }
 
