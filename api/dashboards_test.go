@@ -48,70 +48,108 @@ func TestGetDashboard(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`
-			{
-				"dashboard": {
-				  "id": 1234,
-				  "title": "Test",
-				  "icon": "bar-chart",
-				  "created_at": "2016-02-20T01:57:58Z",
-				  "updated_at": "2016-09-27T22:59:21Z",
-				  "visibility": "all",
-				  "editable": "editable_by_all",
-				  "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
-				  "api_url": "https://api.newrelic.com/v2/dashboards/129507",
-				  "owner_email": "foo@bar.com",
-				  "metadata": {
-					"version": 1
-				  },
-				  "filter": null,
-				  "widgets": [
+		{
+			"dashboard":{
+				"id":1234,
+				"title":"Test",
+				"icon":"bar-chart",
+				"created_at":"2016-02-20T01:57:58Z",
+				"updated_at":"2016-09-27T22:59:21Z",
+				"visibility":"all",
+				"editable":"editable_by_all",
+				"ui_url":"https://insights.newrelic.com/accounts/1136088/dashboards/129507",
+				"api_url":"https://api.newrelic.com/v2/dashboards/129507",
+				"owner_email":"foo@bar.com",
+				"metadata":{
+					"version":1
+				},
+				"filter":null,
+				"widgets":[
 					{
-					  "visualization": "billboard",
-					  "account_id": 1,
-					  "data": [
-						{
-						  "nrql": "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
+						"visualization":"billboard",
+						"account_id":1,
+						"data":[
+							{
+								"nrql":"SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
+							}
+						],
+						"presentation":{
+							"title":"95th Percentile Load Time (ms)",
+							"notes":null,
+							"drilldown_dashboard_id":null
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":1
+						},
+						"threshold":{
+							"red":100,
+							"yellow":50
 						}
-					  ],
-					  "presentation": {
-						"title": "95th Percentile Load Time (ms)",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 2,
-						"height": 1,
-						"row": 1,
-						"column": 1
-					  },
-					  "threshold": {
-						"red": 100,
-						"yellow": 50
-					  }
 					},
 					{
-					  "visualization": "markdown",
-					  "account_id": 1,
-					  "data": [
-						{
-						  "source": "[test link](https://test.com)"
+						"visualization":"markdown",
+						"account_id":1,
+						"data":[
+							{
+								"source":"[test link](https://test.com)"
+							}
+						],
+						"presentation":{
+							"title":"Links",
+							"notes":null,
+							"drilldown_dashboard_id":null
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":2
 						}
-					  ],
-					  "presentation": {
-						"title": "Links",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 1,
-						"height": 1,
-						"row": 1,
-						"column": 2
-					  }
+					},
+					{
+						"visualization":"metric_line_chart",
+						"account_id":1,
+						"data":[
+							{
+								"duration":1800000,
+								"end_time":null,
+								"entity_ids":[
+									1234
+								],
+								"compare_with":null,
+								"metrics":[
+									{
+										"name":"CPU/System/Utilization",
+										"units":null,
+										"scope":"",
+										"values":[
+											"percent"
+										]
+									}
+								],
+								"order_by":"score",
+								"limit":10,
+								"facet":"host",
+								"raw_metric_name":"CPU/System/Utilization"
+							}
+						],
+						"presentation":{
+							"title":"Links",
+							"notes":null
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":3
+						}
 					}
-				  ]
-				}
+				]
 			}
+		}
     `))
 	}))
 
@@ -131,81 +169,119 @@ func TestCreateDashboardCondition(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`
-			{
-				"dashboard": {
-				  "id": 1234,
-				  "title": "Test",
-				  "icon": "bar-chart",
-				  "created_at": "2016-02-20T01:57:58Z",
-				  "updated_at": "2016-09-27T22:59:21Z",
-				  "visibility": "all",
-				  "editable": "editable_by_all",
-				  "ui_url": "https://insights.newrelic.com/accounts/1136088/dashboards/129507",
-				  "api_url": "https://api.newrelic.com/v2/dashboards/129507",
-				  "owner_email": "foo@bar.com",
-				  "metadata": {
-					"version": 1
-				  },
-				  "filter": null,
-				  "widgets": [
+		{
+			"dashboard":{
+				"id":1234,
+				"title":"Test",
+				"icon":"bar-chart",
+				"created_at":"2016-02-20T01:57:58Z",
+				"updated_at":"2016-09-27T22:59:21Z",
+				"visibility":"all",
+				"editable":"editable_by_all",
+				"ui_url":"https://insights.newrelic.com/accounts/1136088/dashboards/129507",
+				"api_url":"https://api.newrelic.com/v2/dashboards/129507",
+				"owner_email":"foo@bar.com",
+				"metadata":{
+					"version":1
+				},
+				"filter":null,
+				"widgets":[
 					{
-					  "visualization": "billboard",
-					  "account_id": 1,
-					  "data": [
-						{
-						  "nrql": "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
+						"visualization":"billboard",
+						"account_id":1,
+						"data":[
+							{
+								"nrql":"SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago"
+							}
+						],
+						"presentation":{
+							"title":"95th Percentile Load Time (ms)",
+							"notes":null,
+							"drilldown_dashboard_id":null,
+							"threshold":{
+								"red":100,
+								"yellow":50
+							}
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":1
 						}
-					  ],
-					  "presentation": {
-						"title": "95th Percentile Load Time (ms)",
-						"notes": null,
-						"drilldown_dashboard_id": null,
-						"threshold": {
-							"red": 100,
-							"yellow": 50
-						}
-					  },
-					  "layout": {
-						"width": 2,
-						"height": 1,
-						"row": 1,
-						"column": 1
-					  }
 					},
 					{
-					  "visualization": "markdown",
-					  "account_id": 1,
-					  "data": [
-						{
-						  "source": "[test link](https://test.com)"
+						"visualization":"markdown",
+						"account_id":1,
+						"data":[
+							{
+								"source":"[test link](https://test.com)"
+							}
+						],
+						"presentation":{
+							"title":"Links",
+							"notes":null,
+							"drilldown_dashboard_id":null
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":2
 						}
-					  ],
-					  "presentation": {
-						"title": "Links",
-						"notes": null,
-						"drilldown_dashboard_id": null
-					  },
-					  "layout": {
-						"width": 1,
-						"height": 1,
-						"row": 1,
-						"column": 2
-					  }
+					},
+					{
+						"visualization":"metric_line_chart",
+						"account_id":1,
+						"data":[
+							{
+								"duration":1800000,
+								"end_time":null,
+								"entity_ids":[
+									1234
+								],
+								"compare_with":null,
+								"metrics":[
+									{
+										"name":"CPU/System/Utilization",
+										"units":null,
+										"scope":"",
+										"values":[
+											"percent"
+										]
+									}
+								],
+								"order_by":"score",
+								"limit":10,
+								"facet":"host",
+								"raw_metric_name":"CPU/System/Utilization"
+							}
+						],
+						"presentation":{
+							"title":"Links",
+							"notes":null
+						},
+						"layout":{
+							"width":1,
+							"height":1,
+							"row":1,
+							"column":3
+						}
 					}
-				  ]
-				}
+				]
 			}
+		}
 		`))
 	}))
 
-	dashboardWidget1Layout := DashboardWidgetLayout{
-		Width:  2,
+	billboardWidgetLayout := DashboardWidgetLayout{
+		Width:  1,
 		Height: 1,
 		Row:    1,
 		Column: 1,
 	}
 
-	dashboardWidget1Presentation := DashboardWidgetPresentation{
+	billboardWidgetPresentation := DashboardWidgetPresentation{
 		Title: "95th Percentile Load Time (ms)",
 		Notes: "",
 		Threshold: &DashboardWidgetThreshold{
@@ -214,27 +290,64 @@ func TestCreateDashboardCondition(t *testing.T) {
 		},
 	}
 
-	dashboardWidget1Data := []DashboardWidgetData{
+	billboardWidgetData := []DashboardWidgetData{
 		{
 			NRQL: "SELECT percentile(duration, 95) FROM SyntheticCheck FACET monitorName since 7 days ago",
 		},
 	}
 
-	dashboardWidget2Layout := DashboardWidgetLayout{
+	markdownWidgetLayout := DashboardWidgetLayout{
 		Width:  1,
 		Height: 1,
 		Row:    1,
 		Column: 2,
 	}
 
-	dashboardWidget2Presentation := DashboardWidgetPresentation{
+	markdownWidgetPresentation := DashboardWidgetPresentation{
 		Title: "Links",
 		Notes: "",
 	}
 
-	dashboardWidget2Data := []DashboardWidgetData{
+	markdownWidgetData := []DashboardWidgetData{
 		{
 			Source: "[test link](https://test.com)",
+		},
+	}
+
+	metricsWidgetLayout := DashboardWidgetLayout{
+		Width:  1,
+		Height: 1,
+		Row:    1,
+		Column: 3,
+	}
+
+	metricsWidgetPresentation := DashboardWidgetPresentation{
+		Title: "Links",
+		Notes: "",
+	}
+
+	metricsWidgetData := []DashboardWidgetData{
+		{
+			Duration: 1800000,
+			EndTime:  0,
+			EntityIds: []int{
+				1234,
+			},
+			CompareWith: "",
+			Metrics: &[]DashboardWidgetDataMetric{
+				DashboardWidgetDataMetric{
+					Name:  "CPU/System/Utilization",
+					Units: "",
+					Scope: "",
+					Values: []string{
+						"percent",
+					},
+				},
+			},
+			RawMetricName: "CPU/System/Utilization",
+			Facet:         "host",
+			OrderBy:       "score",
+			Limit:         10,
 		},
 	}
 
@@ -242,16 +355,23 @@ func TestCreateDashboardCondition(t *testing.T) {
 		{
 			Visualization: "billboard",
 			AccountID:     1,
-			Data:          dashboardWidget1Data,
-			Presentation:  dashboardWidget1Presentation,
-			Layout:        dashboardWidget1Layout,
+			Data:          billboardWidgetData,
+			Presentation:  billboardWidgetPresentation,
+			Layout:        billboardWidgetLayout,
 		},
 		{
 			Visualization: "markdown",
 			AccountID:     1,
-			Data:          dashboardWidget2Data,
-			Presentation:  dashboardWidget2Presentation,
-			Layout:        dashboardWidget2Layout,
+			Data:          markdownWidgetData,
+			Presentation:  markdownWidgetPresentation,
+			Layout:        markdownWidgetLayout,
+		},
+		{
+			Visualization: "metric_line_chart",
+			AccountID:     1,
+			Data:          metricsWidgetData,
+			Presentation:  metricsWidgetPresentation,
+			Layout:        metricsWidgetLayout,
 		},
 	}
 

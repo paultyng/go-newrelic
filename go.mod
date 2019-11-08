@@ -8,8 +8,6 @@ require (
 	github.com/spf13/viper v1.5.0
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
-	golang.org/x/sys v0.0.0-20190825160603-fb81701db80f // indirect
-	gopkg.in/resty.v1 v1.12.0
 )
 
 go 1.13
