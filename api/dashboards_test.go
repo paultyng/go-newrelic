@@ -363,7 +363,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 			EntityIds: []int{
 				1234,
 			},
-			CompareWith: &[]DashboardWidgetDataCompareWith{
+			CompareWith: []DashboardWidgetDataCompareWith{
 				DashboardWidgetDataCompareWith{
 					OffsetDuration: "P7D",
 					Presentation: DashboardWidgetDataCompareWithPresentation{
@@ -379,7 +379,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 					},
 				},
 			},
-			Metrics: &[]DashboardWidgetDataMetric{
+			Metrics: []DashboardWidgetDataMetric{
 				DashboardWidgetDataMetric{
 					Name:  "CPU/System/Utilization",
 					Units: "",

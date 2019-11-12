@@ -299,6 +299,7 @@ type DashboardMetadata struct {
 // DashboardWidget represents a widget in a dashboard.
 type DashboardWidget struct {
 	Visualization string                      `json:"visualization,omitempty"`
+	ID            int                         `json:"widget_id,omitempty"`
 	AccountID     int                         `json:"account_id,omitempty"`
 	Data          []DashboardWidgetData       `json:"data,omitempty"`
 	Presentation  DashboardWidgetPresentation `json:"presentation,omitempty"`
@@ -307,17 +308,17 @@ type DashboardWidget struct {
 
 // DashboardWidgetData represents the data backing a dashboard widget.
 type DashboardWidgetData struct {
-	NRQL          string                            `json:"nrql,omitempty"`
-	Source        string                            `json:"source,omitempty"`
-	Duration      int                               `json:"duration,omitempty"`
-	EndTime       int                               `json:"end_time,omitempty"`
-	EntityIds     []int                             `json:"entity_ids,omitempty"`
-	CompareWith   *[]DashboardWidgetDataCompareWith `json:"compare_with,omitempty"`
-	Metrics       *[]DashboardWidgetDataMetric      `json:"metrics,omitempty"`
-	RawMetricName string                            `json:"raw_metric_name,omitempty"`
-	Facet         string                            `json:"facet,omitempty"`
-	OrderBy       string                            `json:"order_by,omitempty"`
-	Limit         int                               `json:"limit,omitempty"`
+	NRQL          string                           `json:"nrql,omitempty"`
+	Source        string                           `json:"source,omitempty"`
+	Duration      int                              `json:"duration,omitempty"`
+	EndTime       int                              `json:"end_time,omitempty"`
+	EntityIds     []int                            `json:"entity_ids,omitempty"`
+	CompareWith   []DashboardWidgetDataCompareWith `json:"compare_with,omitempty"`
+	Metrics       []DashboardWidgetDataMetric      `json:"metrics,omitempty"`
+	RawMetricName string                           `json:"raw_metric_name,omitempty"`
+	Facet         string                           `json:"facet,omitempty"`
+	OrderBy       string                           `json:"order_by,omitempty"`
+	Limit         int                              `json:"limit,omitempty"`
 }
 
 // DashboardWidgetDataCompareWith represents the compare with configuration of the widget.
@@ -342,9 +343,10 @@ type DashboardWidgetDataMetric struct {
 
 // DashboardWidgetPresentation represents the visual presentation of a dashboard widget.
 type DashboardWidgetPresentation struct {
-	Title     string                    `json:"title,omitempty"`
-	Notes     string                    `json:"notes,omitempty"`
-	Threshold *DashboardWidgetThreshold `json:"threshold,omitempty"`
+	Title                string                    `json:"title,omitempty"`
+	Notes                string                    `json:"notes,omitempty"`
+	DrilldownDashboardID int                       `json:"drilldown_dashboard_id,omitempty"`
+	Threshold            *DashboardWidgetThreshold `json:"threshold,omitempty"`
 }
 
 // DashboardWidgetThreshold represents the threshold configuration of a dashboard widget.
