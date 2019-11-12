@@ -20,6 +20,7 @@ func TestQueryAlertNrqlConditions(t *testing.T) {
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
 			      "enabled": true,
+                  "violation_time_limit_seconds": 3600,
 			      "terms": [
 			        {
 			          "duration": "10",
@@ -65,6 +66,7 @@ func TestGetAlertNrqlCondition(t *testing.T) {
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
 			      "enabled": true,
+                  "violation_time_limit_seconds": 3600,
 			      "terms": [
 			        {
 			          "duration": "10",
@@ -110,6 +112,7 @@ func TestListAlertNrqlConditions(t *testing.T) {
 			      "id": 12345,
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
@@ -155,6 +158,7 @@ func TestCreateAlertNrqlCondition(t *testing.T) {
 			      "id": 12345,
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
@@ -235,6 +239,7 @@ func TestCreateAlertNrqlStaticCondition(t *testing.T) {
                   "type": "static",
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
@@ -319,6 +324,7 @@ func TestCreateAlertNrqlBaselineCondition(t *testing.T) {
                   "type": "baseline",
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
@@ -409,6 +415,7 @@ func TestCreateAlertNrqlOutlierCondition(t *testing.T) {
                   "type": "outlier",
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
@@ -493,6 +500,7 @@ func TestUpdateAlertNrqlCondition(t *testing.T) {
 			      "id": 12345,
 			      "name": "NRQL Condition",
 			      "runbook_url": "https://example.com/runbook.md",
+                  "violation_time_limit_seconds": 3600,
 			      "enabled": true,
 			      "terms": [
 			        {
