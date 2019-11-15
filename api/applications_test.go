@@ -10,7 +10,7 @@ func TestQueryApplications_Basic(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
       {
         "applications": [
           {
@@ -24,6 +24,9 @@ func TestQueryApplications_Basic(t *testing.T) {
         ]
       }
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	apps, err := c.queryApplications(applicationsFilters{})
@@ -41,28 +44,31 @@ func TestDeleteApplication(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
       {
-		"application": {
-			"id": 123,
-			"name": "test",
-			"language": "go",
-			"health_status": "gray",
-			"reporting": false,
-			"settings": {
-				"app_apdex_threshold": 0.5,
-				"end_user_apdex_threshold": 7,
-				"enable_real_user_monitoring": true,
-				"use_server_side_config": false
-			},
-			"links": {
-				"application_instances": [],
-				"servers": [],
-				"application_hosts": []
-			}
-		}
+				"application": {
+					"id": 123,
+					"name": "test",
+					"language": "go",
+					"health_status": "gray",
+					"reporting": false,
+					"settings": {
+						"app_apdex_threshold": 0.5,
+						"end_user_apdex_threshold": 7,
+						"enable_real_user_monitoring": true,
+						"use_server_side_config": false
+					},
+					"links": {
+						"application_instances": [],
+						"servers": [],
+						"application_hosts": []
+					}
+				}
       }
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	err := c.DeleteApplication(123)

@@ -9,7 +9,7 @@ func TestKeyTransactions_Basic(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
       {
 				"key_transactions": [{
 					"id": 1,
@@ -34,6 +34,9 @@ func TestKeyTransactions_Basic(t *testing.T) {
 				}
 			}
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	apps, err := c.queryKeyTransactions()

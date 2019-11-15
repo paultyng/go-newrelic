@@ -12,7 +12,7 @@ func TestQueryAlertNrqlConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "nrql_conditions": [
 			    {
@@ -39,6 +39,9 @@ func TestQueryAlertNrqlConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -58,7 +61,7 @@ func TestGetAlertNrqlCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "nrql_conditions": [
 			    {
@@ -85,6 +88,9 @@ func TestGetAlertNrqlCondition(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -105,7 +111,7 @@ func TestListAlertNrqlConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "nrql_conditions": [
 			    {
@@ -132,6 +138,9 @@ func TestListAlertNrqlConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -151,7 +160,7 @@ func TestCreateAlertNrqlCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "nrql_condition":
 			    {
@@ -177,6 +186,9 @@ func TestCreateAlertNrqlCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	nrqlAlertConditionTerms := []AlertConditionTerm{
@@ -231,7 +243,7 @@ func TestCreateAlertNrqlStaticCondition(t *testing.T) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err = w.Write([]byte(`
 			{
 			  "nrql_condition":
 			    {
@@ -258,6 +270,9 @@ func TestCreateAlertNrqlStaticCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	nrqlAlertConditionTerms := []AlertConditionTerm{
@@ -316,7 +331,7 @@ func TestCreateAlertNrqlBaselineCondition(t *testing.T) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err = w.Write([]byte(`
 			{
 			  "nrql_condition":
 			    {
@@ -343,6 +358,9 @@ func TestCreateAlertNrqlBaselineCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	nrqlAlertConditionTerms := []AlertConditionTerm{
@@ -407,7 +425,7 @@ func TestCreateAlertNrqlOutlierCondition(t *testing.T) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err = w.Write([]byte(`
 			{
 			  "nrql_condition":
 			    {
@@ -436,6 +454,9 @@ func TestCreateAlertNrqlOutlierCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	nrqlAlertConditionTerms := []AlertConditionTerm{
@@ -493,7 +514,7 @@ func TestUpdateAlertNrqlCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "nrql_condition":
 			    {
@@ -519,6 +540,9 @@ func TestUpdateAlertNrqlCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	nrqlAlertConditionTerms := []AlertConditionTerm{

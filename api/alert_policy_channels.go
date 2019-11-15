@@ -49,7 +49,9 @@ func (c *Client) DeleteAlertPolicyChannel(policyID int, channelID int) error {
 	_, err = c.Do("DELETE", nextPath, nil, nil)
 	if err != nil {
 		if apiErr, ok := err.(*ErrorResponse); ok {
-			matched, err := regexp.MatchString("Alerts policy with ID: \\d+ is not valid.", apiErr.Detail.Title)
+			var matched bool
+
+			matched, err = regexp.MatchString("Alerts policy with ID: \\d+ is not valid.", apiErr.Detail.Title)
 			if err != nil {
 				return err
 			}

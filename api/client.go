@@ -191,5 +191,5 @@ func (c *Client) Do(method string, path string, body interface{}, response inter
 		}
 	}
 
-	return "", fmt.Errorf("Unexpected status %v returned from API", apiResponse.StatusCode())
+	return "", fmt.Errorf("unexpected status %v returned from API", apiResponse.StatusCode())
 }

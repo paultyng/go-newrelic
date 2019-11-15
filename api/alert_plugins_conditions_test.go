@@ -10,7 +10,7 @@ func TestQueryAlertPluginsConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "plugins_conditions": [
 			    {
@@ -41,6 +41,9 @@ func TestQueryAlertPluginsConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -60,7 +63,7 @@ func TestGetAlertPluginsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "plugins_conditions": [
 			    {
@@ -91,6 +94,9 @@ func TestGetAlertPluginsCondition(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -111,7 +117,7 @@ func TestListAlertPluginsConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "plugins_conditions": [
 			    {
@@ -142,6 +148,9 @@ func TestListAlertPluginsConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -161,7 +170,7 @@ func TestCreateAlertPluginsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "plugins_condition":
 			    {
@@ -191,6 +200,9 @@ func TestCreateAlertPluginsCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	pluginsAlertConditionTerms := []AlertConditionTerm{
@@ -244,7 +256,7 @@ func TestUpdateAlertPluginsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "plugins_condition":
 			    {
@@ -274,6 +286,9 @@ func TestUpdateAlertPluginsCondition(t *testing.T) {
 			    }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	pluginsAlertConditionTerms := []AlertConditionTerm{

@@ -10,7 +10,7 @@ func TestQueryAlertSyntheticsConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "synthetics_conditions": [
 			    {
@@ -23,6 +23,9 @@ func TestQueryAlertSyntheticsConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -45,7 +48,7 @@ func TestGetAlertSyntheticsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "synthetics_conditions": [
 			    {
@@ -58,6 +61,9 @@ func TestGetAlertSyntheticsCondition(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -81,7 +87,7 @@ func TestListAlertSyntheticsConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "synthetics_conditions": [
 			    {
@@ -94,6 +100,9 @@ func TestListAlertSyntheticsConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -116,7 +125,7 @@ func TestCreateAlertSyntheticsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 		  {
 		    "synthetics_condition": {
 		      "id": 12345,
@@ -127,6 +136,9 @@ func TestCreateAlertSyntheticsCondition(t *testing.T) {
 		    }
 		  }
 		  `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	SyntheticsAlertCondition := AlertSyntheticsCondition{
@@ -156,7 +168,7 @@ func TestUpdateAlertSyntheticsCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 		  {
 		    "synthetics_condition": {
 		      "id": 12345,
@@ -167,6 +179,9 @@ func TestUpdateAlertSyntheticsCondition(t *testing.T) {
 		    }
 		  }
 		  `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	SyntheticsAlertCondition := AlertSyntheticsCondition{

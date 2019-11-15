@@ -9,7 +9,7 @@ func TestListAlertConditions(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"conditions": [
 					{
@@ -30,7 +30,10 @@ func TestListAlertConditions(t *testing.T) {
 					}
 				]
 			}
-			`))
+		`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123

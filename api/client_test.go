@@ -1,7 +1,7 @@
 package api
 
 import (
-	"crypto/tls"
+	//"crypto/tls"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -56,7 +56,10 @@ func TestClientDoPaging(t *testing.T) {
 					w.Header().Set("Link", c.linkHeader)
 				}
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte(c.body))
+				_, err := w.Write([]byte(c.body))
+				if err != nil {
+					t.Log(err)
+				}
 			}))
 			actualNext, err := cli.Do("GET", "/path", nil, nil)
 			if err != nil {
@@ -106,6 +109,7 @@ func newTestAPIInfraClient(handler http.Handler) *InfraClient {
 	return &c
 }
 
+/*
 func newTestAPIClientTLSConfig(handler http.Handler) *Client {
 	ts := httptest.NewServer(handler)
 
@@ -121,3 +125,4 @@ func newTestAPIClientTLSConfig(handler http.Handler) *Client {
 
 	return &c
 }
+*/

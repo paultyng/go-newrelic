@@ -9,7 +9,7 @@ func TestListDeployments(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
       {
         "deployments": [
           {
@@ -26,6 +26,9 @@ func TestListDeployments(t *testing.T) {
         ]
       }
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	appID := 123
@@ -45,7 +48,7 @@ func TestCreateDeployment(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
       {
         "deployment": {
           "revision": "master",
@@ -54,7 +57,10 @@ func TestCreateDeployment(t *testing.T) {
           "user": "foo"
         }
       }
-      `))
+    `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	appID := 123
@@ -85,7 +91,7 @@ func TestDeleteDeployment(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 		{
 			"deployment": {
 				"id": 456,
@@ -102,7 +108,10 @@ func TestDeleteDeployment(t *testing.T) {
 				"deployment.agent": "/v2/applications/{application_id}"
 			}
 		}
-      `))
+    `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	appID := 123

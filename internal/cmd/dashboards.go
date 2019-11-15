@@ -37,7 +37,9 @@ var getDashboardsCmd = makeDashboardsCmd(cobra.Command{
 		var resources []api.Dashboard
 
 		if id != 0 {
-			resource, err := client.GetDashboard(id)
+			var resource *api.Dashboard
+
+			resource, err = client.GetDashboard(id)
 			if err != nil {
 				return err
 			}

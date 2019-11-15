@@ -40,7 +40,7 @@ func outputList(cmd *cobra.Command, resources interface{}) error {
 		return outputJSON(cmd.OutOrStdout(), resources)
 	}
 
-	return fmt.Errorf("Unknown data format %v", dataFormat)
+	return fmt.Errorf("unknown data format %v", dataFormat)
 }
 
 func outputJSON(out io.Writer, resources interface{}) error {

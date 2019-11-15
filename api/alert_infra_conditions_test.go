@@ -10,7 +10,7 @@ func TestQueryAlertInfraConditions(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "data": [
 			    {
@@ -33,6 +33,9 @@ func TestQueryAlertInfraConditions(t *testing.T) {
 			  ]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -52,7 +55,7 @@ func TestGetAlertInfraCondition(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data": [
 				  {
@@ -75,6 +78,9 @@ func TestGetAlertInfraCondition(t *testing.T) {
 				]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -98,7 +104,7 @@ func TestGetAlertInfraConditionWithViolationCloseTimer(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data": [
 				  {
@@ -122,6 +128,9 @@ func TestGetAlertInfraConditionWithViolationCloseTimer(t *testing.T) {
 				]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -145,7 +154,7 @@ func TestListAlertInfraConditions(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data": [
 				  {
@@ -168,6 +177,9 @@ func TestListAlertInfraConditions(t *testing.T) {
 				]
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policyID := 123
@@ -187,7 +199,7 @@ func TestCreateAlertInfraCondition(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data":{
 				   "type":"infra_metric",
@@ -206,6 +218,9 @@ func TestCreateAlertInfraCondition(t *testing.T) {
 				}
 			 }
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	infraAlertConditionWarning := &AlertInfraThreshold{
@@ -245,7 +260,7 @@ func TestCreateAlertInfraConditionWithViolationCloseTimer(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data":{
 				   "type":"infra_metric",
@@ -265,6 +280,9 @@ func TestCreateAlertInfraConditionWithViolationCloseTimer(t *testing.T) {
 				}
 			 }
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	infraAlertConditionWarning := &AlertInfraThreshold{
@@ -307,7 +325,7 @@ func TestUpdateAlertInfraCondition(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data":{
 				   "type":"infra_metric",
@@ -326,6 +344,9 @@ func TestUpdateAlertInfraCondition(t *testing.T) {
 				}
 			 }
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	infraAlertConditionWarning := &AlertInfraThreshold{
@@ -362,7 +383,7 @@ func TestCreateAlertInfraConditionWithIntegrationProvider(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
             {
                 "data":{
                    "type":"infra_metric",
@@ -382,6 +403,9 @@ func TestCreateAlertInfraConditionWithIntegrationProvider(t *testing.T) {
                 }
              }
             `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	infraAlertConditionWarning := &AlertInfraThreshold{
@@ -422,7 +446,7 @@ func TestCreateAlertInfraConditionWithRunbookURL(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"data":{
 				   "type":"infra_metric",
@@ -442,6 +466,9 @@ func TestCreateAlertInfraConditionWithRunbookURL(t *testing.T) {
 				}
 			 }
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	infraAlertConditionWarning := &AlertInfraThreshold{

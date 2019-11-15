@@ -7,10 +7,10 @@ import (
 	"github.com/paultyng/go-newrelic/v4/api"
 )
 
-func makeKeyTransactionsCmd(dst cobra.Command) *cobra.Command {
+func makeChannelsCmd(dst cobra.Command) *cobra.Command {
 	src := cobra.Command{
-		Use:     "key-transactions",
-		Aliases: []string{"transactions", "kt"},
+		Use:     "channels",
+		Aliases: []string{"channel", "ch"},
 	}
 
 	if err := mergo.Merge(&dst, src); err != nil {
@@ -20,7 +20,7 @@ func makeKeyTransactionsCmd(dst cobra.Command) *cobra.Command {
 	return &dst
 }
 
-var getKeyTransactionsCmd = makeKeyTransactionsCmd(cobra.Command{
+var getAlertChannelsCmd = makeChannelsCmd(cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := newAPIClient(cmd)
 		if err != nil {
@@ -32,17 +32,19 @@ var getKeyTransactionsCmd = makeKeyTransactionsCmd(cobra.Command{
 			return err
 		}
 
-		var resources []api.KeyTransaction
+		var resources []api.AlertChannel
 
 		if id != 0 {
-			resource, err := client.GetKeyTransaction(id)
+			var resource *api.AlertChannel
+
+			resource, err = client.GetAlertChannel(id)
 			if err != nil {
 				return err
 			}
 
-			resources = []api.KeyTransaction{*resource}
+			resources = []api.AlertChannel{*resource}
 		} else {
-			resources, err = client.ListKeyTransactions()
+			resources, err = client.ListAlertChannels()
 			if err != nil {
 				return err
 			}
@@ -53,6 +55,6 @@ var getKeyTransactionsCmd = makeKeyTransactionsCmd(cobra.Command{
 })
 
 func init() {
-	getCmd.AddCommand(getKeyTransactionsCmd)
-	getKeyTransactionsCmd.Flags().Int("id", 0, "ID of the key transaction to get")
+	getCmd.AddCommand(getAlertChannelsCmd)
+	getAlertChannelsCmd.Flags().Int("id", 0, "ID of the alert channel to get")
 }

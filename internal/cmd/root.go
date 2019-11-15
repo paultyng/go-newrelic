@@ -39,6 +39,8 @@ func Execute() {
 }
 
 func init() {
+	var err error
+
 	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
@@ -48,9 +50,16 @@ func init() {
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.newrelic.yaml)")
 	RootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Run in debug mode")
 	RootCmd.PersistentFlags().String("api-key", "", "New Relic API key")
-	viper.BindPFlag("api-key", RootCmd.PersistentFlags().Lookup("api-key"))
+
+	if err = viper.BindPFlag("api-key", RootCmd.PersistentFlags().Lookup("api-key")); err != nil {
+		fmt.Println(err)
+	}
+
 	RootCmd.PersistentFlags().String("api-url", "", "Base URL for the New Relic API")
-	viper.BindPFlag("api-url", RootCmd.PersistentFlags().Lookup("api-url"))
+
+	if err = viper.BindPFlag("api-url", RootCmd.PersistentFlags().Lookup("api-url")); err != nil {
+		fmt.Println(err)
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -68,7 +77,9 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	viper.ReadInConfig()
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func newAPIClient(cmd *cobra.Command) (api.Client, error) {

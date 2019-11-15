@@ -9,7 +9,7 @@ func TestUpdateAlertPolicy(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 			  "policy": {
 			    "id": 12345,
@@ -20,6 +20,9 @@ func TestUpdateAlertPolicy(t *testing.T) {
 			  }
 			}
 			`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	policy := AlertPolicy{

@@ -11,7 +11,7 @@ func TestDashboards_Basic(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"dashboards": [
 				  {
@@ -30,6 +30,9 @@ func TestDashboards_Basic(t *testing.T) {
 				]
 			}
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	apps, err := c.queryDashboards()
@@ -47,7 +50,7 @@ func TestGetDashboard(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 		{
 			"dashboard":{
 				"id":1234,
@@ -166,6 +169,9 @@ func TestGetDashboard(t *testing.T) {
 			}
 		}
     `))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	dashboard, err := c.GetDashboard(1234)
@@ -183,7 +189,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 		{
 			"dashboard":{
 				"id":1234,
@@ -302,6 +308,9 @@ func TestCreateDashboardCondition(t *testing.T) {
 			}
 		}
 		`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	billboardWidgetLayout := DashboardWidgetLayout{
@@ -364,14 +373,14 @@ func TestCreateDashboardCondition(t *testing.T) {
 				1234,
 			},
 			CompareWith: []DashboardWidgetDataCompareWith{
-				DashboardWidgetDataCompareWith{
+				{
 					OffsetDuration: "P7D",
 					Presentation: DashboardWidgetDataCompareWithPresentation{
 						Name:  "Last week",
 						Color: "#b1b6ba",
 					},
 				},
-				DashboardWidgetDataCompareWith{
+				{
 					OffsetDuration: "P1D",
 					Presentation: DashboardWidgetDataCompareWithPresentation{
 						Name:  "Yesterday",
@@ -380,7 +389,7 @@ func TestCreateDashboardCondition(t *testing.T) {
 				},
 			},
 			Metrics: []DashboardWidgetDataMetric{
-				DashboardWidgetDataMetric{
+				{
 					Name:  "CPU/System/Utilization",
 					Units: "",
 					Scope: "",
@@ -459,7 +468,7 @@ func TestCreateDashboardWithFilter(t *testing.T) {
 	c := newTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`
+		_, err := w.Write([]byte(`
 			{
 				"dashboard": {
 				  "id": 1234,
@@ -513,6 +522,9 @@ func TestCreateDashboardWithFilter(t *testing.T) {
 				}
 			}
 		`))
+		if err != nil {
+			t.Log(err)
+		}
 	}))
 
 	dashboardWidgetLayout := DashboardWidgetLayout{

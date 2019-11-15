@@ -96,22 +96,22 @@ var deleteDeploymentCmd = makeDeploymentsCmd(cobra.Command{
 			return err
 		}
 
-		appId, err := cmd.Flags().GetInt("application-id")
+		appID, err := cmd.Flags().GetInt("application-id")
 		if err != nil {
 			return err
 		}
 
-		depId, err := cmd.Flags().GetInt("deployment-id")
+		depID, err := cmd.Flags().GetInt("deployment-id")
 		if err != nil {
 			return err
 		}
 
-		err = client.DeleteDeployment(appId, depId)
+		err = client.DeleteDeployment(appID, depID)
 		if err != nil {
 			return err
 		}
 
-		fmt.Printf("Application deployment '%v' deleted.\n", depId)
+		fmt.Printf("Application deployment '%v' deleted.\n", depID)
 
 		return nil
 	},
@@ -120,7 +120,9 @@ var deleteDeploymentCmd = makeDeploymentsCmd(cobra.Command{
 func init() {
 	getCmd.AddCommand(getDeploymentsCmd)
 	getDeploymentsCmd.Flags().IntP("application-id", "a", 0, "application ID of the deployments to get")
-	getDeploymentsCmd.MarkFlagRequired("application-id")
+	if err := getDeploymentsCmd.MarkFlagRequired("application-id"); err != nil {
+		fmt.Println(err)
+	}
 
 	createCmd.AddCommand(createDeploymentCmd)
 	createDeploymentCmd.Flags().IntP("application-id", "a", 0, "application ID of the deployment to create")
@@ -128,12 +130,20 @@ func init() {
 	createDeploymentCmd.Flags().StringP("user", "u", "", "User posting the deployment")
 	createDeploymentCmd.Flags().StringP("changelog", "c", "", "Changelog of the deployment")
 	createDeploymentCmd.Flags().StringP("description", "d", "", "Description of the deployment")
-	createDeploymentCmd.MarkFlagRequired("application-id")
-	createDeploymentCmd.MarkFlagRequired("revision")
+	if err := createDeploymentCmd.MarkFlagRequired("application-id"); err != nil {
+		fmt.Println(err)
+	}
+	if err := createDeploymentCmd.MarkFlagRequired("revision"); err != nil {
+		fmt.Println(err)
+	}
 
 	deleteCmd.AddCommand(deleteDeploymentCmd)
 	deleteDeploymentCmd.Flags().IntP("application-id", "a", 0, "application ID of the deployment to delete")
 	deleteDeploymentCmd.Flags().IntP("deployment-id", "d", 0, "deployment ID of the deployment to delete")
-	deleteDeploymentCmd.MarkFlagRequired("application-id")
-	deleteDeploymentCmd.MarkFlagRequired("deployment-id")
+	if err := deleteDeploymentCmd.MarkFlagRequired("application-id"); err != nil {
+		fmt.Println(err)
+	}
+	if err := deleteDeploymentCmd.MarkFlagRequired("deployment-id"); err != nil {
+		fmt.Println(err)
+	}
 }
