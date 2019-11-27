@@ -26,7 +26,7 @@ func TestQueryApplications_Basic(t *testing.T) {
     `))
 	}))
 
-	apps, err := c.queryApplications(applicationsFilters{})
+	apps, err := c.QueryApplications(ApplicationsFilters{})
 	if err != nil {
 		t.Log(err)
 		t.Fatal("queryApplications error")
