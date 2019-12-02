@@ -49,8 +49,9 @@ type AlertConditionTerm struct {
 	TimeFunction string  `json:"time_function,omitempty"`
 }
 
+// UnmarshalJSON implements custom json unmarshalling for the AlertConditionTerm type
 func (t *AlertConditionTerm) UnmarshalJSON(data []byte) error {
-	type Alias AlertConditionTerm
+	type alias AlertConditionTerm
 	aux := &struct {
 		Duration     int    `json:"duration,string,omitempty"`
 		Operator     string `json:"operator,omitempty"`
