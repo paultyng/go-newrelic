@@ -70,6 +70,10 @@ func (t *AlertConditionTerm) UnmarshalJSON(data []byte) error {
 	}
 
 	t.Threshold = threshold
+	t.Duration = aux.Duration
+	t.Operator = aux.Operator
+	t.Priority = aux.Priority
+	t.TimeFunction = aux.TimeFunction
 
 	return nil
 }
