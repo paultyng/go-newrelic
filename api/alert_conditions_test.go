@@ -3,6 +3,8 @@ package api
 import (
 	"net/http"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestListAlertConditions(t *testing.T) {
@@ -33,8 +35,30 @@ func TestListAlertConditions(t *testing.T) {
 			`))
 	}))
 
-	policyID := 123
+	terms := []AlertConditionTerm{
+		{
+			Duration:     120,
+			Operator:     "below",
+			Priority:     "critical",
+			Threshold:    0.9,
+			TimeFunction: "all",
+		},
+	}
 
+	expected := []AlertCondition{
+		{
+			ID:       1234,
+			Type:     "browser_metric",
+			Name:     "End User Apdex (Low)",
+			Enabled:  false,
+			Entities: []string{"126408", "127809"},
+			Metric:   "end_user_apdex",
+			Scope:    "application",
+			Terms:    terms,
+		},
+	}
+
+	policyID := 123
 	alertConditions, err := c.queryAlertConditions(policyID)
 	if err != nil {
 		t.Log(err)
@@ -43,5 +67,8 @@ func TestListAlertConditions(t *testing.T) {
 	if alertConditions == nil {
 		t.Log(err)
 		t.Fatal("GetAlertCondition error")
+	}
+	if diff := cmp.Diff(alertConditions, expected); diff != "" {
+		t.Fatalf("Alert conditions not parsed correctly: %s", diff)
 	}
 }
