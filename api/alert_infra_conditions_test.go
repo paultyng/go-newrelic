@@ -516,7 +516,7 @@ func TestCreateAlertInfraConditionHNRWithNoTriggerOnShutdown(t *testing.T) {
 						  "and": [
 							{
 							  "is": {
-								"agentName": "Infrastructure"
+								"agentName": "Infra"
 							  }
 							}
 						  ]
