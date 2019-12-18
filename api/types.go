@@ -416,7 +416,6 @@ type AlertInfraThreshold struct {
 	Value    int    `json:"value,omitempty"`
 	Duration int    `json:"duration_minutes,omitempty"`
 	Function string `json:"time_function,omitempty"`
-	NoTriggerOn []string `json:"no_trigger_on,omitempty"`
 }
 
 // AlertInfraCondition represents a New Relic Infra Alert condition.
