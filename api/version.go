@@ -1,4 +1,4 @@
 package api
 
 // Version of this library
-const Version string = "4.10.0"
+const Version string = "4.11.0"

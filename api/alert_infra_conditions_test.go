@@ -494,3 +494,125 @@ func TestDeleteAlertInfraCondition(t *testing.T) {
 		t.Fatal("DeleteAlertInfraCondition error")
 	}
 }
+
+func TestCreateAlertInfraConditionHNRWithNoTriggerOnShutdown(t *testing.T) {
+	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+			{
+				"data":{
+				   "type":"infra_host_not_reporting",
+				   "name":"Host Not Reporting",
+				   "enabled":true,
+				   "policy_id":123,
+				   "id":12345,
+				   "violation_close_timer": 24,
+				   "critical_threshold":{
+					  "duration_minutes":5,
+					  "no_trigger_on": ["shutdown"]
+				   },
+					"filter": {
+						  "and": [
+							{
+							  "is": {
+								"agentName": "Infrastructure"
+							  }
+							}
+						  ]
+					}
+				}
+			 }
+			`))
+	}))
+
+	infraAlertConditionCritical := &AlertInfraThreshold{
+		Duration: 5,
+		NoTriggerOn: []string{"shutdown"},
+	}
+
+	violationCloseTimer := 24
+
+	infraAlertCondition := AlertInfraCondition{
+		PolicyID:            123,
+		Name:                "Host Not Reporting",
+		Enabled:             true,
+		Critical:             infraAlertConditionCritical,
+		ViolationCloseTimer: &violationCloseTimer,
+	}
+
+	infraAlertConditionResp, err := c.CreateAlertInfraCondition(infraAlertCondition)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp == nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp.ID != 12345 {
+		t.Fatal("Condition ID was not parsed correctly")
+	}
+	noTriggerOn := infraAlertCondition.Critical.NoTriggerOn
+	if len(noTriggerOn) != 1 {
+		t.Fatal("Critical Threshold contains no NoTriggerOn value")
+	}
+
+	if noTriggerOn[0] != "shutdown" {
+		t.Fatalf("Invalid NoTriggerOn value: %s", noTriggerOn[0])
+	}
+}
+
+func TestGetAlertInfraConditionHNRWithNoTriggerOnShutdown(t *testing.T) {
+	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+			{
+				"data": [ {
+				   "type":"infra_host_not_reporting",
+				   "name":"Host Not Reporting",
+				   "enabled":true,
+				   "policy_id":123,
+				   "id":12345,
+				   "violation_close_timer": 24,
+				   "critical_threshold":{
+					  "duration_minutes":5,
+					  "no_trigger_on": ["shutdown"]
+				   },
+					"filter": {
+						  "and": [
+							{
+							  "is": {
+								"agentName": "Infrastructure"
+							  }
+							}
+						  ]
+					}
+				} ]
+			 }
+			`))
+	}))
+
+	policyID := 123
+	conditionID := 12345
+
+	infraAlertCondition, err := c.GetAlertInfraCondition(policyID, conditionID)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("GetAlertInfraCondition error")
+	}
+	if infraAlertCondition == nil {
+		t.Log(err)
+		t.Fatal("GetAlertInfraCondition error")
+	}
+
+	noTriggerOn := infraAlertCondition.Critical.NoTriggerOn
+	if len(noTriggerOn) != 1 {
+		t.Fatal("Critical Threshold contains no NoTriggerOn value")
+	}
+
+	if noTriggerOn[0] != "shutdown" {
+		t.Fatalf("Invalid NoTriggerOn value: %s", noTriggerOn[0])
+	}
+}
