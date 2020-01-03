@@ -413,9 +413,9 @@ type Deployment struct {
 
 // AlertInfraThreshold represents an Infra alerting condition
 type AlertInfraThreshold struct {
-	Value    int    `json:"value,omitempty"`
-	Duration int    `json:"duration_minutes,omitempty"`
-	Function string `json:"time_function,omitempty"`
+	Value       float64  `json:"value,omitempty"`
+	Duration    int      `json:"duration_minutes,omitempty"`
+	Function    string   `json:"time_function,omitempty"`
 	NoTriggerOn []string `json:"no_trigger_on,omitempty"`
 }
 

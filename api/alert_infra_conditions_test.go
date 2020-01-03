@@ -241,6 +241,64 @@ func TestCreateAlertInfraCondition(t *testing.T) {
 	}
 }
 
+func TestCreateAlertInfraConditionWithFloatThresholdValue(t *testing.T) {
+	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`
+			{
+				"data":{
+				   "type":"infra_metric",
+				   "name":"Disk Space Condition",
+				   "enabled":true,
+				   "policy_id":123,
+				   "id":12345,
+				   "event_type":"StorageSample",
+				   "select_value":"diskFreePercent",
+				   "comparison":"below",
+				   "warning_threshold":{
+					  "value":30.5,
+					  "duration_minutes":2,
+					  "time_function":"any"
+				   }
+				}
+			 }
+			`))
+	}))
+
+	infraAlertConditionWarning := &AlertInfraThreshold{
+		Value:    30.5,
+		Duration: 100,
+		Function: "any",
+	}
+
+	infraAlertCondition := AlertInfraCondition{
+		PolicyID:   123,
+		Name:       "Disk Space Condition",
+		Enabled:    true,
+		Warning:    infraAlertConditionWarning,
+		Comparison: "below",
+		Event:      "StorageSample",
+		Select:     "diskFreePercent",
+	}
+
+	infraAlertConditionResp, err := c.CreateAlertInfraCondition(infraAlertCondition)
+	if err != nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp == nil {
+		t.Log(err)
+		t.Fatal("CreateAlertInfraCondition error")
+	}
+	if infraAlertConditionResp.ID != 12345 {
+		t.Fatal("Condition ID was not parsed correctly")
+	}
+	if infraAlertCondition.ViolationCloseTimer != nil {
+		t.Fatal("Infra Alert Condition has invalid ViolationCloseTimer")
+	}
+}
+
 func TestCreateAlertInfraConditionWithViolationCloseTimer(t *testing.T) {
 	c := newTestAPIInfraClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -527,7 +585,7 @@ func TestCreateAlertInfraConditionHNRWithNoTriggerOnShutdown(t *testing.T) {
 	}))
 
 	infraAlertConditionCritical := &AlertInfraThreshold{
-		Duration: 5,
+		Duration:    5,
 		NoTriggerOn: []string{"shutdown"},
 	}
 
@@ -537,7 +595,7 @@ func TestCreateAlertInfraConditionHNRWithNoTriggerOnShutdown(t *testing.T) {
 		PolicyID:            123,
 		Name:                "Host Not Reporting",
 		Enabled:             true,
-		Critical:             infraAlertConditionCritical,
+		Critical:            infraAlertConditionCritical,
 		ViolationCloseTimer: &violationCloseTimer,
 	}
 
