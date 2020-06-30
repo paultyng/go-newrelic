@@ -3,7 +3,7 @@ module github.com/paultyng/go-newrelic/v4
 go 1.13
 
 require (
-	github.com/go-resty/resty/v2 v2.1.0
+	github.com/go-resty/resty/v2 v2.3.0
 	github.com/google/go-cmp v0.3.1
 	github.com/imdario/mergo v0.3.8
 	github.com/olekukonko/tablewriter v0.0.4
