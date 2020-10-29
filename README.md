@@ -1,3 +1,5 @@
+**This is now archived, please see https://github.com/newrelic/newrelic-client-go**
+
 # go-newrelic
 
 [![Build Status](https://travis-ci.org/paultyng/go-newrelic.png?branch=master)](https://travis-ci.org/paultyng/go-newrelic)
